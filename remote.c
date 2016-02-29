@@ -9,6 +9,10 @@
 extern Uint16 _EEDATA(2) _AUXMSK;
 extern Uint16 _EEDATA(2) _Remote_Lock;
 extern Uint16 _EEDATA(2) _TwoLinesCtrl;
+extern Uint16 _EEDATA(2) _L_OP_Limit;
+extern Uint16 _EEDATA(2) _L_CL_Limit;
+extern Uint16 _EEDATA(2) _Card;
+
 
 void check_card(){
     
@@ -428,6 +432,236 @@ dp_end:
 
 Uint8 remote_auto(){
     
+    Uint16 dbd,cll,opl,rml,sub,act_flag;
+    _Thread_Flag = 0x07;
+    if(_Thread_Flag!=0x07){
+        goto auto_end;
+    }
+    Remote_Tris = 1;
+    Nop();
+    if(Remote_Read!=0){
+        goto auto_end;
+    }
+    delayus(100);
+    if(Remote_Read!=0){
+        goto auto_end;
+    }
+    R_CV_Tris = 1;
+    if(R_CV_Read==0){
+        goto auto_end;
+    }
+    delayus(100);
+    if(R_CV_Read==0){
+        goto auto_end;
+    }
+    if(set_logic()==0x69){
+        alu_nnx();
+    }else{
+        alu_nx();
+    }
+    if(_Back_Flag==0x55){
+        goto auto_end;
+    }
+    dbd = alu_dbd();
+    eedata_read(_L_OP_Limit,opl);
+    eedata_read(_Remote_Lock,rml);
+    eedata_read(_L_CL_Limit,cll);
+    cll += dbd;
+    opl -= dbd;
+    if(_IC_Code>=opl){
+        act_flag = 1;
+    }else if(_IC_Code<=cll){
+        act_flag = 2;        
+    }else{
+        if(_L_CodeVP <= _IC_Code){
+            sub = _IC_Code-_L_CodeVP;
+            if(sub<dbd){
+                goto auto_end;
+            }
+            act_flag = 1;
+        }else{
+            sub = _L_CodeVP-_IC_Code;
+            if(sub<dbd){
+                goto auto_end;
+            }
+            act_flag = 2;
+        }
+    }
+    if(act_flag==1){
+        if(rml!=0x69){
+            R_OP_Hold_Tris = 1;
+            Nop();
+            if(R_OP_Hold_Read==0){
+                delayus(100);
+                if(R_OP_Hold_Read==0){
+                    _StopTimer = 50;
+                    dis_open_lock();
+                    goto auto_end;
+                }
+            }
+        }
+        _StatusBack &= ~_OP_LockFlag;
+        _DP_IDATA2 &= ~BIT4;
+        open_phase1();
+        if(_Back_Flag==0x55){
+            goto auto_end;
+        }
+        if(_strAlarmFlag & _SignLostedFlag==0){
+            lcd_dis_clralarm();
+        }
+        open_phase2();
+        if(_Back_Flag==0x55){
+            goto stop_end;
+        }
+        open_phase4();
+        _DP_DIAGR1 |= BIT3;
+        while(1){
+            if(_Thread_Flag!=0x07){
+                goto stop_end;
+            }
+            Remote_Tris = 1;
+            Nop();
+            if(Remote_Read!=0){
+                delayus(100);
+                if(Remote_Read!=0){
+                    goto stop_end;
+                }
+            }
+            R_CV_Tris = 1;
+            Nop();
+            if(R_CV_Read==0){
+                delayus(100);
+                if(R_CV_Read!=0){
+                    goto stop_end;
+                }
+            }
+            if(rml!=0x69){
+                R_OP_Hold_Tris = 1;
+                Nop();
+                if(R_OP_Hold_Read==0){
+                    delayus(100);
+                    if(R_OP_Hold_Read==0){
+                        _StopTimer = 25;
+                        dis_open_lock();
+                        goto stop_end;
+                    }
+                }
+            }
+            _StatusBack &= ~_OP_LockFlag;
+            _DP_IDATA2 &= ~BIT4;
+            open_phase3();
+            if(_Back_Flag==0x55){
+                goto stop_end;
+            }
+            if(set_logic()==0x69){
+                alu_nnx();
+            }else{
+                alu_nx();
+            }
+            if(_Back_Flag==0x55){
+                goto stop_end;
+            }
+            if(_IC_Code<opl){
+                if(_IC_Code<=_L_CodeVP){
+                    goto stop_end;
+                }
+                sub = _IC_Code - _L_CodeVP;
+                if(sub<dbd){
+                    goto stop_end;
+                }
+            }
+        }
+    }else if(act_flag==2){
+        if(rml!=0x69){
+            R_CL_Hold_Tris = 1;
+            Nop();
+            if(R_CL_Hold_Read==0){
+                delayus(100);
+                if(R_CL_Hold_Read==0){
+                    _StopTimer = 50;
+                    dis_close_lock();
+                    goto auto_end;
+                }
+            }
+        }
+        _StatusBack &= ~_CL_LockFlag;
+        _DP_IDATA2 &= ~BIT5;
+        close_phase1();
+        if(_Back_Flag==0x55){
+            goto auto_end;
+        }
+        if(_strAlarmFlag & _SignLostedFlag==0){
+            lcd_dis_clralarm();
+        }
+        close_phase2();
+        if(_Back_Flag==0x55){
+            goto stop_end;
+        }
+        close_phase4();
+        _DP_DIAGR1 |= BIT3;
+        while(1){
+            if(_Thread_Flag!=0x07){
+                goto stop_end;
+            }
+            Remote_Tris = 1;
+            Nop();
+            if(Remote_Read!=0){
+                delayus(100);
+                if(Remote_Read!=0){
+                    goto stop_end;
+                }
+            }
+            R_CV_Tris = 1;
+            Nop();
+            if(R_CV_Read==0){
+                delayus(100);
+                if(R_CV_Read!=0){
+                    goto stop_end;
+                }
+            }
+            if(rml!=0x69){
+                R_CL_Hold_Tris = 1;
+                Nop();
+                if(R_CL_Hold_Read==0){
+                    delayus(100);
+                    if(R_CL_Hold_Read==0){
+                        _StopTimer = 25;
+                        dis_close_lock();
+                        goto stop_end;
+                    }
+                }
+            }
+            _StatusBack &= ~_CL_LockFlag;
+            _DP_IDATA2 &= ~BIT5;
+            close_phase3();
+            if(_Back_Flag==0x55){
+                goto stop_end;
+            }
+            if(set_logic()==0x69){
+                alu_nnx();
+            }else{
+                alu_nx();
+            }
+            if(_Back_Flag==0x55){
+                goto stop_end;
+            }
+            if(_IC_Code>cll){
+                if(_L_CodeVP<=_IC_Code){
+                    goto stop_end;
+                }
+                sub = _L_CodeVP - _IC_Code;
+                if(sub<dbd){
+                    goto stop_end;
+                }
+            }
+        } 
+    }
+ stop_end:   
+    _DP_DIAGR1 &= ~BIT3;
+    forbid();
+auto_end:    
+    remote_err();
+    return E_ERR;
 }
 
 Uint8 remote_man(){

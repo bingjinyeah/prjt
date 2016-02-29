@@ -13,3 +13,20 @@ Uint16 circle_to_line(Uint16 vp){
     
     return vp;
 }
+
+Uint8 set_logic(){
+    
+}
+
+Uint16 alu_dbd(){
+    
+    return 0;
+}
+
+void alu_nx(){
+    
+}
+
+void alu_nnx(){
+    
+}
