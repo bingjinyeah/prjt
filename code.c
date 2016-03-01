@@ -15,7 +15,7 @@ Uint16 circle_to_line(Uint16 vp){
 }
 
 Uint8 set_logic(){
-    
+    return 0x69;
 }
 
 Uint16 alu_dbd(){
@@ -28,5 +28,17 @@ void alu_nx(){
 }
 
 void alu_nnx(){
+    
+}
+
+Uint8 set_dp_logic(){
+    return 0x69;
+}
+
+void alu_dp_nx(){
+    
+}
+
+void alu_dp_nnx(){
     
 }

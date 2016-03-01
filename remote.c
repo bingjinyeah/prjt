@@ -22,30 +22,6 @@ void check_remote_aux(){
     
 }
 
-void dp_init0(){
-    
-}
-
-void dp_init1(){
-    
-}
-
-void dp_init2(){
-    
-}
-
-void dp_reset(){
-    
-}
-
-void dp_app_func(){
-    
-}
-
-void dp_tx_func(){
-    
-}
-
 Uint8 judge_aux_open(){
     Uint16 res;
     Uint8  b;
@@ -130,7 +106,7 @@ Uint8 judge_r_esd(){
     return ~b;
 }
 
-void remote_err(){
+void remote_exit(){
     _uintMenuCount = 0;
     _ucharMenuKey = 0;
     _ucharOpenKey = 0;
@@ -235,7 +211,7 @@ Uint8 remote_aux_open(){
                 if(R_OP_Hold_Read==0){
                     _StopTimer = 25;
                     dis_open_lock();
-                    goto open_end;
+                    goto stop_end;
                 }         
             }
         }
@@ -250,7 +226,7 @@ Uint8 remote_aux_open(){
 stop_end:
     forbid();
 open_end:
-    remote_err();
+    remote_exit();
     return E_ERR;
 }
 
@@ -351,7 +327,7 @@ Uint8 remote_aux_close(){
                 if(R_CL_Hold_Read==0){
                     _StopTimer = 25;
                     dis_close_lock();
-                    goto close_end;
+                    goto stop_end;
                 }         
             }
         }
@@ -366,69 +342,9 @@ Uint8 remote_aux_close(){
 stop_end:
     forbid();
 close_end:
-    remote_err();
+    remote_exit();
     return E_ERR;
 }
-
-Uint8 remote_dp_position(){
-    
-}
-
-Uint8 remote_dp_open(){
-    
-}
-
-Uint8 remote_dp_close(){
-    
-}
-
-Uint8 remote_dp_relay(){
-    
-}
-
-Uint8 remote_dp_salos(){
-    
-}
-
-Uint8 remote_dp(){
-    
-    Uint16 res;
-    
-    eedata_read(_Card,res);
-    if((res==8)||(res==1)||(res==2)){
-        if(_DP_PARA_FLAG!=0xa596){
-            goto dp_end;
-        }
-        if(_DP_ACTION==0x08){
-            _DP_IDATA2 |= BIT6;
-            return remote_dp_position();
-        }
-        if(_DP_ACTION==0x02){
-            _DP_IDATA2 &= ~BIT6;
-            return remote_dp_open();
-        }
-        if(_DP_ACTION==0x01){
-            _DP_IDATA2 &= ~BIT6;
-            return remote_dp_close();
-        }
-        if(_DP_ACTION==0x04){
-            _DP_IDATA2 &= ~BIT6;
-            return remote_dp_relay();
-        }
-        /*
-        if(_DP_ACTION==0x00){
-            goto dp_end;
-        }*/
-        if(_DP_ACTION==0x55){
-            _DP_IDATA2 &= ~BIT6;
-            return remote_dp_salos();
-        }
-    }
-dp_end:   
-    remote_err();
-    return E_ERR;
-}
-
 
 Uint8 remote_auto(){
     
@@ -660,7 +576,7 @@ Uint8 remote_auto(){
     _DP_DIAGR1 &= ~BIT3;
     forbid();
 auto_end:    
-    remote_err();
+    remote_exit();
     return E_ERR;
 }
 
@@ -738,7 +654,7 @@ Uint8 remote_man(){
     lcd_dis_clralarm();
     lcd_dis_alarmrmflick();
     delayms(1000);
-    remote_err();
+    remote_exit();
     return E_ERR;
 }
 
@@ -746,7 +662,7 @@ Uint8 remote_thread(){
     
     rush_monitor();
     if(_Menu!=0){
-        remote_err();					
+        remote_exit();					
         return E_ERR;
     }
     R_CV_Tris = 1;

@@ -7,6 +7,10 @@ void relay_position_judge(){
     
 }
 
+void rush_relays(){
+    
+}
+
 void rush_relay_main(){
     
 }

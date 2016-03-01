@@ -381,6 +381,10 @@ void lcd_dis_flow(){
     
 }
 
+void lcd_dis_dpsalos(){
+    
+}
+
 #ifdef TEST
 void lcd_test(){
     lcd_init();
