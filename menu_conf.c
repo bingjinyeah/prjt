@@ -803,7 +803,7 @@ Uint8 menu_conf_16(){
         }
         menu_conf_16_exit();
         break;     
-    case 4:
+    case 5:
         if(_RmRead>1){
             break;
         }
@@ -1025,8 +1025,7 @@ void menu_conf_22_exit1(){
 
 Uint8 menu_conf_22(){
 
-    _Menu22_ConfCount--;
-    if(_Menu22_ConfCount > 9){
+    if(_Menu22_ConfCount-- > 10){
         return E_OK;
     }
     switch(_Menu22_ConfCount){
@@ -1124,22 +1123,693 @@ Uint8 menu_conf_22(){
     return E_OK;
 }
 
+void menu_conf_23_exit(){
 
+#ifdef  LANGUAGE_EN
+        flash_saved();
+        lcd_dis_menu_32302();
+        delayms(300);
+        flash_saved();
+#else
+        flash_saved6();
+        lcd_dis_menu_32302();
+        delayms(300);
+        flash_saved6();
+#endif   
+        lcd_dis_menu_32302(); 
+}
 
+void menu_conf_23_exit1(){
 
+#ifdef  LANGUAGE_EN
+        flash_saved1();
+        lcd_dis_menu_32302();
+        delayms(300);
+        flash_saved1();
+#else
+        flash_saved4();
+        lcd_dis_menu_32302();
+        delayms(300);
+        flash_saved4();
+#endif   
+        lcd_dis_menu_32302(); 
+}
 
+Uint8 menu_conf_23(){
 
+    if(_Menu23_ConfCount-- > 10){
+        return E_OK;
+    }
+    switch(_Menu23_ConfCount){
+    case 0:
+        if(_uintCur){
+            eedata_write(_CL_Speed1,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position1,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 1:
+        if(_uintCur){
+            eedata_write(_CL_Speed2,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position2,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 2:
+        if(_uintCur){
+            eedata_write(_CL_Speed3,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position3,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 3:
+        if(_uintCur){
+            eedata_write(_CL_Speed4,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position4,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 4:
+        if(_uintCur){
+            eedata_write(_CL_Speed5,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position5,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 5:
+        if(_uintCur){
+            eedata_write(_CL_Speed6,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position6,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 6:
+        if(_uintCur){
+            eedata_write(_CL_Speed7,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position7,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 7:
+        if(_uintCur){
+            eedata_write(_CL_Speed8,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position8,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 8:
+        if(_uintCur){
+            eedata_write(_CL_Speed9,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position9,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    case 9:
+        if(_uintCur){
+            eedata_write(_CL_Speed10,_Menu32302Count2);
+            menu_conf_23_exit();
+        }else{
+            eedata_write(_CL_Position10,_Menu32302Count1);
+            menu_conf_23_exit1();
+        }
+        break;
+    
+    }
+    return E_OK;
+}
 
+void menu_conf_24_exit(){
+    
+#ifdef  LANGUAGE_EN
+        flash_saved1();
+        lcd_dis_menu_330();
+        delayms(300);
+        flash_saved1();
+#else
+        flash_saved14();
+        lcd_dis_menu_330();
+        delayms(300);
+        flash_saved14();
+#endif   
+        lcd_dis_menu_330();
+}
 
+Uint8 menu_conf_24(){
+    
+    switch(_uintCur){
+    case 0:
+        if(_RmRead>1){
+            break;
+        }
+        switch(_RmRead){
+        case 0:
+            eedata_write(_Pos_BackLogic,0xff);
+            break;
+        case 1:
+            eedata_write(_Pos_BackLogic,0x69);
+            break;
+        }
+        menu_conf_24_exit();
+        break;
+    case 1:
+        eedata_write(_Pos_BackL,_Menu330Count);
+        menu_conf_24_exit();
+        break;
+    case 2:
+        eedata_write(_Pos_BackH,_Menu330Count);
+        menu_conf_24_exit();
+        break;    
+    }
+    return E_OK;
+}
 
+void menu_conf_25_exit(){
+    
+#ifdef  LANGUAGE_EN
+        flash_saved1();
+        lcd_dis_menu_331();
+        delayms(300);
+        flash_saved1();
+#else
+        flash_saved14();
+        lcd_dis_menu_331();
+        delayms(300);
+        flash_saved14();
+#endif   
+        lcd_dis_menu_331();
+}
 
+Uint8 menu_conf_25(){
+    
+    switch(_uintCur){
+    case 0:
+        if(_RmRead>1){
+            break;
+        }
+        switch(_RmRead){
+        case 0:
+            eedata_write(_Tor_BackLogic,0x69);
+            break;
+        case 1:
+            eedata_write(_Tor_BackLogic,0xff);
+            break;
+        }
+        menu_conf_25_exit();
+        break;
+    case 1:
+        eedata_write(_Tor_BackL,_Menu331Count);
+        menu_conf_25_exit();
+        break;
+    case 2:
+        eedata_write(_Tor_BackH,_Menu331Count);
+        menu_conf_25_exit();
+        break;    
+    }
+    return E_OK;
+}
 
+void menu_conf_26_exit(){
+    
+#ifdef  LANGUAGE_EN
+        flash_saved();
+        lcd_dis_menu_modbus();
+        delayms(300);
+        flash_saved();
+#else
+        flash_saved1();
+        lcd_dis_menu_modbus();
+        delayms(300);
+        flash_saved1();
+#endif   
+        lcd_dis_menu_modbus();
+}
 
+Uint8 menu_conf_26(){
+    Uint16 res,res1;
+    Uint32 mul;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_write(_DP_Adress,_BusCount0);
+        menu_conf_26_exit();
+        break;   
+    case 1:
+        if(_RmRead>7){
+            break;
+        }
+        eedata_write(_BANDRT,_RmRead);
+        menu_conf_26_exit();
+        break;
+    case 2:
+        if(_RmRead>2){
+            break;
+        }
+        eedata_write(_PARITY,_RmRead);
+        menu_conf_26_exit();
+        break;
+    case 3:
+        eedata_write(_MODSLTO,_BusCount1);
+        menu_conf_26_exit();
+        break;
+    case 4:
+        if(_RmRead>4){
+            break;
+        }
+        switch(_RmRead){
+        case 0:
+            eedata_write(_POSALS,0x00);
+            break;
+        case 1:
+            eedata_write(_POSALS,0x01);
+            break;
+        case 2:
+            eedata_write(_POSALS,0x03);
+            break;
+        case 3:
+            eedata_write(_POSALS,0x05);
+            break;
+        case 4:
+            eedata_write(_POSALS,0x07);
+            _uintCur = 0;
+            _RmRead = 0;
+            _BusCount5 = 0;
+            _EmRead = 1;
+            lcd_dis_menu_posals();
+            return E_OK;
+        }
+        menu_conf_26_exit();
+        break;
+    case 5:
+        if(_RmRead>2){
+            break;
+        }
+        switch(_RmRead){
+        case 0:
+            eedata_write(_ESD_Action,0x69);
+            break;
+        case 1:
+            eedata_write(_ESD_Action,0x96);
+            break;
+        case 2:
+            eedata_write(_ESD_Action,0xff);
+            break;
+        }
+        menu_conf_26_exit();
+        break;
+    case 6:
+        eedata_write(_POSMIN,_BusCount2);
+        eedata_read(_L_CL_Limit,res);
+        eedata_read(_Limit_Length,res1);
+        mul = res1 *_BusCount2;
+        res1 = mul/100;
+        res1 += res;
+        eedata_write(_POSMIN_Code,res1);
+        menu_conf_26_exit();
+        break;
+    case 7:
+        eedata_write(_POSMAX,_BusCount3);
+        eedata_read(_L_CL_Limit,res);
+        eedata_read(_Limit_Length,res1);
+        mul = res1 *_BusCount3;
+        res1 = mul/100;
+        res1 += res;
+        eedata_write(_POSMAX_Code,res1);
+        menu_conf_26_exit();
+        break;
+    case 8:
+        eedata_write(_IC_Dbd,_BusCount4);
+        menu_conf_26_exit();
+        break;
+    case 9:
+        if(_RmRead>1){
+            break;
+        }
+        eedata_read(_AUXMSK,res);
+        switch(_RmRead){
+        case 0:
+            res &= ~BIT4;
+            eedata_write(_AUXMSK,res);
+            _EmRead = 1;
+            eedata_read(_AUXMSK,res);
+            if(res & BIT0){
+                _uintCur = 0;
+            }else{
+                _uintCur = 1;
+            }
+            lcd_dis_menu_aux1();
+            break;
+        case 1:
+            res |= BIT4;
+            eedata_write(_AUXMSK,res);
+            _EmRead = 1;
+            eedata_read(_AUXMSK,res);
+            if(res & BIT0){
+                _uintCur = 0;
+            }else{
+                _uintCur = 1;
+            }
+            lcd_dis_menu_aux5();
+            break;
+        }
+        break;
+    case 10:
+        if(_RmRead>1){
+            break;
+        }
+        eedata_read(_AUXMSK,res);
+        switch(_RmRead){
+        case 0:
+            res &= ~BIT5;
+            eedata_write(_AUXMSK,res);
+            _EmRead = 1;
+            eedata_read(_AUXMSK,res);
+            if(res & BIT1){
+                _uintCur = 0;
+            }else{
+                _uintCur = 1;
+            }
+            lcd_dis_menu_aux2();
+            break;
+        case 1:
+            res |= BIT5;
+            eedata_write(_AUXMSK,res);
+            _EmRead = 1;
+            eedata_read(_AUXMSK,res);
+            if(res & BIT1){
+                _uintCur = 0;
+            }else{
+                _uintCur = 1;
+            }
+            lcd_dis_menu_aux6();
+            break;
+        }
+        break;
+    case 11:
+        if(_RmRead>1){
+            break;
+        }
+        eedata_read(_AUXMSK,res);
+        switch(_RmRead){
+        case 0:
+            res &= ~BIT6;
+            eedata_write(_AUXMSK,res);
+            _EmRead = 1;
+            eedata_read(_AUXMSK,res);
+            if(res & BIT2){
+                _uintCur = 0;
+            }else{
+                _uintCur = 1;
+            }
+            lcd_dis_menu_aux3();
+            break;
+        case 1:
+            res |= BIT6;
+            eedata_write(_AUXMSK,res);
+            _EmRead = 1;
+            eedata_read(_AUXMSK,res);
+            if(res & BIT2){
+                _uintCur = 0;
+            }else{
+                _uintCur = 1;
+            }
+            lcd_dis_menu_aux7();
+            break;
+        }
+        break;
+    case 12:
+        if(_RmRead>1){
+            break;
+        }
+        eedata_read(_AUXMSK,res);
+        switch(_RmRead){
+        case 0:
+            res &= ~BIT7;
+            eedata_write(_AUXMSK,res);
+            _EmRead = 1;
+            eedata_read(_AUXMSK,res);
+            if(res & BIT3){
+                _uintCur = 0;
+            }else{
+                _uintCur = 1;
+            }
+            lcd_dis_menu_aux4();
+            break;
+        case 1:
+            res |= BIT7;
+            eedata_write(_AUXMSK,res);
+            _EmRead = 1;
+            eedata_read(_AUXMSK,res);
+            if(res & BIT3){
+                _uintCur = 0;
+            }else{
+                _uintCur = 1;
+            }
+            lcd_dis_menu_aux8();
+            break;
+        }
+        break;
+    case 13:
+        if(_RmRead>1){
+            break;
+        }
+        switch(_RmRead){
+        case 0:
+            eedata_write(_Redundancy,0x00);
+            eedata_write(_DP_Adress2,0xff);
+            _EmRead = 1;
+            menu_conf_26_exit();
+            break;
+        case 1:
+            eedata_write(_Redundancy,0x69);
+            _EmRead = 1;
+            lcd_dis_menu_redudant();
+            break;
+        }
+        break;  
+    }
+    return E_OK;
+}
 
+Uint8 menu_conf_35(){
+    Uint16 res,res1;
+    Uint32 mul;
 
+    eedata_write(_LOSPOS,_BusCount5);
+    eedata_read(_L_CL_Limit,res);
+    eedata_read(_Limit_Length,res1);
+    mul = res1 *_BusCount5;
+    res1 = mul/100;
+    res1 += res;
+    eedata_write(_LOSPOS_Code,res1);
+    menu_conf_exit(SAVED0,SAVED18,DIS_POSALS);
+    
+    return E_OK;    
+}
 
+Uint8 menu_conf_36(){
+    Uint16 res;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_read(_AUXMSK,res);
+        res |= BIT0;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED17,DIS_AUX1);
+        break;
+    case 1:
+        eedata_read(_AUXMSK,res);
+        res &= ~BIT0;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED18,DIS_AUX1);
+        break;
+    }
+    
+    return E_OK;    
+}
 
+Uint8 menu_conf_37(){
+    Uint16 res;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_read(_AUXMSK,res);
+        res |= BIT1;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED17,DIS_AUX2);
+        break;
+    case 1:
+        eedata_read(_AUXMSK,res);
+        res &= ~BIT1;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED18,DIS_AUX2);
+        break;
+    }
+    
+    return E_OK;    
+}
 
+Uint8 menu_conf_38(){
+    Uint16 res;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_read(_AUXMSK,res);
+        res |= BIT2;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED17,DIS_AUX3);
+        break;
+    case 1:
+        eedata_read(_AUXMSK,res);
+        res &= ~BIT2;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED18,DIS_AUX3);
+        break;
+    }
+    
+    return E_OK;    
+}
+
+Uint8 menu_conf_39(){
+    Uint16 res;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_read(_AUXMSK,res);
+        res |= BIT3;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED17,DIS_AUX4);
+        break;
+    case 1:
+        eedata_read(_AUXMSK,res);
+        res &= ~BIT3;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED18,DIS_AUX4);
+        break;
+    }
+    
+    return E_OK;    
+}
+
+Uint8 menu_conf_40(){
+    Uint16 res;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_read(_AUXMSK,res);
+        res |= BIT0;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED17,DIS_AUX5);
+        break;
+    case 1:
+        eedata_read(_AUXMSK,res);
+        res &= ~BIT0;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED18,DIS_AUX5);
+        break;
+    }
+    
+    return E_OK;    
+}
+
+Uint8 menu_conf_41(){
+    Uint16 res;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_read(_AUXMSK,res);
+        res |= BIT1;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED17,DIS_AUX6);
+        break;
+    case 1:
+        eedata_read(_AUXMSK,res);
+        res &= ~BIT1;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED18,DIS_AUX6);
+        break;
+    }
+    
+    return E_OK;    
+}
+
+Uint8 menu_conf_42(){
+    Uint16 res;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_read(_AUXMSK,res);
+        res |= BIT2;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED17,DIS_AUX7);
+        break;
+    case 1:
+        eedata_read(_AUXMSK,res);
+        res &= ~BIT2;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED18,DIS_AUX7);
+        break;
+    }
+    
+    return E_OK;    
+}
+
+Uint8 menu_conf_43(){
+    Uint16 res;
+    
+    switch(_uintCur){
+    case 0:
+        eedata_read(_AUXMSK,res);
+        res |= BIT3;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED17,DIS_AUX8);
+        break;
+    case 1:
+        eedata_read(_AUXMSK,res);
+        res &= ~BIT3;
+        eedata_write(_AUXMSK,res);
+        menu_conf_exit(SAVED0,SAVED18,DIS_AUX8);
+        break;
+    }
+    
+    return E_OK;    
+}
+
+Uint8 menu_conf_44(){
+    
+    switch(_RmRead){
+    case 0:
+        eedata_write(_BIG_SHUCK,0x00);
+        break;
+    case 1:
+        eedata_write(_BIG_SHUCK,0x69);
+        break;
+    }
+    flash_saved18();
+    lcd_dis_menu_44();
+    delayms(300);
+    flash_saved18();
+    lcd_dis_menu_44();
+    
+    return E_OK;    
+}
 
 Uint8 menu_conf_45(){
 
