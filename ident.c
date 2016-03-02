@@ -62,7 +62,7 @@ Uint8 ident_read(){
             process_power_down();
             return E_ERR;
         }else{
-            menu_idle();
+            menu_idle_env();
         }
         if(_VPCount>=5){
             _VPCount = 0;

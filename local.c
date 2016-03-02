@@ -29,7 +29,9 @@ void local_exit(){
         dis_alarm();
         //_VPCount = 5;
         _WriteEEPROMFlag = 0x55aa;
-        menu_idle00();
+        if(_Menu!=33){
+            lcd_dis_menu2();
+        } 
     }
 }
 
@@ -141,7 +143,7 @@ stop_end:
     forbid();
 open_end:
     local_exit();
-    return E_ERR;
+    return ;
 }
 
 void local_close (Uint8 ctrl){
@@ -252,7 +254,7 @@ stop_end:
     forbid();
 close_end:
     local_exit();
-    return E_ERR;
+    return;
 }
 
 void local_thread(){
@@ -285,9 +287,6 @@ void local_thread(){
         local_open(IR_CONTROL);
         return;
     }
-    if(_Menu!=0){
-        menu_idle11();
-    }  
 }
 
 Uint8 button_local_process(){
