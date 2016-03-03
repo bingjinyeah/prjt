@@ -183,7 +183,7 @@ Uint8 menu_down_18(){
     return E_OK;
 }
 
-Uint8 menu_down_18(){
+Uint8 menu_down_19(){
 
     if(++_uintCur>=4){
         _uintCur = 0;
@@ -364,6 +364,189 @@ Uint8 menu_down_26(){
     _RmRead = 0;
     lcd_dis_menu_modbus();
     return E_OK;
+}
+
+Uint8 menu_down_30(){
+
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_40();
+    
+    return E_OK;
+}
+
+Uint8 menu_down_31(){
+
+    if(++_uintCur>=8){
+        _uintCur = 0;
+    }
+    _EmRead = 1;
+    lcd_dis_menu_41();
+    
+    return E_OK;
+}
+
+Uint8 menu_down_33(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_50();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_36(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_aux1();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_37(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_aux2();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_38(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_aux3();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_39(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_aux4();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_40(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_aux5();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_41(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_aux6();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_42(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_aux7();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_43(){
+#ifndef  LANGUAGE_EN
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    lcd_dis_menu_aux8();
+#endif
+    return E_OK;
+}
+
+Uint8 menu_down_48(){
+    if(++_uintCur>=2){
+        _uintCur = 0;
+    }
+    _EmRead = 1;
+    lcd_dis_menu_300b();
+    return E_OK;
+}
+
+Uint8 (*menu_down_func[])() = {
+    NULL,
+    NULL,
+    menu_down_1,
+    menu_down_2,
+    menu_down_3,
+    menu_down_4,
+    menu_down_5,
+    NULL,
+    NULL,
+    menu_down_8,
+    menu_down_9,
+    menu_down_10,
+    menu_down_11,
+    menu_down_12,
+    menu_down_13,
+    menu_down_14,
+    menu_down_15,
+    menu_down_16,
+    menu_down_17,
+    menu_down_18,
+    menu_down_19,
+    NULL,
+    menu_down_21,
+    menu_down_22,
+    menu_down_23,
+    menu_down_24,
+    menu_down_25,
+    menu_down_26,
+    NULL,
+    NULL,
+    NULL,
+    menu_down_30,
+    menu_down_31,
+    NULL,
+    menu_down_33,
+    NULL,
+    menu_down_36,
+    menu_down_37,
+    menu_down_38,
+    menu_down_39,
+    menu_down_40,
+    menu_down_41,
+    menu_down_42,
+    menu_down_43,
+    NULL,
+    menu_down_45,
+    NULL,
+    NULL,
+    menu_down_48   
+};
+
+Uint8 menu_down(){
+    
+    if(_Menu > 48){
+        return E_OK;
+    }
+    if(menu_down_func[_Menu]==NULL){
+        return E_OK;
+    }
+    return menu_down_func[_Menu]();
 }
 
 

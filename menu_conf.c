@@ -2002,17 +2002,6 @@ Uint8 menu_conf_48(){
     return E_OK;
 }
 
-        
-        
-    
-    
-    
-    
-    
-    
-    
-    
-
 Uint8 (*menu_conf_func[])() = {
     NULL,
     menu_conf_0,
