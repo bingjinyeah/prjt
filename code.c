@@ -42,3 +42,11 @@ void alu_dp_nx(){
 void alu_dp_nnx(){
     
 }
+
+void cal_zero(Uint16 cll, Uint16 opl){
+    
+}
+
+void cal_limit_length(){
+    
+}

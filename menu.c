@@ -55,7 +55,7 @@ void menu_idle(){
                 _ucharCloseKey = 0;
                 _RmRead = 0;
                 _EmRead = 1;
-                lcd_dis_menu44();
+                lcd_dis_menu_44();
                 return;
             }
         }
@@ -157,9 +157,9 @@ void menu_thread() {
     _Menu0Count0 = 0;
     eedata_read(_Code_Orde, res);
     if ((_Menu0Count0 != res)&&(res <= 255)) {
-        lcd_dis_menu0();
+        lcd_dis_menu_0();
     } else {
-        lcd_dis_menu1();
+        lcd_dis_menu_1();
     }
     _L_CodePreVP = _L_CodeVP;
     _L_CodePreVP2 = _L_CodeVP;

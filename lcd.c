@@ -4,6 +4,7 @@
 #include "eedata.h"
 #include "lcd.h"
 #include "char.h"
+#include "para.h"
 
 extern Uint16 _EEDATA(2) _InverseDisEnable;
 extern void delayus(Uint16 num);
@@ -247,12 +248,11 @@ void lcd_dis_bigchar(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse){
 		row++;			
 	}
 }     
-extern Uint8 _ucharTabClr[] _AUTO_PSV;
+//extern Uint8 _ucharTabClr[] _AUTO_PSV;
 void lcd_dis_clrall(){
     Uint8 i,j;
     
     for(j=0;j<8;j++){
-        
         for(i=0;i<4;i++){
             lcd_dis_char(i,j,_ucharTabClr,0);
         }
@@ -264,6 +264,57 @@ void lcd_dis_string(Uint8 row, Uint8 cloumn, Uint8 *data[], Uint8 length,Uint8 r
         return;
     while(length--){
         lcd_dis_smallchar(row,cloumn++,*data++,reverse);
+    }
+}
+
+void lcd_dis_chinese_left(Uint8 row, Uint8 reverse){
+    
+    if(_DisWord0!=_ucharTabClr){
+        lcd_dis_char(row,0,_DisWord0,reverse);
+    }
+    if(_DisWord1!=_ucharTabClr){
+        lcd_dis_char(row,1,_DisWord1,reverse);
+    }
+    if(_DisWord2!=_ucharTabClr){
+        lcd_dis_char(row,2,_DisWord2,reverse);
+    }
+    if(_DisWord3!=_ucharTabClr){
+        lcd_dis_char(row,3,_DisWord3,reverse);
+    }
+}
+
+void lcd_dis_chinese_right(Uint8 row, Uint8 reverse){
+    
+    if(_DisWord0!=_ucharTabClr){
+        lcd_dis_char(row,4,_DisWord0,reverse);
+    }
+    if(_DisWord1!=_ucharTabClr){
+        lcd_dis_char(row,5,_DisWord1,reverse);
+    }
+    if(_DisWord2!=_ucharTabClr){
+        lcd_dis_char(row,6,_DisWord2,reverse);
+    }
+    if(_DisWord3!=_ucharTabClr){
+        lcd_dis_char(row,7,_DisWord3,reverse);
+    }
+}
+
+void lcd_dis_chinese(Uint8 row, Uint8 cloumn, Uint8 reverse){
+    
+    if(_DisWord0!=_ucharTabClr){
+        lcd_dis_char(row,cloumn,_DisWord0,reverse);
+    }
+    cloumn++;
+    if(_DisWord1!=_ucharTabClr){
+        lcd_dis_char(row,cloumn,_DisWord1,reverse);
+    }
+    cloumn++;
+    if(_DisWord2!=_ucharTabClr){
+        lcd_dis_char(row,cloumn,_DisWord2,reverse);
+    }
+    cloumn++;
+    if(_DisWord3!=_ucharTabClr){
+        lcd_dis_char(row,cloumn,_DisWord3,reverse);
     }
 }
 
@@ -345,8 +396,73 @@ void lcd_dis_company(){
     
 }
 
-void lcd_dis_clralarm(){
+void lcd_dis_clr_4char(Uint8 row, Uint8 cloumn){
+    Uint8 i;
     
+    for(i=0;i<4;i++){
+        lcd_dis_char(row,cloumn++,_ucharTabClr,0);
+    }
+}
+
+void lcd_dis_clr_3char(Uint8 row, Uint8 cloumn){
+    Uint8 i;
+    
+    for(i=0;i<3;i++){
+        lcd_dis_char(row,cloumn++,_ucharTabClr,0);
+    }
+}
+
+void lcd_dis_clr_l0(){
+    lcd_dis_clr_4char(0,0);
+}
+
+void lcd_dis_clr_l1(){
+    lcd_dis_clr_4char(1,0);
+}
+
+void lcd_dis_clr_l2(){
+    lcd_dis_clr_4char(2,0);
+}
+
+void lcd_dis_clr_l3(){
+    lcd_dis_clr_4char(3,0);
+}
+
+void lcd_dis_clr_l00(){
+    lcd_dis_clr_4char(0,4);
+}
+
+void lcd_dis_clr_l10(){
+    lcd_dis_clr_4char(1,4);
+}
+
+void lcd_dis_clr_l20(){
+    lcd_dis_clr_4char(2,4);
+}
+
+void lcd_dis_clr_l30(){
+    lcd_dis_clr_4char(3,4);
+}
+
+void lcd_dis_clr_alarm(){
+#ifdef  LANGUAGE_EN
+    lcd_dis_clr_4char(3,0);
+#else
+    lcd_dis_clr_l30();
+#endif
+}
+
+void lcd_dis_num16(Uint8 row, Uint8 cloumn, Uint16 data, Uint8 reverse){
+    Uint16 temp;
+    Uint8  *pchar;
+    Uint8  i;
+    
+    for(i=0;i<4;i++){
+        temp = data>>(12-4*i);
+        temp &= 0x0f;
+        pchar = _ucharTabNum[temp];
+        lcd_dis_smallchar(row,cloumn++,pchar,reverse);
+    }
 }
 
 void dis_open_lock(){
@@ -357,7 +473,28 @@ void dis_close_lock(){
     
 }
 
-void lcd_dis_alarmrmflick(){
+void lcd_dis_alarm_rmflick(){
+    
+}
+
+void lcd_dis_alarm_oplimitover(){
+    
+    
+}
+
+void lcd_dis_alarm_cllimitover(){
+    
+    
+}
+
+void lcd_dis_alarm_lengtherror(){
+    
+    
+}
+
+
+void lcd_dis_alarm(){
+    
     
 }
 
@@ -384,6 +521,367 @@ void lcd_dis_flow(){
 void lcd_dis_dpsalos(){
     
 }
+
+
+void lcd_dis_saved00(){
+#ifdef  LANGUAGE_EN
+    
+#else
+    lcd_dis_clr_l00();
+    lcd_dis_clr_l10();
+    lcd_dis_clr_l20();
+    lcd_dis_clr_l30();
+#endif
+}
+
+void lcd_dis_saved0(){
+#ifdef  LANGUAGE_EN
+    
+#else
+    lcd_dis_clr_l2();
+    lcd_dis_clr_l3();
+    lcd_dis_clr_l20();
+    lcd_dis_clr_l30();
+#endif
+}
+
+
+void lcd_dis_saved1(){
+#ifdef  LANGUAGE_EN
+    
+#else
+    lcd_dis_clr_l10();
+    lcd_dis_clr_l20();
+    lcd_dis_clr_l30();
+#endif
+}
+#ifndef  LANGUAGE_EN
+void lcd_dis_saved2(){
+    lcd_dis_clr_l1();
+}
+
+void lcd_dis_saved3(){ 
+    lcd_dis_clr_l2();
+}
+#endif
+
+void lcd_dis_saved4(){
+#ifdef  LANGUAGE_EN
+    
+#else
+    lcd_dis_clr_l1();
+    lcd_dis_clr_l10();
+#endif
+}
+
+#ifndef LANGUAGE_EN
+void lcd_dis_saved5(){
+    lcd_dis_clr_l2();
+    lcd_dis_clr_l20();
+}
+
+void lcd_dis_saved6(){
+    lcd_dis_clr_l3();
+    lcd_dis_clr_l30();
+}
+
+void lcd_dis_saved7(){
+    lcd_dis_clr_l10();
+    lcd_dis_clr_l20();
+}
+
+void lcd_dis_saved8(){
+    
+    lcd_dis_char(1,6,_ucharTabClr,0); 
+    lcd_dis_char(1,7,_ucharTabClr,0); 
+    lcd_dis_char(2,6,_ucharTabClr,0); 
+    lcd_dis_char(2,7,_ucharTabClr,0); 
+    lcd_dis_char(3,6,_ucharTabClr,0); 
+    lcd_dis_char(3,7,_ucharTabClr,0); 
+}
+
+void lcd_dis_saved9(){  
+    lcd_dis_char(2,6,_ucharTabClr,0); 
+    lcd_dis_char(2,7,_ucharTabClr,0);  
+}
+
+void lcd_dis_saved10(){
+    
+    lcd_dis_clr_3char(0,5); 
+    lcd_dis_clr_3char(1,5); 
+    lcd_dis_clr_3char(2,5); 
+    lcd_dis_clr_3char(3,5); 
+}
+
+void lcd_dis_saved11(){
+    lcd_dis_clr_l1();
+    lcd_dis_clr_l10();
+    lcd_dis_clr_l3();
+    lcd_dis_clr_l20();
+}
+
+void lcd_dis_saved12(){
+    lcd_dis_clr_l00();
+    lcd_dis_clr_l10();
+}
+
+void lcd_dis_saved14(){
+    lcd_dis_clr_3char(1,5);
+    lcd_dis_clr_4char(2,4);
+    lcd_dis_clr_4char(3,4);
+}
+
+void lcd_dis_saved15(){
+    lcd_dis_clr_l00();
+    lcd_dis_clr_l10();
+    //lcd_dis_clr_l20();
+}
+
+void lcd_dis_saved16(){
+    lcd_dis_clr_l1();
+    lcd_dis_clr_l10();
+    lcd_dis_clr_l3();
+    lcd_dis_clr_l30();
+}
+
+void lcd_dis_saved17(){
+    lcd_dis_clr_l1();
+    lcd_dis_clr_l10();
+}
+#endif
+
+void lcd_dis_saved13(){
+#ifdef  LANGUAGE_EN
+    
+#else
+    lcd_dis_char(2,2,_ucharTabKou,0);
+    lcd_dis_char(2,3,_ucharTabLing,0);
+    lcd_dis_char(2,4,_ucharTabCuo,0);
+    lcd_dis_char(2,5,_ucharTabWu1,0);
+#endif
+}
+
+void lcd_dis_saved18(){
+    lcd_dis_clr_l2();
+    lcd_dis_clr_l20();
+}
+
+void lcd_dis_menu_0(){
+    
+    
+}
+
+void lcd_dis_menu_1(){
+    
+    
+}
+
+void lcd_dis_menu_2(){
+    
+    
+}
+
+void lcd_dis_menu_3(){
+    
+    
+}
+
+void lcd_dis_menu_300(){
+    
+    
+}
+
+void lcd_dis_menu_300a(){
+    
+    
+}
+
+//monitor relay option
+void lcd_dis_menu_300b(){
+    
+    
+}
+
+void lcd_dis_menu_310(){
+    
+    
+}
+
+
+void lcd_dis_menu_311(){
+    
+    
+}
+
+void lcd_dis_menu_312(){
+    
+    
+}
+//menu 313
+void lcd_dis_menu_profibus(){
+    
+    
+}
+
+void lcd_dis_menu_modbus(){
+    
+    
+}
+
+void lcd_dis_menu_posals(){
+    
+    
+}
+
+void lcd_dis_menu_aux1(){
+    
+    
+}
+
+void lcd_dis_menu_aux2(){
+    
+    
+}
+
+void lcd_dis_menu_aux3(){
+    
+    
+}
+
+void lcd_dis_menu_aux4(){
+    
+    
+}
+
+void lcd_dis_menu_aux5(){
+    
+    
+}
+
+void lcd_dis_menu_aux6(){
+    
+    
+}
+
+void lcd_dis_menu_aux7(){
+    
+    
+}
+
+void lcd_dis_menu_aux8(){
+    
+    
+}
+
+void lcd_dis_menu_redudant(){
+    
+    
+}
+
+//menu lock
+void lcd_dis_menu_320(){
+    
+    
+}
+
+void lcd_dis_menu_321(){
+    
+    
+}
+
+void lcd_dis_menu_3210(){
+    
+    
+}
+
+void lcd_dis_menu_322(){
+    
+    
+}
+
+void lcd_dis_menu_3220(){
+    
+    
+}
+
+void lcd_dis_menu_3221(){
+    
+    
+}
+
+void lcd_dis_menu_323(){
+    
+    
+}
+
+
+void lcd_dis_menu_3230(){
+    
+    
+}
+
+void lcd_dis_menu_32301(){
+    
+    
+}
+
+void lcd_dis_menu_32302(){
+    
+    
+}
+
+void lcd_dis_menu_324(){
+    
+    
+}
+
+void lcd_dis_menu_330(){
+    
+    
+}
+
+void lcd_dis_menu_331(){
+    
+    
+}
+
+void lcd_dis_menu_4(){
+    
+    
+}
+
+void lcd_dis_menu_40(){
+    
+    
+}
+
+void lcd_dis_menu_41(){
+    
+    
+}
+
+void lcd_dis_menu_43(){
+    
+    
+}
+
+void lcd_dis_menu_44(){
+    
+    
+}
+
+void lcd_dis_menu_5(){
+    
+    
+}
+
+void lcd_dis_menu_50(){
+    
+    
+}
+
+
+
 
 #ifdef TEST
 void lcd_test(){

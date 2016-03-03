@@ -157,7 +157,7 @@ Uint8 remote_aux_open(){
     if(_Back_Flag==0x55){
         goto open_end;
     }
-    lcd_dis_clralarm();
+    lcd_dis_clr_alarm();
     open_phase2();
     if(_Back_Flag==0x55){
         goto stop_end;
@@ -273,7 +273,7 @@ Uint8 remote_aux_close(){
     if(_Back_Flag==0x55){
         goto close_end;
     }
-    lcd_dis_clralarm();
+    lcd_dis_clr_alarm();
     close_phase2();
     if(_Back_Flag==0x55){
         goto stop_end;
@@ -423,7 +423,7 @@ Uint8 remote_auto(){
             goto auto_end;
         }
         if(_strAlarmFlag & _SignLostedFlag==0){
-            lcd_dis_clralarm();
+            lcd_dis_clr_alarm();
         }
         open_phase2();
         if(_Back_Flag==0x55){
@@ -507,7 +507,7 @@ Uint8 remote_auto(){
             goto auto_end;
         }
         if(_strAlarmFlag & _SignLostedFlag==0){
-            lcd_dis_clralarm();
+            lcd_dis_clr_alarm();
         }
         close_phase2();
         if(_Back_Flag==0x55){
@@ -651,8 +651,8 @@ Uint8 remote_man(){
     }
     _strAlarmFlag |= _RmFlickFlag;
     monitor_release_dummy();
-    lcd_dis_clralarm();
-    lcd_dis_alarmrmflick();
+    lcd_dis_clr_alarm();
+    lcd_dis_alarm_rmflick();
     delayms(1000);
     remote_exit();
     return E_ERR;

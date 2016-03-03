@@ -279,5 +279,6 @@ Uint16 _EEDATA(2) _Monitor_With_Remote = _Monitor_With_Remote_Init;
 Uint16 _EEDATA(2) _DPCtrl = _DPCtrl_Init;
 
 Uint16 eedata_addr; 
+
 Uint16 eedata_val; 
 

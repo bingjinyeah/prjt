@@ -400,23 +400,23 @@ PARA_EXT Uint16 _PageCount;
 		
 PARA_EXT Uint16 _CloumnCount;           		
 	
-PARA_EXT Uint16 _DisWord0;              
+PARA_EXT Uint8* _DisWord0;              
 	
-PARA_EXT Uint16 _DisWord1;              
+PARA_EXT Uint8* _DisWord1;              
 	
-PARA_EXT Uint16 _DisWord2;              
+PARA_EXT Uint8* _DisWord2;              
 	
-PARA_EXT Uint16 _DisWord3;              
+PARA_EXT Uint8* _DisWord3;              
 	
-PARA_EXT Uint16 _DisWord4;              
+PARA_EXT Uint8* _DisWord4;              
 	
-PARA_EXT Uint16 _DisWord5;              
+PARA_EXT Uint8* _DisWord5;              
 	
-PARA_EXT Uint16 _DisWord6;              
+PARA_EXT Uint8* _DisWord6;              
 	
-PARA_EXT Uint16 _DisWord7;              
+PARA_EXT Uint8* _DisWord7;              
 	
-PARA_EXT Uint16 _DisWord8;              
+PARA_EXT Uint8* _DisWord8;              
 	
 PARA_EXT Uint16 _DisWord9;              
 	
@@ -695,6 +695,8 @@ PARA_EXT Uint16 _DP_DIAGR0;
         
 PARA_EXT Uint16 _DP_ACTION;                    
         
-PARA_EXT Uint16 _DP_ACTPOS;                    
+PARA_EXT Uint16 _DP_ACTPOS;     
+
+PARA_EXT Uint16 para_w7;  //ybj temp test
     
 #endif
