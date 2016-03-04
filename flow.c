@@ -7,33 +7,32 @@
 extern Uint16 _EEDATA(2) _FlowNum1;
 extern Uint16 _EEDATA(2) _FlowNum2;
 
-Uint8 flow_thread(){
+void flow_thread(){
     
-    if(_ucharFlowKey==true){
+    if(_ucharFlowKey){
         eedata_write(_FlowNum1,_Flow_Buf1);
         eedata_write(_FlowNum2,_Flow_Buf2);
-    }else if(_ucharReadFlowKey!=true){
-        return E_OK;
+    }else if(!_ucharReadFlowKey){
+        return ;
     }
     while(1){
-        _ucharFlowBackKey = 0;
-        _ucharFlowKey= 0;
-        _ucharReadFlowKey = 0;
+        _ucharFlowBackKey = false;
+        _ucharFlowKey= false;
+        _ucharReadFlowKey = false;
         lcd_dis_flow();
         while(1){
-            if(_ucharReadFlowKey==true){
+            if(_ucharReadFlowKey){
                 break;
-            }else if(_ucharFlowKey==true){
+            }else if(_ucharFlowKey){
                 eedata_write(_FlowNum1,_Flow_Buf1);
                 eedata_write(_FlowNum2,_Flow_Buf2);
                 break;
-            }else if(_ucharFlowBackKey==true){
-                return E_OK;
+            }else if(_ucharFlowBackKey){
+                return ;
             }
             clr_wdt();
         }
     }
-    
-    
-    return E_OK;
+
+    return ;
 }

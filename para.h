@@ -261,101 +261,101 @@ PARA_EXT Uint16 _ucharStopKey;
 	
 PARA_EXT Uint16 _uintCur;				
 	
-PARA_EXT Uint16 _EmRead;				
+PARA_EXT Int16 _EmRead;				
 	
-PARA_EXT Uint16 _RmRead;				
+PARA_EXT Int16 _RmRead;				
 	
-PARA_EXT Uint16 _RmReadS;				
+PARA_EXT Int16 _RmReadS;				
 	
 PARA_EXT Uint16 _uintRow;				
 	
-PARA_EXT Uint16 _Menu2Count0;			
+PARA_EXT Int16 _Menu2Count0;			
 	
-PARA_EXT Uint16 _Menu2Count1;			
+PARA_EXT Int16 _Menu2Count1;			
 	
-PARA_EXT Uint16 _Menu312Count0;			
+PARA_EXT Int16 _Menu312Count0;			
 	
-PARA_EXT Uint16 _Menu312Count1;			
+PARA_EXT Int16 _Menu312Count1;			
 	
-PARA_EXT Uint16 _Menu312Count2;			
+PARA_EXT Int16 _Menu312Count2;			
 	
-PARA_EXT Uint16 _Menu312Count3;			
+PARA_EXT Int16 _Menu312Count3;			
 	
-PARA_EXT Uint16 _Menu312Count4;			
+PARA_EXT Int16 _Menu312Count4;			
 	
 PARA_EXT Uint16 _SxStatus;				
 		
-PARA_EXT Uint16 _RmRead1;				
+PARA_EXT Int16 _RmRead1;				
 		
-PARA_EXT Uint16 _EmRead1;				
+PARA_EXT Int16 _EmRead1;				
 		
-PARA_EXT Uint16 _Menu300ACount;			
+PARA_EXT Int16 _Menu300ACount;			
 	
-PARA_EXT Uint16 _BusCount0;		    	
+PARA_EXT Int16 _BusCount0;		    	
 	
-PARA_EXT Uint16 _BusCount1;               
+PARA_EXT Int16 _BusCount1;               
         
-PARA_EXT Uint16 _BusCount2;               
+PARA_EXT Int16 _BusCount2;               
         
-PARA_EXT Uint16 _BusCount3;               
+PARA_EXT Int16 _BusCount3;               
         
-PARA_EXT Uint16 _BusCount4;               
+PARA_EXT Int16 _BusCount4;               
         
-PARA_EXT Uint16 _BusCount5;               
+PARA_EXT Int16 _BusCount5;               
         
-PARA_EXT Uint16 _BusCount6;               
+PARA_EXT Int16 _BusCount6;               
 		
-PARA_EXT Uint16 _Menu323Count;            
+PARA_EXT Int16 _Menu323Count;            
 	
-PARA_EXT Uint16 _Menu3220Count0;		
+PARA_EXT Int16 _Menu3220Count0;		
 		
-PARA_EXT Uint16 _Menu3220Count1;		
+PARA_EXT Int16 _Menu3220Count1;		
 		
-PARA_EXT Uint16 _Menu3220Count2;		
+PARA_EXT Int16 _Menu3220Count2;		
 		
-PARA_EXT Uint16 _Menu3220Count3;		
+PARA_EXT Int16 _Menu3220Count3;		
 		
-PARA_EXT Uint16 _Menu3221Count0;		
+PARA_EXT Int16 _Menu3221Count0;		
 		
-PARA_EXT Uint16 _Menu3221Count1;		
+PARA_EXT Int16 _Menu3221Count1;		
 		
-PARA_EXT Uint16 _Menu3221Count2;		
+PARA_EXT Int16 _Menu3221Count2;		
 		
-PARA_EXT Uint16 _Menu3221Count3;		
+PARA_EXT Int16 _Menu3221Count3;		
 		
-PARA_EXT Uint16 _Menu3230Count0;		
+PARA_EXT Int16 _Menu3230Count0;		
 		
-PARA_EXT Uint16 _Menu32301Count0;		
+PARA_EXT Int16 _Menu32301Count0;		
 		
-PARA_EXT Uint16 _Menu32301Count1;		
+PARA_EXT Int16 _Menu32301Count1;		
 		
-PARA_EXT Uint16 _Menu32301Count2;		
+PARA_EXT Int16 _Menu32301Count2;		
 		
-PARA_EXT Uint16 _Menu32302Count0;		
+PARA_EXT Int16 _Menu32302Count0;		
 		
-PARA_EXT Uint16 _Menu32302Count1;		
+PARA_EXT Int16 _Menu32302Count1;		
 		
-PARA_EXT Uint16 _Menu32302Count2;		
+PARA_EXT Int16 _Menu32302Count2;		
 	
-PARA_EXT Uint16 _Menu22_ConfCount;		
+PARA_EXT Int16 _Menu22_ConfCount;		
 	
-PARA_EXT Uint16 _Menu23_ConfCount;		
+PARA_EXT Int16 _Menu23_ConfCount;		
 	
-PARA_EXT Uint16 _Menu330Count;			
+PARA_EXT Int16 _Menu330Count;			
 	
-PARA_EXT Uint16 _Menu331Count;			
+PARA_EXT Int16 _Menu331Count;			
 	
-PARA_EXT Uint16 _Menu41Count0;			
+PARA_EXT Int16 _Menu41Count0;			
 	
-PARA_EXT Uint16 _Menu43Count0;			
+PARA_EXT Int16 _Menu43Count0;			
 	
-PARA_EXT Uint16 _Menu43Count1;			
+PARA_EXT Int16 _Menu43Count1;			
 	
-PARA_EXT Uint16 _Menu5Count0;			
+PARA_EXT Int16 _Menu5Count0;			
 	
-PARA_EXT Uint16 _Menu0Count0;			
+PARA_EXT Int16 _Menu0Count0;			
 	
-PARA_EXT Uint16 _FB_Temp;	 			
+PARA_EXT Int16 _FB_Temp;	 			
 	
 PARA_EXT Uint16 _uchar_RemotePre;   	
 		
@@ -636,7 +636,9 @@ PARA_EXT Uint16 _uintRomNum2;
 	
 PARA_EXT Uint16 _Thread_Flag;             
                           
-PARA_EXT Uint16 _Back_Flag;  			
+PARA_EXT Uint16 _Back_Flag; 
+
+PARA_EXT Uint16 _System_Back;
 	
 PARA_EXT Uint16 _StatusBack;			
 	
@@ -697,6 +699,6 @@ PARA_EXT Uint16 _DP_ACTION;
         
 PARA_EXT Uint16 _DP_ACTPOS;     
 
-PARA_EXT Uint16 para_w7;  //ybj temp test
+//PARA_EXT Uint16 para_w7;  //ybj temp test
     
 #endif

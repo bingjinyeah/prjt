@@ -41,3 +41,30 @@ void close_phase4(){
 void forbid(){
     
 }
+
+void dis_open_lock(){
+    _StatusBack |= _OP_LockFlag;
+    _DP_IDATA2 |= BIT4;
+    lcd_dis_clr_alarm();
+    lcd_dis_alarm_oplock();
+    while(_StopTimer--){
+        rush_status();
+        relay_position_judge();
+        rush_relay_main();
+        delayms(20);
+    }
+}
+
+
+void dis_close_lock(){
+    _StatusBack |= _CL_LockFlag;
+    _DP_IDATA2 |= BIT5;
+    lcd_dis_clr_alarm();
+    lcd_dis_alarm_cllock();
+    while(_StopTimer--){
+        rush_status();
+        relay_position_judge();
+        rush_relay_main();
+        delayms(20);
+    }
+}

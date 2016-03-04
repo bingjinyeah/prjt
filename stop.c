@@ -30,10 +30,10 @@ Uint8 button_stop_process(){
             esd_thread();
         }
     }
-    if(flow_thread()!=E_OK)
-        return E_ERR;
-    if(ident_thread()!=E_OK)
-        return E_ERR;
-    
+    flow_thread();
+    ident_thread();
+    if(_ucharMenuKey){
+        menu_thread();
+    }
     return E_ERR;
 }

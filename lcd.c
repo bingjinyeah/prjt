@@ -5,6 +5,7 @@
 #include "lcd.h"
 #include "char.h"
 #include "para.h"
+#include "flag.h"
 
 extern Uint16 _EEDATA(2) _InverseDisEnable;
 extern void delayus(Uint16 num);
@@ -465,62 +466,377 @@ void lcd_dis_num16(Uint8 row, Uint8 cloumn, Uint16 data, Uint8 reverse){
     }
 }
 
-void dis_open_lock(){
+#ifndef LANGUAGE_EN
+void lcd_dis_alarm_out(Uint8 *data[]){
+    lcd_dis_char(3,4,data[0],0);
+    lcd_dis_char(3,5,data[1],0);
+    lcd_dis_char(3,6,data[2],0);
+    lcd_dis_char(3,7,data[3],0);
+}
+#endif
+
+
+
+void lcd_dis_alarm_powerdown(){
+#ifdef LANGUAGE_EN
     
+#else
+    Uint8 *data[] = {_ucharTabDian4, _ucharTabYuan1, _ucharTabDiao1, _ucharTabDian4};
+    lcd_dis_alarm_out(data);
+#endif
 }
 
-void dis_close_lock(){
+void lcd_dis_alarm_jam(){
+#ifdef LANGUAGE_EN
     
+#else
+    Uint8 *data[] = {_ucharTabDian4,_ucharTabJi1,_ucharTabDu,_ucharTabZhuan};
+    lcd_dis_alarm_out(data);
+#endif
+}
+
+void lcd_dis_alarm_noload(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabFa,_ucharTabWei,_ucharTabChu,_ucharTabCuo};
+    lcd_dis_alarm_out(data);
+#endif
+}
+
+void lcd_dis_alarm_clesd(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabES,_ucharTabD0,_ucharTabGuan,_ucharTabFa};
+    lcd_dis_alarm_out(data);
+#endif
+}
+
+void lcd_dis_alarm_opesd(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabES,_ucharTabD0,_ucharTabKai,_ucharTabFa};
+    lcd_dis_alarm_out(data);
+#endif
+}
+
+void lcd_dis_alarm_esd(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabES,_ucharTabD0,_ucharTabYou,_ucharTabXiao};
+    lcd_dis_alarm_out(data);
+#endif
+}
+
+
+void lcd_dis_alarm_oplock(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabDa,_ucharTabKai,_ucharTabLian,_ucharTabSuo};
+    lcd_dis_alarm_out(data);
+#endif     
+}
+
+void lcd_dis_alarm_cllock(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabGuan,_ucharTabBi,_ucharTabLian,_ucharTabSuo};
+    lcd_dis_alarm_out(data);
+#endif      
+}
+
+void lcd_dis_alarm_vpstop(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabFa,_ucharTabWei,_ucharTabBu,_ucharTabBian};
+    lcd_dis_alarm_out(data);
+#endif      
+}
+
+void lcd_dis_alarm_direrror(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabZhuan,_ucharTabXiang1,_ucharTabCuo,_ucharTabWu1};
+    lcd_dis_alarm_out(data);
+#endif      
 }
 
 void lcd_dis_alarm_rmflick(){
+#ifdef LANGUAGE_EN
     
+#else
+    Uint8 *data[] = {_ucharTabKai,_ucharTabGuan,_ucharTabTong1,_ucharTabZai};
+    lcd_dis_alarm_out(data);
+#endif  
+}
+
+void lcd_dis_alarm_salos(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabXin,_ucharTabHao,_ucharTabDiu,_ucharTabShi3};
+    lcd_dis_alarm_out(data);
+#endif  
+}
+
+void lcd_dis_alarm_dpsalos(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabZong,_ucharTabXian3,_ucharTabDiu,_ucharTabXin};
+    lcd_dis_alarm_out(data);
+#endif  
+}
+
+void lcd_dis_alarm_opovertor(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabDa,_ucharTabKai,_ucharTabGuo,_ucharTabJu};
+    lcd_dis_alarm_out(data);
+#endif  
+}
+
+void lcd_dis_alarm_clovertor(){
+#ifdef LANGUAGE_EN
+    
+#else
+    Uint8 *data[] = {_ucharTabGuan,_ucharTabBi,_ucharTabGuo,_ucharTabJu};
+    lcd_dis_alarm_out(data);
+#endif  
 }
 
 void lcd_dis_alarm_oplimitover(){
-    
-    
+#ifdef LANGUAGE_EN
+    lcd_dis_alarm_lengtherror();
+#else
+    Uint8 *data[] = {_ucharTabKai, _ucharTabXian1, _ucharTabChao, _ucharTabChu};
+    lcd_dis_alarm_out(data);
+#endif
 }
 
 void lcd_dis_alarm_cllimitover(){
     
-    
+#ifdef LANGUAGE_EN
+    lcd_dis_alarm_lengtherror();
+#else
+    Uint8 *data[] = {_ucharTabGuan, _ucharTabXian1, _ucharTabChao, _ucharTabChu};
+    lcd_dis_alarm_out(data);
+#endif
 }
 
 void lcd_dis_alarm_lengtherror(){
     
-    
+#ifdef LANGUAGE_EN
+    lcd_dis_alarm_lengtherror();
+#else
+    Uint8 *data[] = {_ucharTabXing, _ucharTabCheng, _ucharTabChao, _ucharTabXian1};
+    lcd_dis_alarm_out(data);
+#endif
 }
 
-
 void lcd_dis_alarm(){
+    Uint8 *data[4];
     
-    
+    _Rush_AlarmCount = 0;
+    if(_strAlarmFlag & _PhaseLostedFlag){
+        lcd_dis_clr_alarm();
+#ifdef  LANGUAGE_EN
+#ifdef  PHASE1
+#else
+#endif
+#else
+        data[0] = _ucharTabDian4;
+        data[1] = _ucharTabYuan1;
+#ifdef  PHASE1 
+        data[2] = _ucharTabQian;
+        data[3] = _ucharTabYa;
+#else
+        data[2] = _ucharTabQue1;
+        data[3] = _ucharTabXiang3;
+#endif
+        lcd_dis_alarm_out(data);
+#endif
+        return;    
+    }
+    if(check_hot()){
+        lcd_dis_clr_alarm();
+#ifdef  LANGUAGE_EN
+
+#else 
+        data[0] = _ucharTabDian4;
+        data[1] = _ucharTabJi1;
+        data[2] = _ucharTabGuo;
+        data[3] = _ucharTabRe;
+        lcd_dis_alarm_out(data);
+#endif
+        return;    
+    }
+    if(_strAlarmFlag & _CTFlag){
+        return;
+    }
+    if(_strAlarmFlag & _OTFlag){
+        return;
+    }
+    if(_L_CodeVP<100){
+        _strAlarmFlag |= _VPOver;
+        _DP_DIAGR1 |= BIT6;
+        lcd_dis_alarm_cllimitover();
+        return;
+    }
+    if(_L_CodeVP>65435){
+        _strAlarmFlag |= _VPOver;
+        _DP_DIAGR1 |= BIT6;
+        lcd_dis_alarm_oplimitover();
+        return;
+    }
+    _strAlarmFlag &= ~_VPOver;
+    _DP_DIAGR1 &= ~BIT6;
+    lcd_dis_clr_alarm();
+    if(_strAlarmFlag & _ESDFlag){
+        lcd_dis_alarm_esd();
+        return;
+    }
+}
+
+void lcd_dis_status_out(Uint8 *data[]){
+    lcd_dis_char(0,3,data[0],0);
+    lcd_dis_char(0,4,data[0],0);
 }
 
 void lcd_dis_stop(){
+    Uint8 *data[];
+    lcd_dis_clr_position();
+#ifdef LANGUAGE_EN
     
+#else    
+    data[0] = _S_ucharTabTing;
+    data[1] = _S_ucharTabZhi;
+    lcd_dis_status_out(data);
+#endif    
 }
 
 void lcd_dis_local(){
+    Uint8 *data[];
+    lcd_dis_clr_position();
+#ifdef LANGUAGE_EN
     
+#else    
+    data[0] = _S_ucharTabJiu;
+    data[1] = _S_ucharTabDi;
+    lcd_dis_status_out(data);
+#endif
 }
 
 void lcd_dis_remote(){
+    Uint8 *data[];
+    lcd_dis_clr_position();
+#ifdef LANGUAGE_EN
     
+#else    
+    data[0] = _S_ucharTabYuan;
+    data[1] = _S_ucharTabCheng;
+    lcd_dis_status_out(data);
+#endif
 }
 
 void lcd_dis_ident(){
+    Uint16 res;
+    lcd_dis_clrall();
+#ifdef LANGUAGE_EN
     
+#else    
+    lcd_dis_char(0,1,_ucharTabBen,0);
+    lcd_dis_char(0,2,_ucharTabJi1,0);
+    lcd_dis_char(0,3,_ucharTabXu1,0);
+    lcd_dis_char(0,4,_ucharTabLie,0);
+    lcd_dis_char(0,5,_ucharTabHao,0);
+    lcd_dis_smallchar(0,12,_ucharTabMh,0);
+#endif    
+    eedata_read(_IdentNum1,res);
+    lcd_dis_num16(2,4,res,0);
+    eedata_read(_IdentNum2,res);
+    lcd_dis_num16(2,8,res,0);
 }
 
 void lcd_dis_flow(){
+    Uint16 res;
+    lcd_dis_clrall();
+#ifdef LANGUAGE_EN
     
+#else    
+    lcd_dis_char(0,1,_ucharTabBen,0);
+    lcd_dis_char(0,2,_ucharTabJi1,0);
+    lcd_dis_char(0,3,_ucharTabXu1,0);
+    lcd_dis_char(0,4,_ucharTabLie,0);
+    lcd_dis_char(0,5,_ucharTabHao,0);
+    lcd_dis_smallchar(0,12,_ucharTabMh,0);
+#endif    
+    eedata_read(_FlowNum1,res);
+    lcd_dis_num16(2,4,res,0);
+    eedata_read(_FlowNum2,res);
+    lcd_dis_num16(2,8,res,0);   
 }
 
-void lcd_dis_dpsalos(){
+void lcd_dis_check_pass(){
+#ifdef LANGUAGE_EN
     
+#else    
+    lcd_dis_char(2,3,_ucharTabZheng,0);
+    lcd_dis_char(2,4,_ucharTabChang2,0);
+    delayms(_DisCheckTime);
+#endif
 }
+
+void lcd_dis_check_error(){
+#ifdef LANGUAGE_EN
+    
+#else    
+    lcd_dis_char(2,3,_ucharTabYou,0);
+    lcd_dis_char(2,4,_ucharTabWu1,0);
+#endif
+}
+
+void lcd_dis_vp(){
+    lcd_dis_clr_l10();
+    lcd_dis_clr_l20();
+    lcd_dis_clr_l1();
+    lcd_dis_clr_l2();
+#ifndef LANGUAGE_EN
+    lcd_dis_clr_l3();
+#endif
+    if(_strAlarmFlag & _CSFlag){
+        _BCD_Shi = 12;
+        _BCD_Ge = 13;
+    }else if(_strAlarmFlag & _OSFlag){
+        _BCD_Shi = 10;
+        _BCD_Ge = 11;
+    }else{
+        lcd_dis_char(1,6,_ucharTabBigBfh,0);
+        lcd_dis_char(2,6,_ucharTabBigBfh+32,0);
+        if(_VPPercent>=100){
+            
+        }
+    }
+    
+    
+    
+    
+    
+
+}
+
+
+
+
+
 
 
 void lcd_dis_saved00(){

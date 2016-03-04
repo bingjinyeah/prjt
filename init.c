@@ -67,21 +67,22 @@ void port_init(){
 }
 
 void para_init(){
+    _System_Back = false;
     _SetCLLimitFlag	= 0;		
     _SetOPLimitFlag	= 0;		
     _uintMenuCount	= 0;			
     _uintIdentCount	= 0;
     _Count_Ident_Key	= 0;
     _Menu					= 0;			
-    _ucharKey			= 0;		
-    _ucharMenuKey		= 0;		
-    _ucharOpenKey      	= 0;        
-    _ucharCloseKey			= 0;	   
-    _ucharIdentKey	= 0;
-    _ucharReadIdentKey	= 0;
-    _ucharFlowKey	= 0;
-    _ucharReadFlowKey	= 0;
-    _ucharFlowBackKey	= 0;
+    _ucharKey			= false;		
+    _ucharMenuKey		= false;		
+    _ucharOpenKey      	= false;        
+    _ucharCloseKey			= false;	   
+    _ucharIdentKey	= false;
+    _ucharReadIdentKey	= false;
+    _ucharFlowKey	= false;
+    _ucharReadFlowKey	= false;
+    _ucharFlowBackKey	= false;
 
      _DP_ACTION    	= 0;             
      _S1_Flag	= 0;

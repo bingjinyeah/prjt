@@ -33,4 +33,9 @@ void check_power(){
 void process_power_down(){
     
 }
+
+Uint8 check_hot(){
+    
+    return true;
+}
         

@@ -93,20 +93,20 @@ void menu_conf_exit(Uint8 saved, Uint16 menu){
         lcd_dis_menu[menu]();
 }
 
-Uint8 menu_conf_0(){
+void menu_conf_0(){
     Uint16 res;
     
     eedata_read(_Code_Orde, res);
     if (_Menu0Count0==res){
         lcd_dis_menu_1();
-        return E_OK;
+        return;
     }
     menu_conf_exit(SAVED13,MENU_0);
 
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_1(){
+void menu_conf_1(){
     
     switch(_uintCur){
         case 0: 
@@ -129,10 +129,10 @@ Uint8 menu_conf_1(){
             lcd_dis_menu_5();
             break;       
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_2(){
+void menu_conf_2(){
     Uint16  res,res1;
     Uint16 opl,cll,sub;
     Uint32 mul;
@@ -175,7 +175,7 @@ Uint8 menu_conf_2(){
                         delayms(400);
                         lcd_dis_clr_alarm();
                         lcd_dis_menu_2();
-                        return E_OK;
+                        return;
                     }else{
                         eedata_write(_Limit_Length,sub);
                         eedata_write(_L_OP_Limit,opl);
@@ -200,7 +200,7 @@ Uint8 menu_conf_2(){
                     lcd_dis_alarm_cllimitover();
                     delayms(400);
                     lcd_dis_clr_alarm();
-                    return E_OK;
+                    return;
                 }
             }
             eedata_write(_CL_Limit,_CodeVP);
@@ -237,7 +237,7 @@ Uint8 menu_conf_2(){
                         delayms(400);
                         lcd_dis_clr_alarm();
                         lcd_dis_menu_2();
-                        return E_OK;
+                        return;
                     }else{
                         eedata_write(_Limit_Length,sub);
                         eedata_write(_L_OP_Limit,opl);
@@ -262,7 +262,7 @@ Uint8 menu_conf_2(){
                     lcd_dis_alarm_oplimitover();
                     delayms(400);
                     lcd_dis_clr_alarm();
-                    return E_OK;
+                    return;
                 }
             }
             eedata_write(_OP_Limit,_CodeVP);
@@ -322,10 +322,10 @@ Uint8 menu_conf_2(){
         menu_conf_exit(SAVED,MENU_2);
         break; 
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_3(){
+void menu_conf_3(){
     
     Uint16 res;
     switch(_uintCur){
@@ -443,10 +443,10 @@ Uint8 menu_conf_3(){
         }
         break;       
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_4(){
+void menu_conf_4(){
     
     switch(_uintCur){
         case 0: 
@@ -466,10 +466,10 @@ Uint8 menu_conf_4(){
         case 3: lcd_dis_menu_46();break;
 #endif
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_5(){
+void menu_conf_5(){
     
     switch(_uintCur){
         case 0: 
@@ -495,7 +495,7 @@ Uint8 menu_conf_5(){
             lcd_dis_menu_50();
             break;
     }
-    return E_OK;
+    return;
 }
 
 void menu_conf_8_exit1(){
@@ -518,11 +518,11 @@ void menu_conf_8_exit0(){
     menu_conf_exit(SAVED1,MENU_300);
 }
 //relay output set
-Uint8 menu_conf_8(){
+void menu_conf_8(){
     Uint16 res;
     
     if(_uintCur>10){
-        return E_OK;
+        return;
     }
     if(_uintCur==0){
         res = 0xff;
@@ -533,7 +533,7 @@ Uint8 menu_conf_8(){
     else{
         res = _uintCur;
     }    
-    switch(para_w7){
+    switch(_Menu300Atemp){
         case 0: 
             eedata_write(_S1_Fun,res);
             if(_RmReadS!=0){
@@ -571,18 +571,18 @@ Uint8 menu_conf_8(){
             menu_conf_8_exit0();
             break;
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_9(){
+void menu_conf_9(){
 
 #ifdef  LANGUAGE_EN
  
 #endif
-    return E_OK;
+    return;
 }
 //local control menu
-Uint8 menu_conf_10(){
+void menu_conf_10(){
     
     switch(_uintCur){
     case 0:
@@ -594,10 +594,10 @@ Uint8 menu_conf_10(){
         menu_conf_exit(SAVED18,MENU_310);
         break;
     }
-    return E_OK;
+    return;
 }
 //two line control control menu
-Uint8 menu_conf_11(){
+void menu_conf_11(){
     
     switch(_uintCur){
     case 0:
@@ -612,11 +612,11 @@ Uint8 menu_conf_11(){
         eedata_write(_TwoLinesCtrl,0xff);  
         break;
     }
-    return E_OK;
+    return;
 }
 
 //proportion control menu
-Uint8 menu_conf_12(){
+void menu_conf_12(){
     
     switch(_uintCur){
     case 0:
@@ -644,7 +644,7 @@ Uint8 menu_conf_12(){
             _BusCount5 = 0;
             _EmRead = 1;
             lcd_dis_menu_posals();
-            return E_OK; 
+            return; 
         }
         menu_conf_exit(SAVED1,MENU_312);
         break;
@@ -665,11 +665,11 @@ Uint8 menu_conf_12(){
         menu_conf_exit(SAVED1,MENU_312);
         break;
     }
-    return E_OK;
+    return;
 }
 
 //profibus control menu
-Uint8 menu_conf_13(){
+void menu_conf_13(){
     
     Uint16 res,res1;
     Uint32 mul;
@@ -706,7 +706,7 @@ Uint8 menu_conf_13(){
             _BusCount5 = 0;
             _EmRead = 1;
             lcd_dis_menu_posals();
-            return E_OK; 
+            return; 
         }
         menu_conf_exit(SAVED1, MENU_PROFIBUS);
         break;
@@ -901,11 +901,11 @@ Uint8 menu_conf_13(){
         eedata_write(_DPCtrl,_RmRead);
         break;
     }
-    return E_OK;
+    return;
 }
 
 //lock set for remote and local
-Uint8 menu_conf_14(){
+void menu_conf_14(){
     
     switch(_uintCur){
     case 0:
@@ -937,15 +937,15 @@ Uint8 menu_conf_14(){
         menu_conf_exit(SAVED7, MENU_320);
         break;
     }
-    return E_OK;
+    return;
 }
 
-//lesd control set
-Uint8 menu_conf_15(){
+//esd control set
+void menu_conf_15(){
     
     Uint16 res;
     if(_uintCur >1){
-        return E_OK;
+        return;
     }
     eedata_read(_AUXMSK,res);
     switch(_uintCur){
@@ -961,11 +961,11 @@ Uint8 menu_conf_15(){
         menu_conf_exit(SAVED5, MENU_321);
         break;
     }
-    return E_OK;
+    return;
 }
 
 //esd forward set
-Uint8 menu_conf_16(){
+void menu_conf_16(){
     
     Uint16 res;
     switch(_uintCur){
@@ -1060,13 +1060,13 @@ Uint8 menu_conf_16(){
         menu_conf_exit(SAVED8, MENU_3210);
         break;        
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_17(){
+void menu_conf_17(){
 
     if(_uintCur > 2){
-        return E_OK;
+        return;
     }
     switch(_uintCur){
     case 0:
@@ -1086,13 +1086,13 @@ Uint8 menu_conf_17(){
         lcd_dis_menu_3221();
         break;
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_18(){
+void menu_conf_18(){
 
     if(_uintCur > 3){
-        return E_OK;
+        return;
     }
     switch(_uintCur){
     case 0:
@@ -1109,13 +1109,13 @@ Uint8 menu_conf_18(){
         break;
     }
     menu_conf_exit(SAVED10, MENU_3220);
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_19(){
+void menu_conf_19(){
 
     if(_uintCur > 3){
-        return E_OK;
+        return;
     }
     switch(_uintCur){
     case 0:
@@ -1132,20 +1132,20 @@ Uint8 menu_conf_19(){
         break;
     }
     menu_conf_exit(SAVED10, MENU_3221);
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_20(){
+void menu_conf_20(){
     
     eedata_write(_POSMIT,_Menu323Count);
     menu_conf_exit(SAVED5, MENU_323);   
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_21(){
+void menu_conf_21(){
 
     if(_uintCur > 2){
-        return E_OK;
+        return;
     }
     switch(_uintCur){
     case 0:
@@ -1165,13 +1165,13 @@ Uint8 menu_conf_21(){
         menu_conf_exit(SAVED1, MENU_3230); 
         break;
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_22(){
+void menu_conf_22(){
 
     if(_Menu22_ConfCount-- > 10){
-        return E_OK;
+        return;
     }
     switch(_Menu22_ConfCount){
     case 0:
@@ -1265,13 +1265,13 @@ Uint8 menu_conf_22(){
         }
         break;
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_23(){
+void menu_conf_23(){
 
     if(_Menu23_ConfCount-- > 10){
-        return E_OK;
+        return;
     }
     switch(_Menu23_ConfCount){
     case 0:
@@ -1366,10 +1366,10 @@ Uint8 menu_conf_23(){
         break;
     
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_24(){
+void menu_conf_24(){
     
     switch(_uintCur){
     case 0:
@@ -1395,11 +1395,11 @@ Uint8 menu_conf_24(){
         menu_conf_exit(SAVED14, MENU_330);
         break;    
     }
-    return E_OK;
+    return;
 }
 
 
-Uint8 menu_conf_25(){
+void menu_conf_25(){
     
     switch(_uintCur){
     case 0:
@@ -1425,10 +1425,10 @@ Uint8 menu_conf_25(){
         menu_conf_exit(SAVED14, MENU_331);
         break;    
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_26(){
+void menu_conf_26(){
     Uint16 res,res1;
     Uint32 mul;
     
@@ -1479,7 +1479,7 @@ Uint8 menu_conf_26(){
             _BusCount5 = 0;
             _EmRead = 1;
             lcd_dis_menu_posals();
-            return E_OK;
+            return;
         }
         menu_conf_exit(SAVED1, MENU_MODBUS);
         break;
@@ -1671,15 +1671,15 @@ Uint8 menu_conf_26(){
         }
         break;  
     }
-    return E_OK;
+    return;
 }
 
 
-Uint8 menu_conf_33(){
+void menu_conf_33(){
 
     if(_uintCur){
         menu_conf_exit(SAVED5, MENU_50);
-        return E_OK;
+        return;
     }
     eedata_write(_CL_Dir,_CL_Dir_Init);
     eedata_write(_Code_Orde,_Code_Orde_Init);
@@ -1741,10 +1741,10 @@ Uint8 menu_conf_33(){
 #ifndef LANGUAGE_EN
     menu_conf_exit(SAVED4,MENU_50);
 #endif
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_35(){
+void menu_conf_35(){
     Uint16 res,res1;
     Uint32 mul;
 
@@ -1757,10 +1757,10 @@ Uint8 menu_conf_35(){
     eedata_write(_LOSPOS_Code,res1);
     menu_conf_exit(SAVED18,MENU_POSALS);
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_36(){
+void menu_conf_36(){
     Uint16 res;
     
     switch(_uintCur){
@@ -1778,10 +1778,10 @@ Uint8 menu_conf_36(){
         break;
     }
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_37(){
+void menu_conf_37(){
     Uint16 res;
     
     switch(_uintCur){
@@ -1799,10 +1799,10 @@ Uint8 menu_conf_37(){
         break;
     }
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_38(){
+void menu_conf_38(){
     Uint16 res;
     
     switch(_uintCur){
@@ -1820,10 +1820,10 @@ Uint8 menu_conf_38(){
         break;
     }
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_39(){
+void menu_conf_39(){
     Uint16 res;
     
     switch(_uintCur){
@@ -1841,10 +1841,10 @@ Uint8 menu_conf_39(){
         break;
     }
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_40(){
+void menu_conf_40(){
     Uint16 res;
     
     switch(_uintCur){
@@ -1862,10 +1862,10 @@ Uint8 menu_conf_40(){
         break;
     }
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_41(){
+void menu_conf_41(){
     Uint16 res;
     
     switch(_uintCur){
@@ -1883,10 +1883,10 @@ Uint8 menu_conf_41(){
         break;
     }
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_42(){
+void menu_conf_42(){
     Uint16 res;
     
     switch(_uintCur){
@@ -1904,10 +1904,10 @@ Uint8 menu_conf_42(){
         break;
     }
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_43(){
+void menu_conf_43(){
     Uint16 res;
     
     switch(_uintCur){
@@ -1925,10 +1925,10 @@ Uint8 menu_conf_43(){
         break;
     }
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_44(){
+void menu_conf_44(){
     
     switch(_RmRead){
     case 0:
@@ -1940,13 +1940,13 @@ Uint8 menu_conf_44(){
     }
     menu_conf_exit(SAVED18,MENU_44);
     
-    return E_OK;    
+    return;    
 }
 
-Uint8 menu_conf_45(){
+void menu_conf_45(){
 
     if(_uintCur > 1){
-        return E_OK;
+        return;
     }
     switch(_uintCur){
     case 0:
@@ -1959,20 +1959,20 @@ Uint8 menu_conf_45(){
         menu_conf_exit(SAVED3, MENU_324);
         break;
     }
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_46(){
+void menu_conf_46(){
     
     eedata_write(_DP_Adress2,_BusCount6);
     menu_conf_exit(SAVED5, MENU_REDUDANT);
-    return E_OK;
+    return;
 }
 
-Uint8 menu_conf_48(){
+void menu_conf_48(){
     
     if(_uintCur > 1){
-        return E_OK;
+        return;
     }
     switch(_uintCur){
     case 0:
@@ -1999,10 +1999,10 @@ Uint8 menu_conf_48(){
         }
     menu_conf_exit(SAVED5, MENU_300B);
     }
-    return E_OK;
+    return;
 }
 
-Uint8 (*menu_conf_func[])() = {
+void (*menu_conf_func[])() = {
     NULL,
     menu_conf_0,
     menu_conf_1,
@@ -2055,13 +2055,13 @@ Uint8 (*menu_conf_func[])() = {
 };
 
 
-Uint8 menu_conf(){
+void menu_conf(){
     
     if(_Menu > 48){
-        return E_OK;
+        return;
     }
     if(menu_conf_func[_Menu]==NULL){
-        return E_OK;
+        return;
     }
-    return menu_conf_func[_Menu]();
+    menu_conf_func[_Menu]();
 }

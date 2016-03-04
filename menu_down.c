@@ -7,16 +7,16 @@
 #include "menu_conf.h"
 #include "lcd.h"
 
-Uint8 menu_down_1(){
+void menu_down_1(){
     
     if(++_uintCur>=4){
         _uintCur = 0;
     }
     lcd_dis_menu_1();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_2(){
+void menu_down_2(){
     
     cal_limit_length();
     if(++_uintCur>=6){
@@ -24,49 +24,49 @@ Uint8 menu_down_2(){
     }
     _EmRead = 1;
     lcd_dis_menu_2();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_3(){
+void menu_down_3(){
     
     if(++_uintCur>=4){
         _uintCur = 0;
     }
     _RmRead = 0;
     lcd_dis_menu_3();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_4(){
+void menu_down_4(){
     
     if(++_uintCur>=4){
         _uintCur = 0;
     }
     lcd_dis_menu_4();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_5(){
+void menu_down_5(){
     
     if(++_uintCur>=3){
         _uintCur = 0;
     }
     _EmRead = 1;
     lcd_dis_menu_5();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_8(){
+void menu_down_8(){
     
     if(++_uintCur>=11){
         _uintCur = 0;
     }
     _EmRead = 1;
     lcd_dis_menu_300();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_9(){
+void menu_down_9(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
@@ -74,40 +74,40 @@ Uint8 menu_down_9(){
     _EmRead = 1;
     lcd_dis_menu_300a();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_10(){
+void menu_down_10(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_310();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_11(){
+void menu_down_11(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=3){
         _uintCur = 0;
     }
     lcd_dis_menu_311();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_12(){
+void menu_down_12(){
     
     if(++_uintCur>=6){
         _uintCur = 0;
     }
     _EmRead = 1;
     lcd_dis_menu_312();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_13(){
+void menu_down_13(){
     
     if(_RowWord2==_uintCur){
         _RowWord0 = _RowWord1;
@@ -127,20 +127,20 @@ Uint8 menu_down_13(){
     _EmRead = 1;
     _RmRead = 0;
     lcd_dis_menu_profibus();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_14(){
+void menu_down_14(){
     
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     _EmRead = 1;
     lcd_dis_menu_320();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_15(){
+void menu_down_15(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
@@ -148,10 +148,10 @@ Uint8 menu_down_15(){
     _EmRead = 1;
     lcd_dis_menu_321();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_16(){
+void menu_down_16(){
 
     if(++_uintCur>=6){
         _uintCur = 0;
@@ -159,20 +159,20 @@ Uint8 menu_down_16(){
     _EmRead = 1;
     lcd_dis_menu_3210();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_17(){
+void menu_down_17(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=3){
         _uintCur = 0;
     }
     lcd_dis_menu_322();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_18(){
+void menu_down_18(){
 
     if(++_uintCur>=4){
         _uintCur = 0;
@@ -180,10 +180,10 @@ Uint8 menu_down_18(){
     _EmRead = 1;
     lcd_dis_menu_3220();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_19(){
+void menu_down_19(){
 
     if(++_uintCur>=4){
         _uintCur = 0;
@@ -191,20 +191,20 @@ Uint8 menu_down_19(){
     _EmRead = 1;
     lcd_dis_menu_3221();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_45(){
+void menu_down_45(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_324();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_21(){
+void menu_down_21(){
 
     if(++_uintCur>=3){
         _uintCur = 0;
@@ -212,16 +212,16 @@ Uint8 menu_down_21(){
     _EmRead = 1;
     lcd_dis_menu_3230();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_22(){
+void menu_down_22(){
     Uint16 res;
     
     if(++_uintCur>=2){
         
         if(_Menu22_ConfCount>10){
-            return E_OK;
+            return;
         }
         switch(_Menu22_ConfCount-1){
             case 0:
@@ -265,16 +265,16 @@ Uint8 menu_down_22(){
     }
     lcd_dis_menu_32301();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_23(){
+void menu_down_23(){
 
     Uint16 res;
     if(++_uintCur>=2){
         
         if(_Menu23_ConfCount>10){
-            return E_OK;
+            return;
         }
         switch(_Menu23_ConfCount-1){
             case 0:
@@ -318,10 +318,10 @@ Uint8 menu_down_23(){
     }
     lcd_dis_menu_32302();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_24(){
+void menu_down_24(){
 
     if(++_uintCur>=3){
         _uintCur = 0;
@@ -329,10 +329,10 @@ Uint8 menu_down_24(){
     _EmRead = 1;
     lcd_dis_menu_330();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_25(){
+void menu_down_25(){
 
     if(++_uintCur>=3){
         _uintCur = 0;
@@ -340,10 +340,10 @@ Uint8 menu_down_25(){
     _EmRead = 1;
     lcd_dis_menu_331();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_26(){
+void menu_down_26(){
     
     if(_RowWord2==_uintCur){
         _RowWord0 = _RowWord1;
@@ -363,20 +363,20 @@ Uint8 menu_down_26(){
     _EmRead = 1;
     _RmRead = 0;
     lcd_dis_menu_modbus();
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_30(){
+void menu_down_30(){
 
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_40();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_31(){
+void menu_down_31(){
 
     if(++_uintCur>=8){
         _uintCur = 0;
@@ -384,109 +384,109 @@ Uint8 menu_down_31(){
     _EmRead = 1;
     lcd_dis_menu_41();
     
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_33(){
+void menu_down_33(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_50();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_36(){
+void menu_down_36(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_aux1();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_37(){
+void menu_down_37(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_aux2();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_38(){
+void menu_down_38(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_aux3();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_39(){
+void menu_down_39(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_aux4();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_40(){
+void menu_down_40(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_aux5();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_41(){
+void menu_down_41(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_aux6();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_42(){
+void menu_down_42(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_aux7();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_43(){
+void menu_down_43(){
 #ifndef  LANGUAGE_EN
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     lcd_dis_menu_aux8();
 #endif
-    return E_OK;
+    return;
 }
 
-Uint8 menu_down_48(){
+void menu_down_48(){
     if(++_uintCur>=2){
         _uintCur = 0;
     }
     _EmRead = 1;
     lcd_dis_menu_300b();
-    return E_OK;
+    return;
 }
 
-Uint8 (*menu_down_func[])() = {
+void (*menu_down_func[])() = {
     NULL,
     NULL,
     menu_down_1,
@@ -538,15 +538,15 @@ Uint8 (*menu_down_func[])() = {
     menu_down_48   
 };
 
-Uint8 menu_down(){
+void menu_down(){
     
     if(_Menu > 48){
-        return E_OK;
+        return;
     }
     if(menu_down_func[_Menu]==NULL){
-        return E_OK;
+        return;
     }
-    return menu_down_func[_Menu]();
+    menu_down_func[_Menu]();
 }
 
 

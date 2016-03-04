@@ -77,10 +77,10 @@ Uint8 ident_read(){
     return E_ERR;
 }
 
-Uint8 ident_loop(){
+void ident_loop(){
  
     while(1){
-        if(_ucharIdentKey==true){
+        if(_ucharIdentKey){
             _uintMenuCount = 0;
             _uintIdentCount = 0;
             _ucharKey = 0;
@@ -91,18 +91,18 @@ Uint8 ident_loop(){
             _ucharConfKey = 0;
             eedata_write(_IdentNum1,_Ident_Buf1);
             eedata_write(_IdentNum2,_Ident_Buf2);
-        }else if(_ucharReadIdentKey!=true){
-            return E_ERR;
+        }else if(!_ucharReadIdentKey){
+            return ;
         }
         if(ident_read()!=E_OK){
-            return E_ERR;
+            return ;
         }
     }
     
-    return E_OK;
+    return ;
 }
 
-Uint8 ident_thread(){
+void ident_thread(){
     
     Uint8 res = 1;
     L_CL_Tris = 1;
@@ -122,7 +122,7 @@ Uint8 ident_thread(){
             res = 0;
             if(_Flag_Ident_Key==0x55){
                 _Count_Ident_Key++;
-                _Flag_Ident_Key = 0;
+                _Flag_Ident_Key = false;
                 _uintIdentCount = 0; 
                 if(_Count_Ident_Key>=3){
                     _ucharReadIdentKey = true;                   
@@ -140,8 +140,6 @@ Uint8 ident_thread(){
         }
     }
     ident_loop();
-    if(_ucharMenuKey==true){
-        menu_thread();
-    }
+    
     return;
 }

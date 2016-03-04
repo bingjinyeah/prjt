@@ -278,12 +278,12 @@ void local_thread(){
             return;
         }
     }
-    if(_ucharCloseKey==true){
+    if(_ucharCloseKey){
         local_close(IR_CONTROL);
         return;
     }
     
-    if(_ucharOpenKey==true){
+    if(_ucharOpenKey){
         local_open(IR_CONTROL);
         return;
     }
@@ -303,7 +303,7 @@ Uint8 button_local_process(){
     if(_Back_Flag==0x55){
         esd_thread();
     }
-    if(_ucharMenuKey==true){
+    if(_ucharMenuKey){
         menu_thread();
     }else{
         local_thread();

@@ -89,37 +89,31 @@ void menu_loop(){
             _uintMenuCount = 0;
             _ucharBackKey = 0;
             _ucharMenuKey = 0;
-            if(menu_back()==E_ERR){
+            menu_back();
+            if(_System_Back){
+                para_init();
                 return;
             }
         }else if (_ucharConfKey) {
             _uintMenuCount = 0;
             _ucharConfKey = 0;
             _ucharMenuKey = 0;
-            if(menu_conf()==E_ERR){
-                return;
-            }
+            menu_conf();
         }else if (_ucharSubKey) {
             _uintMenuCount = 0;
             _ucharSubKey = 0;
             _ucharMenuKey = 0;
-            if(menu_sub()==E_ERR){
-                return;
-            }
+            menu_sub();
         }else if (_ucharDownKey) {
             _uintMenuCount = 0;
             _ucharDownKey = 0;
             _ucharMenuKey = 0;
-            if(menu_down()==E_ERR){
-                return;
-            }
+            menu_down();
         }else if (_ucharAddKey) {
             _uintMenuCount = 0;
             _ucharAddKey = 0;
             _ucharMenuKey = 0;
-            if(menu_add()==E_ERR){
-                return;
-            }
+            menu_add();
         }
         if(_uintMenuCount>12000){
             cal_limit_length();
