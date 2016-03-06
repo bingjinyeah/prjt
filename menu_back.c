@@ -9,7 +9,7 @@
 
 void menu_back_1(){
     _Menu = 0;
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
     _System_Back = true;
 }
 

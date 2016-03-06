@@ -116,7 +116,7 @@ void public_init(){
     di_init();
     ir_init();
     ir_open();
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
 }
 
 void system_init(){
@@ -128,7 +128,7 @@ void system_init(){
         BAT_EN_Write = 1;
     }
     lcd_init();
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
     
     if(_PowerIsOn!=NOINIT_STATUS){
         _SelfCheckFlag = INIT_STATUS;

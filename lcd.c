@@ -250,7 +250,7 @@ void lcd_dis_bigchar(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse){
 	}
 }     
 //extern Uint8 _ucharTabClr[] _AUTO_PSV;
-void lcd_dis_clrall(){
+void lcd_dis_clr_all(){
     Uint8 i,j;
     
     for(j=0;j<8;j++){
@@ -328,12 +328,12 @@ void lcd_dis_softver(){
                      _ucharTabW,_ucharTabA,_ucharTabR,_ucharTabE};
     Uint8 *data1[] = {_ucharTabV,_ucharTabE,_ucharTabR,_ucharTabS,
                       _ucharTabI,_ucharTabO,_ucharTabN}; 
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
     lcd_dis_string(0,4,data,8,0);
     lcd_dis_string(1,4,data1,7,0); 
     row = 3;
 #else
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
     lcd_dis_char(0,1,_ucharTabRuan,0);
     lcd_dis_char(0,2,_ucharTabJian2,0);
     lcd_dis_char(0,3,_ucharTabBan,0);
@@ -368,14 +368,14 @@ void lcd_dis_company(){
                       _ucharTabP,_ucharTabM,_ucharTabE,_ucharTabN,_ucharTabT}; 
     Uint8 *data3[] = {_ucharTabC,_ucharTabO,_ucharTabXd,_ucharTabDouhao,
                       _ucharTabL,_ucharTabT,_ucharTabD,_ucharTabXd}; 
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
     lcd_dis_string(0,5,data,4,0);
     lcd_dis_string(1,0,data1,8,0); 
     lcd_dis_control(1,8,0);
     lcd_dis_string(2,3,data2,9,0); 
     lcd_dis_string(3,3,data3,8,0); 
 #else
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
     lcd_dis_char(1,0,_ucharTabClr,0);
     lcd_dis_char(1,1,_ucharTabWen,0);
     lcd_dis_char(1,2,_ucharTabZhou,0);
@@ -451,6 +451,32 @@ void lcd_dis_clr_alarm(){
 #else
     lcd_dis_clr_l30();
 #endif
+}
+
+void lcd_dis_clr_position(){
+    lcd_dis_clr_l00();
+    lcd_dis_clr_l0();
+}
+
+void bin_to_bcd(Uint16 num){
+    _BCD_Qian = 0;
+    _BCD_Bai = 0;
+    _BCD_Shi = 0;
+    _BCD_Ge = 0;
+    
+    if(num>=1000){
+        _BCD_Qian = num /1000;
+        num -= _BCD_Qian*1000;
+    }
+    if(num>=100){
+        _BCD_Bai = num /100;
+        num -= _BCD_Bai*100;
+    }
+    if(num>=10){
+        _BCD_Shi = num /10;
+        num -= _BCD_Shi*10;
+    }
+    _BCD_Ge = num;    
 }
 
 void lcd_dis_num16(Uint8 row, Uint8 cloumn, Uint16 data, Uint8 reverse){
@@ -708,11 +734,11 @@ void lcd_dis_alarm(){
 
 void lcd_dis_status_out(Uint8 *data[]){
     lcd_dis_char(0,3,data[0],0);
-    lcd_dis_char(0,4,data[0],0);
+    lcd_dis_char(0,4,data[1],0);
 }
 
 void lcd_dis_stop(){
-    Uint8 *data[];
+    Uint8 *data[2];
     lcd_dis_clr_position();
 #ifdef LANGUAGE_EN
     
@@ -724,7 +750,7 @@ void lcd_dis_stop(){
 }
 
 void lcd_dis_local(){
-    Uint8 *data[];
+    Uint8 *data[2];
     lcd_dis_clr_position();
 #ifdef LANGUAGE_EN
     
@@ -736,7 +762,7 @@ void lcd_dis_local(){
 }
 
 void lcd_dis_remote(){
-    Uint8 *data[];
+    Uint8 *data[2];
     lcd_dis_clr_position();
 #ifdef LANGUAGE_EN
     
@@ -749,7 +775,7 @@ void lcd_dis_remote(){
 
 void lcd_dis_ident(){
     Uint16 res;
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
 #ifdef LANGUAGE_EN
     
 #else    
@@ -768,7 +794,7 @@ void lcd_dis_ident(){
 
 void lcd_dis_flow(){
     Uint16 res;
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
 #ifdef LANGUAGE_EN
     
 #else    
@@ -815,6 +841,7 @@ void lcd_dis_vp(){
     if(_strAlarmFlag & _CSFlag){
         _BCD_Shi = 12;
         _BCD_Ge = 13;
+        
     }else if(_strAlarmFlag & _OSFlag){
         _BCD_Shi = 10;
         _BCD_Ge = 11;
@@ -822,9 +849,17 @@ void lcd_dis_vp(){
         lcd_dis_char(1,6,_ucharTabBigBfh,0);
         lcd_dis_char(2,6,_ucharTabBigBfh+32,0);
         if(_VPPercent>=100){
-            
+            bin_to_bcd(99);
+        }else if(_VPPercent==0){
+            bin_to_bcd(1);
+        }else{
+            bin_to_bcd(_VPPercent);
         }
     }
+    if(_BCD_Shi){
+        lcd_dis_bigchar(1,2,_ucharTabBigNum[_BCD_Shi],0);
+    }
+    lcd_dis_bigchar(1,4,_ucharTabBigNum[_BCD_Ge],0);
     
     
     
@@ -983,17 +1018,132 @@ void lcd_dis_saved18(){
 }
 
 void lcd_dis_menu_0(){
+    Uint8 *pchar;
     
+    _WriteEEPROMFlag = 0x55aa;
+    _Menu = 1;
+    lcd_dis_clr_all();
+#ifdef  LANGUAGE_EN
+#else
+    _DisWord0 = _ucharTabClr;
+    _DisWord1 = _ucharTabQing;
+    _DisWord2 = _ucharTabShu1;
+    _DisWord3 = _ucharTabRu;
+    lcd_dis_chinese_left(0,0);
+    _DisWord0 = _ucharTabKou;
+    _DisWord1 = _ucharTabLing;
+    _DisWord2 = _ucharTabClr;
+    _DisWord3 = _ucharTabClr;
+    lcd_dis_chinese_right(0,0);
+    lcd_dis_smallchar(0,12,_ucharTabMh,0);      
+#endif
+    pchar = lcd_dis_num_bai(_Menu0Count0);
+    lcd_dis_smallchar(2,5,pchar,0);
+    pchar = lcd_dis_num_shi(_Menu0Count0);
+    lcd_dis_smallchar(2,6,pchar,0);
+    pchar = lcd_dis_num_ge(_Menu0Count0);
+    lcd_dis_smallchar(2,7,pchar,0);
     
 }
 
 void lcd_dis_menu_1(){
     
+    _WriteEEPROMFlag = 0x55aa;
+    _Menu = 2;
+    lcd_dis_clr_all();
+#ifdef  LANGUAGE_EN
+#else
+    _DisWord0 = _ucharTabYi;
+    _DisWord1 = _ucharTabJi;
+    _DisWord2 = _ucharTabShe;
+    _DisWord3 = _ucharTabDing;
+    lcd_dis_chinese_left(0,0);
     
+    _DisWord0 = _ucharTabEr;
+    _DisWord1 = _ucharTabJi;
+    _DisWord2 = _ucharTabShe;
+    _DisWord3 = _ucharTabDing;
+    lcd_dis_chinese_left(1,0);
+    
+    _DisWord0 = _ucharTabXin;
+    _DisWord1 = _ucharTabHao;
+    _DisWord2 = _ucharTabCha;
+    _DisWord3 = _ucharTabXun;
+    lcd_dis_chinese_left(2,0);
+    
+    _DisWord0 = _ucharTabXi;
+    _DisWord1 = _ucharTabTong;
+    _DisWord2 = _ucharTabShe;
+    _DisWord3 = _ucharTabZhi1;
+    lcd_dis_chinese_left(3,0);
+    
+    lcd_dis_jinru(_uintCur);
+#endif    
 }
 
 void lcd_dis_menu_2(){
     
+    _Menu = 3;
+    lcd_dis_clr_all();
+    if(_uintCur>5){
+        return;
+    }
+    if(_uintCur<=3){
+        _DisWord0 = _ucharTabGuan;
+        _DisWord1 = _ucharTabBi;
+        _DisWord2 = _ucharTabFang;
+        _DisWord3 = _ucharTabXiang1;
+        lcd_dis_chinese_left(0,0);
+
+        _DisWord0 = _ucharTabXing;
+        _DisWord1 = _ucharTabCheng;
+        _DisWord2 = _ucharTabJi5;
+        _DisWord3 = _ucharTabXian1;
+        lcd_dis_chinese_left(1,0);
+
+        _DisWord0 = _ucharTabGuan;
+        _DisWord1 = _ucharTabGuo;
+        _DisWord2 = _ucharTabJu;
+        _DisWord3 = _ucharTabZhi3;
+        lcd_dis_chinese_left(2,0);
+
+        _DisWord0 = _ucharTabGuan;
+        _DisWord1 = _ucharTabWei;
+        _DisWord2 = _ucharTabBao;
+        _DisWord3 = _ucharTabHu;
+        lcd_dis_chinese_left(3,0);
+    }
+    switch(_uintCur){
+#ifdef  LANGUAGE_EN
+#else    
+        case 0:
+            
+            break;
+        case 1:
+            
+            break;
+        case 2:
+            
+            break;
+        case 3:
+            
+            break;
+        case 4:
+            
+            break;
+        case 5:
+            
+            break;
+    }
+
+    
+    
+   
+    
+    
+    
+    lcd_dis_jinru(_uintCur);
+#endif    
     
 }
 
@@ -1202,7 +1352,7 @@ void lcd_dis_menu_50(){
 #ifdef TEST
 void lcd_test(){
     lcd_init();
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
     lcd_dis_smallchar(1,6,_ucharTabH,0);
     lcd_dis_smallchar(1,7,_ucharTabE,0);
     lcd_dis_smallchar(1,8,_ucharTabL,0);

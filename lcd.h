@@ -12,7 +12,7 @@ extern void lcd_dis_dot(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse);
 extern void lcd_dis_smallchar(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse);
 extern void lcd_dis_char(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse);
 extern void lcd_dis_bigchar(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse);
-extern void lcd_dis_clrall(void);
+extern void lcd_dis_clr_all(void);
 extern void lcd_dis_company(void);
 extern void lcd_dis_softver(void);
 extern void lcd_dis_saved00(void);

@@ -507,7 +507,7 @@ Uint8 remote_dp_salos(){
     }
     _DP_IDATA1 &= ~BIT4;
     lcd_dis_clr_alarm();
-    lcd_dis_dpsalos();
+    lcd_dis_alarm_dpsalos();
     eedata_read(_POSALS,res_los);
     eedata_read(_L_OP_Limit,opl);
     eedata_read(_L_CL_Limit,cll);

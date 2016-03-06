@@ -117,7 +117,7 @@ void menu_loop(){
         }
         if(_uintMenuCount>12000){
             cal_limit_length();
-            lcd_dis_clrall();
+            lcd_dis_clr_all();
             para_init();
             return;
         }
@@ -146,7 +146,7 @@ void menu_thread() {
     _EmRead = 0;
     _RmRead = 0;
     set_t1(_conT1Time);
-    lcd_dis_clrall();
+    lcd_dis_clr_all();
     _uintCur = 0;
     _Menu0Count0 = 0;
     eedata_read(_Code_Orde, res);
