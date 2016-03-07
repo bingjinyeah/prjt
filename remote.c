@@ -5,14 +5,37 @@
 #include "para.h"
 #include "lcd.h"
 #include "pincfg.h"
-
+/*
 extern Uint16 _EEDATA(2) _AUXMSK;
 extern Uint16 _EEDATA(2) _Remote_Lock;
 extern Uint16 _EEDATA(2) _TwoLinesCtrl;
 extern Uint16 _EEDATA(2) _L_OP_Limit;
 extern Uint16 _EEDATA(2) _L_CL_Limit;
 extern Uint16 _EEDATA(2) _Card;
+*/
+Uint8 r_op_hold(){
+    R_OP_Hold_Tris = 1;
+    Nop();
+    if(R_OP_Hold_Read==0){
+        delayus(100);
+        if(R_OP_Hold_Read==0){
+            return true;
+        }
+    }
+    return false;
+}
 
+Uint8 in_remote(){
+    Remote_Tris = 1;
+    Nop();
+    if(Remote_Read==0){
+        delayus(100);
+        if(Remote_Read==0){
+            return true;
+        }
+    }
+    return false;
+}
 
 void check_card(){
     
@@ -686,8 +709,7 @@ Uint8 button_remote_process(){
     _DP_IDATA1 &= ~BIT5;
     _DP_IDATA1 |= BIT6;
     _strAlarmFlag &= ~_ButtonFlag;
-    com_esd();
-    if(_Back_Flag==0x55){
+    if(com_esd()){
         esd_thread();
     }
     ir_close();

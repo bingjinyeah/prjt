@@ -5,7 +5,20 @@
 #include "flag.h"
 #include "eedata.h"
 
-extern Uint16 _EEDATA(2) _ESD_ExceedSp;
+//extern Uint16 _EEDATA(2) _ESD_ExceedSp;
+
+
+Uint8 in_stop(){
+    XN_STOP_Tris = 1;
+    Nop();
+    if(XN_STOP_Read){
+        delayus(100);
+        if(XN_STOP_Read){
+            return true;
+        }
+    }
+    return false;
+}
 
 Uint8 button_stop_process(){
     
@@ -24,9 +37,8 @@ Uint8 button_stop_process(){
     _ucharCloseKey = 0;
     
     eedata_read(_ESD_ExceedSp,res);
-    if(res!=false){
-        com_esd();
-        if(_Back_Flag==0x55){
+    if(res){
+        if(com_esd()){
             esd_thread();
         }
     }
