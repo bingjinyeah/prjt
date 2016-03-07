@@ -48,10 +48,10 @@
 #define  _Local_Lock_Init            0x69	
 #define  _Remote_Lock_Init            0x69
 #define  _ESD_Action_Init            0xff	
-#define  _ESD_ExceedHot_Init            0x69
-#define  _ESD_ExceedSp_Init            0x69
-#define  _ESD_ExceedLock_Init            0x69
-#define  _ESD_ExceedTime_Init            0x69
+#define  _ESD_ExceedHot_Init            ufalse
+#define  _ESD_ExceedSp_Init            ufalse
+#define  _ESD_ExceedLock_Init            ufalse
+#define  _ESD_ExceedTime_Init            ufalse
 #define  _Forbid_ESD_Init            0xff	
 #define  _Interim_Ctrl_Init            0xff
 #define  _Pos_BackL_Init            400	

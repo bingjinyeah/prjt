@@ -9,8 +9,20 @@
 #define IR_CONTROL      0x55
 #define LC_CONTROL      0xAA
 
-extern Uint16 _EEDATA(2) _Local_Lock;
-extern Uint16 _EEDATA(2) _LocalCtrl;
+//extern Uint16 _EEDATA(2) _Local_Lock;
+//extern Uint16 _EEDATA(2) _LocalCtrl;
+
+Uint8 in_local(){
+    Local_Tris = 1;
+    Nop();
+    if(Local_Read==0){
+        delayus(100);
+        if(Local_Read==0){
+            return true;
+        }
+    }
+    return false;
+}
 
 void local_exit(){
     if(_Menu==0){
@@ -299,8 +311,7 @@ Uint8 button_local_process(){
     _DP_IDATA1 &= ~BIT6;
     _DP_IDATA2 &= ~BIT6;
     _strAlarmFlag &= ~_ButtonFlag;
-    com_esd();
-    if(_Back_Flag==0x55){
+    if(com_esd()){
         esd_thread();
     }
     if(_ucharMenuKey){

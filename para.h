@@ -66,14 +66,16 @@ PARA_EXT Uint16 _VPCount;
 PARA_EXT Uint16 _uintMenuCount;	
 	
 PARA_EXT Uint16 _JamCount;		
-		
+/*		
 PARA_EXT Uint16 _S1_Count;		
 	
 PARA_EXT Uint16 _S2_Count;		
 	
 PARA_EXT Uint16 _S3_Count;		
 	
-PARA_EXT Uint16 _S4_Count;		
+PARA_EXT Uint16 _S4_Count;
+*/
+PARA_EXT Uint16 _Sn_Count[4];
     
 PARA_EXT Uint16 _Count2S;          
 	
@@ -150,7 +152,11 @@ PARA_EXT Uint16 _Length_Error_Flag;
 /******************************************************************************/
 //------------------?????????-----------------------------------------
 /******************************************************************************/
-	
+PARA_EXT Uint16 _Sn_Flag[4];
+PARA_EXT Uint16 _Sn_PreFlag[4];
+PARA_EXT Uint16 _DP_Sn_Flag[4];
+PARA_EXT Uint16 _DP_Sn_PreFlag[4];
+/*	
 PARA_EXT Uint16 _S1_Flag;		
 	
 PARA_EXT Uint16 _S1_PreFlag;	
@@ -183,6 +189,7 @@ PARA_EXT Uint16 _DP_S3_PreFlag;
 PARA_EXT Uint16 _DP_S4_Flag;	
 	
 PARA_EXT Uint16 _DP_S4_PreFlag;	
+ */
 /******************************************************************************/
 //------------------????????-------------------------------------------
 /******************************************************************************/

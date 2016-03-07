@@ -19,9 +19,6 @@ extern void adc12_init();
 extern void di_init();
 extern void t1_init(Uint16 num);
 
-void rush_status(){
-    
-}
 
 void op_cl_port_init(){
     OP_Tris = 0;
