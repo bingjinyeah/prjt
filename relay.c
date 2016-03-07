@@ -387,5 +387,50 @@ void monitor_release(){
 }
 
 void rush_monitor(){
+    Uint16 res;
     
+    if(_strAlarmFlag & _PowerDownFlag){
+        goto mnt_end;
+    }
+    if(_strAlarmFlag & _PhaseLostedFlag){
+        goto mnt_end;
+    }
+    if(_strAlarmFlag & _Hot){
+        goto mnt_end;
+    }
+    if(_strAlarmFlag & _RmFlickFlag){
+        goto mnt_end;
+    }
+    if(_strAlarmFlag & _ESDFlag){
+        goto mnt_end;
+    }
+    if(_strAlarmFlag & _SignLostedFlag){
+        goto mnt_end;
+    }
+    eedata_read(_Monitor_With_OverTorque,res);
+    if(res==0x69){
+        if(_strAlarmFlag & _CTFlag){
+            goto mnt_end;
+        }
+        if(_strAlarmFlag & _OTFlag){
+            goto mnt_end;
+        }
+    }
+    eedata_read(_Monitor_With_Remote,res);
+    if(res==0x69){
+        if(_DP_IDATA1 & BIT6==0){
+            goto mnt_end;
+        }
+    }
+    E_S5_Tris = 0;
+    Nop();
+    E_S5_Write = 0;
+    _DP_IDATA1 |= BIT4;
+    return;
+mnt_end:
+    E_S5_Tris = 0;
+    Nop();
+    E_S5_Write = 1;
+    _DP_IDATA1 &= ~BIT4;
+    return; 
 }

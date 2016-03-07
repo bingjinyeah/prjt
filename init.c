@@ -64,6 +64,8 @@ void port_init(){
 }
 
 void para_init(){
+    Uint16 i;
+    
     _System_Back = false;
     _SetCLLimitFlag	= 0;		
     _SetOPLimitFlag	= 0;		
@@ -81,15 +83,11 @@ void para_init(){
     _ucharReadFlowKey	= false;
     _ucharFlowBackKey	= false;
 
-     _DP_ACTION    	= 0;             
-     _S1_Flag	= 0;
-     _S1_PreFlag	= 0;
-     _S2_Flag	= 0;
-     _S2_PreFlag		= 0;
-     _S3_Flag	= 0;
-     _S3_PreFlag	= 0;
-     _S4_Flag	= 0;
-     _S4_PreFlag		= 0;
+     _DP_ACTION    	= 0;  
+     for(i=0;i<4;i++){
+        _Sn_Flag[i] = 0;
+        _Sn_PreFlag[i] = 0;
+     }
     _RushCount = 0xff;              
     _Rush_PlaceCount = 40;        
     _Rush_AlarmCount = 40;        
