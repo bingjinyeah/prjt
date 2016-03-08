@@ -50,7 +50,7 @@ Uint8 judge_aux_open(){
     Uint8  b;
     eedata_read(_AUXMSK,res);
     R_OP_Tris = 1;
-    if(res & BIT0 ==0){
+    if((res & BIT0)==0){
         b = true;
     }else{
         b = false;
@@ -71,7 +71,7 @@ Uint8 judge_aux_close(){
     Uint8  b;
     eedata_read(_AUXMSK,res);
     R_CL_Tris = 1;
-    if(res & BIT1 ==0){
+    if((res & BIT1)==0){
         b = true;
     }else{
         b = false;
@@ -92,7 +92,7 @@ Uint8 judge_r_st(){
     Uint8  b;
     eedata_read(_AUXMSK,res);
     R_ST_Tris = 1;
-    if(res & BIT2 ==0){
+    if((res & BIT2)==0){
         b = true;
     }else{
         b = false;
@@ -113,7 +113,7 @@ Uint8 judge_r_esd(){
     Uint8  b;
     eedata_read(_AUXMSK,res);
     R_ESD_Tris = 1;
-    if(res & BIT3 ==0){
+    if((res & BIT3)==0){
         b = true;
     }else{
         b = false;
@@ -154,7 +154,7 @@ Uint8 remote_aux_open(){
         goto open_end;
     }
     eedata_read(_AUXMSK,res_aux);
-    if(res_aux & BIT4==0){
+    if((res_aux & BIT4)==0){
         goto open_end;
     }
     if(!judge_aux_open()){
@@ -199,12 +199,12 @@ Uint8 remote_aux_open(){
         if(Remote_Read!=0){
             goto stop_end;
         }
-        if(res_aux & BIT4==0){
+        if((res_aux & BIT4)==0){
             goto stop_end;
         }
-        if(res_aux & BIT5!=0){
+        if((res_aux & BIT5)!=0){
             if(!judge_aux_open()){
-                if(res_aux & BIT6==0){
+                if((res_aux & BIT6)==0){
                     goto stop_end;
                 }
                 if(!judge_r_st()){
@@ -218,7 +218,7 @@ Uint8 remote_aux_open(){
             }
         }else {
             if(!judge_aux_open()){
-                if(res_aux & BIT6==0){
+                if((res_aux & BIT6)==0){
                     goto stop_end;
                 }
                 if(!judge_r_st()){
@@ -270,7 +270,7 @@ Uint8 remote_aux_close(){
         goto close_end;
     }
     eedata_read(_AUXMSK,res_aux);
-    if(res_aux & BIT5==0){
+    if((res_aux & BIT5)==0){
         goto close_end;
     }
     if(!judge_aux_close()){
@@ -315,12 +315,12 @@ Uint8 remote_aux_close(){
         if(Remote_Read!=0){
             goto stop_end;
         }
-        if(res_aux & BIT5==0){
+        if((res_aux & BIT5)==0){
             goto stop_end;
         }
-        if(res_aux & BIT4!=0){
+        if((res_aux & BIT4)!=0){
             if(!judge_aux_close()){
-                if(res_aux & BIT6==0){
+                if((res_aux & BIT6)==0){
                     goto stop_end;
                 }
                 if(!judge_r_st()){
@@ -334,7 +334,7 @@ Uint8 remote_aux_close(){
             }
         }else {
             if(!judge_aux_close()){
-                if(res_aux & BIT6==0){
+                if((res_aux & BIT6)==0){
                     goto stop_end;
                 }
                 if(!judge_r_st()){
@@ -445,7 +445,7 @@ Uint8 remote_auto(){
         if(_Back_Flag==0x55){
             goto auto_end;
         }
-        if(_strAlarmFlag & _SignLostedFlag==0){
+        if((_strAlarmFlag & _SignLostedFlag)==0){
             lcd_dis_clr_alarm();
         }
         open_phase2();
@@ -529,7 +529,7 @@ Uint8 remote_auto(){
         if(_Back_Flag==0x55){
             goto auto_end;
         }
-        if(_strAlarmFlag & _SignLostedFlag==0){
+        if((_strAlarmFlag & _SignLostedFlag)==0){
             lcd_dis_clr_alarm();
         }
         close_phase2();
@@ -607,9 +607,9 @@ Uint8 remote_man(){
     
     Uint16 res;
     eedata_read(_AUXMSK,res);
-    if(res & BIT4==0){
+    if((res & BIT4)==0){
         _strAlarmFlag &= ~_RmFlickFlag;
-        if(res & BIT5==0){
+        if((res & BIT5)==0){
             return remote_dp();
         }
         //open is forbit ,close is not
@@ -620,7 +620,7 @@ Uint8 remote_man(){
             return remote_aux_close();
         } 
     }
-    if(res & BIT5==0){
+    if((res & BIT5)==0){
         //clsoe is forbit ,open is not
         _strAlarmFlag &= ~_RmFlickFlag;
         if(!judge_aux_open()){

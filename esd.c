@@ -143,7 +143,7 @@ void esd_op_thread(){
             if(in_stop()){
                 goto stop_end;                }
         }
-        if(_StatusBack & _OpeningFlag ==0){
+        if((_StatusBack & _OpeningFlag)==0){
             goto stop_end;
         }
         if(res_et==utrue){
@@ -155,7 +155,7 @@ void esd_op_thread(){
             if(_VPPercent<res){
                 continue;
             }
-            if(_StatusBack&_RunOver==0){
+            if((_StatusBack&_RunOver)==0){
                 eedata_read(_MoveTime,res);
                 res *= 200;
                 if(_MoveCount <= res){
@@ -250,7 +250,7 @@ void esd_cl_thread(){
             if(in_stop()){
                 goto stop_end;                }
         }
-        if(_StatusBack & _ClosingFlag ==0){
+        if((_StatusBack & _ClosingFlag)==0){
             goto stop_end;
         }
         if(res_et==utrue){
@@ -262,7 +262,7 @@ void esd_cl_thread(){
             if(_VPPercent>res){
                 continue;
             }
-            if(_StatusBack&_RunOver==0){
+            if((_StatusBack&_RunOver)==0){
                 eedata_read(_MoveTime,res);
                 res *= 200;
                 if(_MoveCount <= res){

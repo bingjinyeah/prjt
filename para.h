@@ -274,7 +274,7 @@ PARA_EXT Int16 _RmRead;
 	
 PARA_EXT Int16 _RmReadS;				
 	
-PARA_EXT Uint16 _uintRow;				
+//PARA_EXT Uint16 _uintRow;				
 	
 PARA_EXT Int16 _Menu2Count0;			
 	

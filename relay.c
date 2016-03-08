@@ -38,6 +38,33 @@ void get_eedata_snpos(Uint16 n,Uint16 *res){
     *res = temp;
 }
 
+void sx_status(Uint8 n){
+    Uint16 res;
+    
+    if(n>3){
+        return;
+    }
+    switch(n){
+        case 0:
+            eedata_read(_S1_Status,res);
+            break;
+        case 1:
+            eedata_read(_S2_Status,res);
+            break;
+        case 2:
+            eedata_read(_S3_Status,res);
+            break;
+        case 3:
+            eedata_read(_S4_Status,res);
+            break;            
+    }
+    if(res==0x69){
+        _RmReadS = 1;
+    }else{
+        _RmReadS = 0;
+    }
+}
+
 void rush_relay_tor(Uint16 num, Uint16 flag){
     Uint16 res;
     Uint16 n;

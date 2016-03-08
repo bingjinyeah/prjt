@@ -73,7 +73,7 @@ void dis_close_lock(){
     }
 }
 
-void judge_opdir_protect(){
+Uint8 judge_opdir_protect(){
     Uint16 res;
     
     eedata_read(_OPDir_Protect,res);
@@ -86,7 +86,7 @@ void judge_opdir_protect(){
     return false;
 }
 
-void judge_optor_protect(){
+Uint8 judge_optor_protect(){
     Uint16 res;
     
     eedata_read(_OP_TorProtect,res);

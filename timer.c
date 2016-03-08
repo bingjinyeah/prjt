@@ -87,10 +87,10 @@ void time_compensate(){
     if(_ChargeupFlag==0x55){
         _Bat_1MinCount+=40;
     }
-    _S1_Count = 5;
-    _S2_Count = 5;
-    _S3_Count = 5;
-    _S4_Count = 5;
+    _Sn_Count[0] = 5;
+    _Sn_Count[1] = 5;
+    _Sn_Count[2] = 5;
+    _Sn_Count[3] = 5;
 }
 
 
@@ -115,8 +115,8 @@ void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void){
     _DisInitCount++;                
     _L_OP_Count++; 
     adc12_on();
-    _S1_Count++;
-    if(_S1_Count>3){
+    _Sn_Count[0]++;
+    if(_Sn_Count[0]>3){
         E_S1A_Tris = 0;
         Nop();
         E_S1A_Write = 0;
@@ -124,8 +124,8 @@ void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void){
         Nop();
         E_S1B_Write = 0; 
     }
-    _S2_Count++;
-    if(_S2_Count>3){
+    _Sn_Count[1]++;
+    if(_Sn_Count[1]>3){
         E_S2A_Tris = 0;
         Nop();
         E_S2A_Write = 0;
@@ -133,8 +133,8 @@ void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void){
         Nop();
         E_S2B_Write = 0; 
     }
-    _S3_Count++;
-    if(_S3_Count>3){
+    _Sn_Count[2]++;
+    if(_Sn_Count[2]>3){
         E_S3A_Tris = 0;
         Nop();
         E_S3A_Write = 0;
@@ -142,8 +142,8 @@ void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void){
         Nop();
         E_S3B_Write = 0; 
     }
-    _S4_Count++;
-    if(_S4_Count>3){
+    _Sn_Count[3]++;
+    if(_Sn_Count[3]>3){
         E_S4A_Tris = 0;
         Nop();
         E_S4A_Write = 0;

@@ -43,6 +43,11 @@ void alu_dp_nnx(){
     
 }
 
+Uint16 alu_dis_ic(){
+    
+    return 0;
+}
+
 void cal_zero(Uint16 cll, Uint16 opl){
     
 }

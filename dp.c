@@ -86,12 +86,12 @@ void check_dp_action1(Uint8 act){
         }
     }
     eedata_read(_AUXMSK,res_aux);
-    if(res_aux & BIT4!=0){
+    if((res_aux & BIT4)!=0){
         if(judge_aux_open()){
             goto action_end;
         }
     }
-    if(res_aux & BIT5!=0){
+    if((res_aux & BIT5)!=0){
         if(judge_aux_close()){
             goto action_end;
         }
@@ -458,36 +458,36 @@ Uint8 remote_dp_relay(){
     if(rc & BIT0){
         if(_DP_ACTPOS & BIT0){
             if(_DP_ACTPOS & BIT4){
-                _DP_S1_Flag = true;               
+                _DP_Sn_Flag[0] = true;               
             }else{
-                _DP_S1_Flag = false;
+                _DP_Sn_Flag[0] = false;
             }
         }
     }
     if(rc & BIT1){
         if(_DP_ACTPOS & BIT1){
             if(_DP_ACTPOS & BIT5){
-                _DP_S2_Flag = true;               
+                _DP_Sn_Flag[1] = true;               
             }else{
-                _DP_S2_Flag = false;
+                _DP_Sn_Flag[1] = false;
             }
         }
     }
     if(rc & BIT2){
         if(_DP_ACTPOS & BIT2){
             if(_DP_ACTPOS & BIT6){
-                _DP_S3_Flag = true;               
+                _DP_Sn_Flag[2] = true;               
             }else{
-                _DP_S3_Flag = false;
+                _DP_Sn_Flag[2] = false;
             }
         }
     }
     if(rc & BIT3){
         if(_DP_ACTPOS & BIT3){
             if(_DP_ACTPOS & BIT7){
-                _DP_S4_Flag = true;               
+                _DP_Sn_Flag[3] = true;               
             }else{
-                _DP_S4_Flag = false;
+                _DP_Sn_Flag[3] = false;
             }
         }
     }

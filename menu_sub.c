@@ -130,7 +130,7 @@ void menu_sub_9(){
 }
 
 void menu_sub_10(){
-    return menu_add_10();
+    menu_add_10();
 }
 
 void menu_sub_11(){
@@ -233,11 +233,11 @@ void menu_sub_13(){
 }
 
 void menu_sub_14(){
-    return menu_add_14();
+    menu_add_14();
 }
 
 void menu_sub_15(){
-    return menu_add_15();
+    menu_add_15();
 }
 
 void menu_sub_16(){
@@ -265,7 +265,7 @@ void menu_sub_16(){
 }
 
 void menu_sub_17(){
-    return menu_add_17();
+    menu_add_17();
 }
 
 void menu_sub_18(){
@@ -342,7 +342,7 @@ void menu_sub_20(){
 }
 
 void menu_sub_45(){
-    return menu_add_45();
+    menu_add_45();
 }
 
 void menu_sub_21(){
@@ -593,7 +593,7 @@ void menu_sub_26(){
 }
 
 void menu_sub_33(){
-    return menu_add_33();
+    menu_add_33();
 }
 
 void menu_sub_35(){
@@ -606,32 +606,32 @@ void menu_sub_35(){
 }
 
 void menu_sub_36(){
-    return menu_add_36();
+    menu_add_36();
 }
 void menu_sub_37(){
-    return menu_add_37();
+    menu_add_37();
 }
 void menu_sub_38(){
-    return menu_add_38();
+    menu_add_38();
 }
 void menu_sub_39(){
-    return menu_add_39();
+    menu_add_39();
 }
 void menu_sub_40(){
-    return menu_add_40();
+    menu_add_40();
 }
 void menu_sub_41(){
-    return menu_add_41();
+    menu_add_41();
 }
 void menu_sub_42(){
-    return menu_add_42();
+    menu_add_42();
 }
 void menu_sub_43(){
-    return menu_add_43();
+    menu_add_43();
 }
 
 void menu_sub_44(){
-    return menu_add_44();
+    menu_add_44();
 }
 
 void menu_sub_46(){
