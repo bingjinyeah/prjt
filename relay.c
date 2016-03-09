@@ -5,38 +5,8 @@
 #include "eedata.h"
 #include "flag.h"
 
-//#define get_eedata_snfun(n,res)  eedata_read(_##S##n##_Fun,res)
-//#define get_eedata_snpos(n,res)  eedata_read(_##S##n##_Position,res)
 
-void get_eedata_snfun(Uint16 n,Uint16 *res){
-    Uint16 temp;
-    if(n==1){
-        eedata_read(_S1_Fun,temp);
-    }else if(n==2){
-        eedata_read(_S2_Fun,temp);
-    }else if(n==3){
-        eedata_read(_S3_Fun,temp);
-    }else if(n==4){
-        eedata_read(_S4_Fun,temp);
-    }
-    
-    *res = temp;
-}
 
-void get_eedata_snpos(Uint16 n,Uint16 *res){
-    Uint16 temp;
-    if(n==1){
-        eedata_read(_S1_Position,temp);
-    }else if(n==2){
-        eedata_read(_S2_Position,temp);
-    }else if(n==3){
-        eedata_read(_S3_Position,temp);
-    }else if(n==4){
-        eedata_read(_S4_Position,temp);
-    }
-    
-    *res = temp;
-}
 
 void sx_status(Uint8 n){
     Uint16 res;
@@ -44,20 +14,7 @@ void sx_status(Uint8 n){
     if(n>3){
         return;
     }
-    switch(n){
-        case 0:
-            eedata_read(_S1_Status,res);
-            break;
-        case 1:
-            eedata_read(_S2_Status,res);
-            break;
-        case 2:
-            eedata_read(_S3_Status,res);
-            break;
-        case 3:
-            eedata_read(_S4_Status,res);
-            break;            
-    }
+    get_eedata_snstatus(n,&res);   
     if(res==0x69){
         _RmReadS = 1;
     }else{
@@ -69,13 +26,14 @@ void rush_relay_tor(Uint16 num, Uint16 flag){
     Uint16 res;
     Uint16 n;
     
-    for(n=1;n<5;n++){
-        get_eedata_snfun(n,&res);   
+    for(n=0;n<4;n++){
+        get_eedata_snfun(n,&res);  
+        //eedata_read(_Sn_Fun[n],res);
         if(res==num){
             if(_strAlarmFlag & flag){
-                _Sn_Flag[n-1] = ufalse;
+                _Sn_Flag[n] = ufalse;
             }else{
-                _Sn_Flag[n-1] = utrue;
+                _Sn_Flag[n] = utrue;
             }
         }
     }
@@ -87,25 +45,26 @@ void rush_relay_midtor(){
     Uint16 res;
     Uint16 n;
     
-    for(n=1;n<5;n++){
+    for(n=0;n<4;n++){
         get_eedata_snfun(n,&res);
+        //eedata_read(_Sn_Fun[n],res);
         if(res==7){
             if(_strAlarmFlag & _CTFlag){
                 eedata_read(_CL_OverTorPos,res);
                 if(res){
-                    _Sn_Flag[n-1] = ufalse;
+                    _Sn_Flag[n] = ufalse;
                 }else{
-                    _Sn_Flag[n-1] = utrue;
+                    _Sn_Flag[n] = utrue;
                 }
             }else if(_strAlarmFlag & _OTFlag){
                 eedata_read(_OP_OverTorPos,res);
                 if(res!=100){
-                    _Sn_Flag[n-1] = ufalse;
+                    _Sn_Flag[n] = ufalse;
                 }else{
-                    _Sn_Flag[n-1] = utrue;
+                    _Sn_Flag[n] = utrue;
                 }
             }else{
-                _Sn_Flag[n-1] = utrue;
+                _Sn_Flag[n] = utrue;
             }
         }
     }  
@@ -116,26 +75,28 @@ void relay_position_judge(){
     Uint16 res;
     Uint16 n;
     
-    for(n=1;n<5;n++){
+    for(n=0;n<4;n++){
         get_eedata_snfun(n,&res);   
+        //eedata_read(_Sn_Fun[n],res);
         if((res==0)||(res>=0x0a)){
             if(_strAlarmFlag & _CSFlag){
-                _Sn_Flag[n-1] = ufalse;
+                _Sn_Flag[n] = ufalse;
             }else{
-                _Sn_Flag[n-1] = utrue;
+                _Sn_Flag[n] = utrue;
             }
         }else if(res==1){
             if(_strAlarmFlag & _OSFlag){
-                _Sn_Flag[n-1] = ufalse;
+                _Sn_Flag[n] = ufalse;
             }else{
-                _Sn_Flag[n-1] = utrue;
+                _Sn_Flag[n] = utrue;
             }
         }else if(res==0x0a){
             get_eedata_snpos(n,&res);
+            //eedata_read(_Sn_Position[n],res);
             if(_VPPercent>res){
-                _Sn_Flag[n-1] = ufalse;
+                _Sn_Flag[n] = ufalse;
             }else{
-                _Sn_Flag[n-1] = utrue;
+                _Sn_Flag[n] = utrue;
             }
         } 
     }
@@ -264,7 +225,8 @@ void rush_relays(){
                 if(_Sn_PreFlag[n]==_Sn_Flag[n]){
                     continue;
                 }
-                eedata_read(_S1_Status,res);
+                get_eedata_snstatus(n,&res);
+                //eedata_read(_Sn_Status[n],res);
                 if(_Sn_Flag[n]==ufalse){
                     if(res==ufalse){
                         relay_open[n]();
@@ -314,6 +276,7 @@ void rush_relay_mov(Uint16 n, Uint16 logic, Uint16 num){
     Uint16 res;
     
     get_eedata_snfun(n,&res);
+    //eedata_read(_Sn_Fun[n-1],res);
     if(res==num){
         _Sn_Flag[n-1] = logic;
     }
@@ -445,7 +408,7 @@ void rush_monitor(){
     }
     eedata_read(_Monitor_With_Remote,res);
     if(res==0x69){
-        if(_DP_IDATA1 & BIT6==0){
+        if((_DP_IDATA1 & BIT6)==0){
             goto mnt_end;
         }
     }

@@ -339,6 +339,8 @@ void menu_conf_3(){
             if(_RmRead>3){
                 break;
             }
+            get_eedata_snfun(_RmRead,&res);
+            /*
             switch(_RmRead){
             case 0:
                 eedata_read(_S1_Fun,res);
@@ -352,7 +354,7 @@ void menu_conf_3(){
             case 3:
                 eedata_read(_S4_Fun,res);
                 break;
-            }
+            }*/
             _uintCur = (res > 10)? 0:res;
             lcd_dis_menu_300();
         }
@@ -535,38 +537,38 @@ void menu_conf_8(){
     }    
     switch(_Menu300Atemp){
         case 0: 
-            eedata_write(_S1_Fun,res);
+            eedata_write(_Sn_Fun[0],res);
             if(_RmReadS!=0){
-                eedata_write(_S1_Status,0x69);
+                eedata_write(_Sn_Status[0],0x69);
             }else{
-                eedata_write(_S1_Status,0xff);
+                eedata_write(_Sn_Status[0],0xff);
             }
             menu_conf_8_exit0();
             break;
         case 1: 
-            eedata_write(_S2_Fun,res);
+            eedata_write(_Sn_Fun[1],res);
             if(_RmReadS!=0){
-                eedata_write(_S2_Status,0x69);
+                eedata_write(_Sn_Status[1],0x69);
             }else{
-                eedata_write(_S2_Status,0xff);
+                eedata_write(_Sn_Status[1],0xff);
             }
             menu_conf_8_exit0();
             break;
         case 2: 
-            eedata_write(_S3_Fun,res);
+            eedata_write(_Sn_Fun[2],res);
             if(_RmReadS!=0){
-                eedata_write(_S3_Status,0x69);
+                eedata_write(_Sn_Status[2],0x69);
             }else{
-                eedata_write(_S3_Status,0xff);
+                eedata_write(_Sn_Status[2],0xff);
             }
             menu_conf_8_exit0();
             break;
         case 3: 
-            eedata_write(_S4_Fun,res);
+            eedata_write(_Sn_Fun[3],res);
             if(_RmReadS!=0){
-                eedata_write(_S4_Status,0x69);
+                eedata_write(_Sn_Status[3],0x69);
             }else{
-                eedata_write(_S4_Status,0xff);
+                eedata_write(_Sn_Status[3],0xff);
             }
             menu_conf_8_exit0();
             break;
@@ -923,10 +925,10 @@ void menu_conf_14(){
         menu_conf_exit(SAVED7, MENU_320);
         break;
     case 1:
-        if(_RmRead>1){
+        if(_RmRead1>1){
             break;
         }
-        switch(_RmRead){
+        switch(_RmRead1){
         case 0:
             eedata_write(_Remote_Lock,0xff);
             break;
@@ -1176,91 +1178,91 @@ void menu_conf_22(){
     switch(_Menu22_ConfCount){
     case 0:
         if(_uintCur){
-            eedata_write(_OP_Speed1,_Menu32301Count2);
+            eedata_write(_OP_Speed[0],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position1,_Menu32301Count1);
+            eedata_write(_OP_Position[0],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 1:
         if(_uintCur){
-            eedata_write(_OP_Speed2,_Menu32301Count2);
+            eedata_write(_OP_Speed[1],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position2,_Menu32301Count1);
+            eedata_write(_OP_Position[1],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 2:
         if(_uintCur){
-            eedata_write(_OP_Speed3,_Menu32301Count2);
+            eedata_write(_OP_Speed[2],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position3,_Menu32301Count1);
+            eedata_write(_OP_Position[2],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 3:
         if(_uintCur){
-            eedata_write(_OP_Speed4,_Menu32301Count2);
+            eedata_write(_OP_Speed[3],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position4,_Menu32301Count1);
+            eedata_write(_OP_Position[3],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 4:
         if(_uintCur){
-            eedata_write(_OP_Speed5,_Menu32301Count2);
+            eedata_write(_OP_Speed[4],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position5,_Menu32301Count1);
+            eedata_write(_OP_Position[4],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 5:
         if(_uintCur){
-            eedata_write(_OP_Speed6,_Menu32301Count2);
+            eedata_write(_OP_Speed[5],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position6,_Menu32301Count1);
+            eedata_write(_OP_Position[5],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 6:
         if(_uintCur){
-            eedata_write(_OP_Speed7,_Menu32301Count2);
+            eedata_write(_OP_Speed[6],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position7,_Menu32301Count1);
+            eedata_write(_OP_Position[6],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 7:
         if(_uintCur){
-            eedata_write(_OP_Speed8,_Menu32301Count2);
+            eedata_write(_OP_Speed[7],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position8,_Menu32301Count1);
+            eedata_write(_OP_Position[7],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 8:
         if(_uintCur){
-            eedata_write(_OP_Speed9,_Menu32301Count2);
+            eedata_write(_OP_Speed[8],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position9,_Menu32301Count1);
+            eedata_write(_OP_Position[8],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
     case 9:
         if(_uintCur){
-            eedata_write(_OP_Speed10,_Menu32301Count2);
+            eedata_write(_OP_Speed[9],_Menu32301Count2);
             menu_conf_exit(SAVED6, MENU_32301);
         }else{
-            eedata_write(_OP_Position10,_Menu32301Count1);
+            eedata_write(_OP_Position[9],_Menu32301Count1);
             menu_conf_exit(SAVED4, MENU_32301);
         }
         break;
@@ -1276,95 +1278,94 @@ void menu_conf_23(){
     switch(_Menu23_ConfCount){
     case 0:
         if(_uintCur){
-            eedata_write(_CL_Speed1,_Menu32302Count2);
+            eedata_write(_CL_Speed[0],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position1,_Menu32302Count1);
+            eedata_write(_CL_Position[0],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 1:
         if(_uintCur){
-            eedata_write(_CL_Speed2,_Menu32302Count2);
+            eedata_write(_CL_Speed[1],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position2,_Menu32302Count1);
+            eedata_write(_CL_Position[1],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 2:
         if(_uintCur){
-            eedata_write(_CL_Speed3,_Menu32302Count2);
+            eedata_write(_CL_Speed[2],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position3,_Menu32302Count1);
+            eedata_write(_CL_Position[2],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 3:
         if(_uintCur){
-            eedata_write(_CL_Speed4,_Menu32302Count2);
+            eedata_write(_CL_Speed[3],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position4,_Menu32302Count1);
+            eedata_write(_CL_Position[3],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 4:
         if(_uintCur){
-            eedata_write(_CL_Speed5,_Menu32302Count2);
+            eedata_write(_CL_Speed[4],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position5,_Menu32302Count1);
+            eedata_write(_CL_Position[4],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 5:
         if(_uintCur){
-            eedata_write(_CL_Speed6,_Menu32302Count2);
+            eedata_write(_CL_Speed[5],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position6,_Menu32302Count1);
+            eedata_write(_CL_Position[5],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 6:
         if(_uintCur){
-            eedata_write(_CL_Speed7,_Menu32302Count2);
+            eedata_write(_CL_Speed[6],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position7,_Menu32302Count1);
+            eedata_write(_CL_Position[6],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 7:
         if(_uintCur){
-            eedata_write(_CL_Speed8,_Menu32302Count2);
+            eedata_write(_CL_Speed[7],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position8,_Menu32302Count1);
+            eedata_write(_CL_Position[7],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 8:
         if(_uintCur){
-            eedata_write(_CL_Speed9,_Menu32302Count2);
+            eedata_write(_CL_Speed[8],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position9,_Menu32302Count1);
+            eedata_write(_CL_Position[8],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
     case 9:
         if(_uintCur){
-            eedata_write(_CL_Speed10,_Menu32302Count2);
+            eedata_write(_CL_Speed[9],_Menu32302Count2);
             menu_conf_exit(SAVED6, MENU_32302);
         }else{
-            eedata_write(_CL_Position10,_Menu32302Count1);
+            eedata_write(_CL_Position[9],_Menu32302Count1);
             menu_conf_exit(SAVED4, MENU_32302);
         }
         break;
-    
     }
     return;
 }
@@ -1687,14 +1688,14 @@ void menu_conf_33(){
     eedata_write(_OPDir_Protect,_OPDir_Protect_Init);
     eedata_write(_CL_TorProtect,_CL_TorProtect_Init);
     eedata_write(_OP_TorProtect,_OP_TorProtect_Init);
-    eedata_write(_S1_Fun,_S1_Fun_Init);  
-    eedata_write(_S1_Status,_S1_Status_Init);
-    eedata_write(_S2_Fun,_S2_Fun_Init);
-    eedata_write(_S2_Status,_S2_Status_Init);
-    eedata_write(_S3_Fun,_S3_Fun_Init);
-    eedata_write(_S3_Status,_S3_Status_Init);
-    eedata_write(_S4_Fun,_S4_Fun_Init);
-    eedata_write(_S4_Status,_S4_Status_Init);
+    eedata_write(_Sn_Fun[0],_S1_Fun_Init);  
+    eedata_write(_Sn_Status[0],_S1_Status_Init);
+    eedata_write(_Sn_Fun[1],_S2_Fun_Init);
+    eedata_write(_Sn_Status[1],_S2_Status_Init);
+    eedata_write(_Sn_Fun[2],_S3_Fun_Init);
+    eedata_write(_Sn_Status[2],_S3_Status_Init);
+    eedata_write(_Sn_Fun[3],_S4_Fun_Init);
+    eedata_write(_Sn_Status[3],_S4_Status_Init);
     eedata_write(_Monitor_With_OverTorque,_Monitor_With_OverTorque_Init);
     eedata_write(_Monitor_With_Remote,_Monitor_With_Remote_Init);
     eedata_write(_Pos_BackL,_Pos_BackL_Init);

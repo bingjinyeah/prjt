@@ -172,8 +172,12 @@ extern Uint16 _EEDATA(2) _OPDir_Protect;
 
 extern Uint16 _EEDATA(2) _OP_TorProtect;
 	
-extern Uint16 _EEDATA(2) _OP_OverTorPos;		
-	
+extern Uint16 _EEDATA(2) _OP_OverTorPos;
+
+extern Uint16 _EEDATA(2) _Sn_Fun[4];
+extern Uint16 _EEDATA(2) _Sn_Position[4];
+extern Uint16 _EEDATA(2) _Sn_Status[4];
+/*	
 extern Uint16 _EEDATA(2) _S1_Fun;
 						
 extern Uint16 _EEDATA(2) _S1_Position;	
@@ -197,7 +201,7 @@ extern Uint16 _EEDATA(2) _S4_Fun;
 extern Uint16 _EEDATA(2) _S4_Position;
 
 extern Uint16 _EEDATA(2) _S4_Status;
-			
+*/			
 extern Uint16 _EEDATA(2) _LocalCtrl;
 
 extern Uint16 _EEDATA(2) _TwoLinesCtrl;
@@ -243,7 +247,12 @@ extern Uint16 _EEDATA(2) _MoveTime;
 extern Uint16 _EEDATA(2) _StopTime; 			
 		
 extern Uint16 _EEDATA(2) _VarSpeedEnable;
-	
+
+extern Uint16 _EEDATA(2) _OP_Position[10];
+extern Uint16 _EEDATA(2) _OP_Speed[10];
+extern Uint16 _EEDATA(2) _CL_Position[10];
+extern Uint16 _EEDATA(2) _CL_Speed[10];
+/*	
 extern Uint16 _EEDATA(2) _OP_Position1;
 	
 extern Uint16 _EEDATA(2) _OP_Position2;
@@ -323,7 +332,7 @@ extern Uint16 _EEDATA(2) _CL_Speed8	 ;
 extern Uint16 _EEDATA(2) _CL_Speed9	 ;
 
 extern Uint16 _EEDATA(2) _CL_Speed10 	;
-	
+*/	
 extern Uint16 _EEDATA(2) _ESD_Speed;			
 	
 extern Uint16 _EEDATA(2) _Pos_BackL	 ;

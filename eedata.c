@@ -64,8 +64,26 @@ Uint16 _EEDATA(2) _OPDir_Protect =  _OPDir_Protect_Init;
 
 Uint16 _EEDATA(2) _OP_TorProtect =  _OP_TorProtect_Init;
 	
-Uint16 _EEDATA(2) _OP_OverTorPos = 0x0;		
-	
+Uint16 _EEDATA(2) _OP_OverTorPos = 0x0;	
+Uint16 _EEDATA(2) _Sn_Fun[4]	 = {
+    _S1_Fun_Init,
+    _S2_Fun_Init,
+    _S3_Fun_Init,
+    _S4_Fun_Init,
+};
+Uint16 _EEDATA(2) _Sn_Position[4]	 = {
+    0,
+    0,
+    0,
+    0,
+};
+Uint16 _EEDATA(2) _Sn_Status[4]	 = {
+    _S1_Status_Init,
+    _S2_Status_Init,
+    _S3_Status_Init,
+    _S4_Status_Init,
+};
+/*	
 Uint16 _EEDATA(2) _S1_Fun	 =  _S1_Fun_Init;
 						
 Uint16 _EEDATA(2) _S1_Position	 = 0x0;	
@@ -89,7 +107,7 @@ Uint16 _EEDATA(2) _S4_Fun	 =  _S4_Fun_Init;
 Uint16 _EEDATA(2) _S4_Position = 0x0;
 
 Uint16 _EEDATA(2) _S4_Status	 =  _S4_Status_Init;
-			
+*/			
 Uint16 _EEDATA(2) _LocalCtrl	 =  _LocalCtrl_Init;
 
 Uint16 _EEDATA(2) _TwoLinesCtrl =  _TwoLinesCtrl_Init;
@@ -135,7 +153,56 @@ Uint16 _EEDATA(2) _MoveTime = 0x0;
 Uint16 _EEDATA(2) _StopTime = 0x0; 			
 		
 Uint16 _EEDATA(2) _VarSpeedEnable	= _VarSpeedEnable_Init;
-	
+
+Uint16 _EEDATA(2) _OP_Position[10] = {
+    _OP_Position1_Init,
+    _OP_Position2_Init,
+    _OP_Position3_Init,
+    _OP_Position4_Init,
+    _OP_Position5_Init,
+    _OP_Position6_Init,
+    _OP_Position7_Init,
+    _OP_Position8_Init,
+    _OP_Position9_Init,
+    _OP_Position10_Init
+};
+Uint16 _EEDATA(2) _CL_Position[10] = {
+    _CL_Position1_Init,
+    _CL_Position2_Init,
+    _CL_Position3_Init,
+    _CL_Position4_Init,
+    _CL_Position5_Init,
+    _CL_Position6_Init,
+    _CL_Position7_Init,
+    _CL_Position8_Init,
+    _CL_Position9_Init,
+    _CL_Position10_Init
+};
+Uint16 _EEDATA(2) _OP_Speed[10] = {
+    _OP_Speed1_Init,
+    _OP_Speed2_Init,
+    _OP_Speed3_Init,
+    _OP_Speed4_Init,
+    _OP_Speed5_Init,
+    _OP_Speed6_Init,
+    _OP_Speed7_Init,
+    _OP_Speed8_Init,
+    _OP_Speed9_Init,
+    _OP_Speed10_Init
+};
+Uint16 _EEDATA(2) _CL_Speed[10] = {
+    _CL_Speed1_Init,
+    _CL_Speed2_Init,
+    _CL_Speed3_Init,
+    _CL_Speed4_Init,
+    _CL_Speed5_Init,
+    _CL_Speed6_Init,
+    _CL_Speed7_Init,
+    _CL_Speed8_Init,
+    _CL_Speed9_Init,
+    _CL_Speed10_Init
+};
+/*	
 Uint16 _EEDATA(2) _OP_Position1 =  _OP_Position1_Init;
 	
 Uint16 _EEDATA(2) _OP_Position2 =  _OP_Position2_Init;
@@ -215,7 +282,7 @@ Uint16 _EEDATA(2) _CL_Speed8	 =  _CL_Speed8_Init;
 Uint16 _EEDATA(2) _CL_Speed9	 =  _CL_Speed9_Init;
 
 Uint16 _EEDATA(2) _CL_Speed10 	=  _CL_Speed10_Init;
-	
+*/	
 Uint16 _EEDATA(2) _ESD_Speed = 0x0;			
 	
 Uint16 _EEDATA(2) _Pos_BackL	 =  _Pos_BackL_Init;
@@ -282,3 +349,204 @@ Uint16 eedata_addr;
 
 Uint16 eedata_val; 
 
+void get_eedata_snfun(Uint16 n,Uint16 *res){
+    Uint16 temp;
+    switch(n){
+        case 0:
+            eedata_read(_Sn_Fun[0],temp);
+            break;
+        case 1:
+            eedata_read(_Sn_Fun[1],temp);
+            break;
+        case 2:
+            eedata_read(_Sn_Fun[2],temp);
+            break;
+        case 3:
+            eedata_read(_Sn_Fun[3],temp);
+            break;
+    }
+    *res = temp;
+}
+
+void get_eedata_snpos(Uint16 n,Uint16 *res){
+    Uint16 temp;
+    switch(n){
+        case 0:
+            eedata_read(_Sn_Position[0],temp);
+            break;
+        case 1:
+            eedata_read(_Sn_Position[1],temp);
+            break;
+        case 2:
+            eedata_read(_Sn_Position[2],temp);
+            break;
+        case 3:
+            eedata_read(_Sn_Position[3],temp);
+            break;
+    }
+    *res = temp;
+}
+
+void get_eedata_snstatus(Uint16 n,Uint16 *res){
+    Uint16 temp;
+    switch(n){
+        case 0:
+            eedata_read(_Sn_Status[0],temp);
+            break;
+        case 1:
+            eedata_read(_Sn_Status[1],temp);
+            break;
+        case 2:
+            eedata_read(_Sn_Status[2],temp);
+            break;
+        case 3:
+            eedata_read(_Sn_Status[3],temp);
+            break;
+    }
+    *res = temp;
+}
+
+void get_eedata_oppos(Uint16 n,Uint16 *res){
+    Uint16 temp;
+    switch(n){
+        case 0:
+            eedata_read(_OP_Position[0],temp);
+            break;
+        case 1:
+            eedata_read(_OP_Position[1],temp);
+            break;
+        case 2:
+            eedata_read(_OP_Position[2],temp);
+            break;
+        case 3:
+            eedata_read(_OP_Position[3],temp);
+            break;
+        case 4:
+            eedata_read(_OP_Position[4],temp);
+            break;
+        case 5:
+            eedata_read(_OP_Position[5],temp);
+            break;
+        case 6:
+            eedata_read(_OP_Position[6],temp);
+            break;
+        case 7:
+            eedata_read(_OP_Position[7],temp);
+            break;
+        case 8:
+            eedata_read(_OP_Position[8],temp);
+            break;
+        case 9:
+            eedata_read(_OP_Position[9],temp);
+            break;
+    }
+    *res = temp;
+}
+void get_eedata_clpos(Uint16 n,Uint16 *res){
+    Uint16 temp;
+    switch(n){
+        case 0:
+            eedata_read(_CL_Position[0],temp);
+            break;
+        case 1:
+            eedata_read(_CL_Position[1],temp);
+            break;
+        case 2:
+            eedata_read(_CL_Position[2],temp);
+            break;
+        case 3:
+            eedata_read(_CL_Position[3],temp);
+            break;
+        case 4:
+            eedata_read(_CL_Position[4],temp);
+            break;
+        case 5:
+            eedata_read(_CL_Position[5],temp);
+            break;
+        case 6:
+            eedata_read(_CL_Position[6],temp);
+            break;
+        case 7:
+            eedata_read(_CL_Position[7],temp);
+            break;
+        case 8:
+            eedata_read(_CL_Position[8],temp);
+            break;
+        case 9:
+            eedata_read(_CL_Position[9],temp);
+            break;
+    }
+    *res = temp;
+}
+void get_eedata_opspeed(Uint16 n,Uint16 *res){
+    Uint16 temp;
+    switch(n){
+        case 0:
+            eedata_read(_OP_Speed[0],temp);
+            break;
+        case 1:
+            eedata_read(_OP_Speed[1],temp);
+            break;
+        case 2:
+            eedata_read(_OP_Speed[2],temp);
+            break;
+        case 3:
+            eedata_read(_OP_Speed[3],temp);
+            break;
+        case 4:
+            eedata_read(_OP_Speed[4],temp);
+            break;
+        case 5:
+            eedata_read(_OP_Speed[5],temp);
+            break;
+        case 6:
+            eedata_read(_OP_Speed[6],temp);
+            break;
+        case 7:
+            eedata_read(_OP_Speed[7],temp);
+            break;
+        case 8:
+            eedata_read(_OP_Speed[8],temp);
+            break;
+        case 9:
+            eedata_read(_OP_Speed[9],temp);
+            break;
+    }
+    *res = temp;
+}
+void get_eedata_clspeed(Uint16 n,Uint16 *res){
+    Uint16 temp;
+    switch(n){
+        case 0:
+            eedata_read(_CL_Speed[0],temp);
+            break;
+        case 1:
+            eedata_read(_CL_Speed[1],temp);
+            break;
+        case 2:
+            eedata_read(_CL_Speed[2],temp);
+            break;
+        case 3:
+            eedata_read(_CL_Speed[3],temp);
+            break;
+        case 4:
+            eedata_read(_CL_Speed[4],temp);
+            break;
+        case 5:
+            eedata_read(_CL_Speed[5],temp);
+            break;
+        case 6:
+            eedata_read(_CL_Speed[6],temp);
+            break;
+        case 7:
+            eedata_read(_CL_Speed[7],temp);
+            break;
+        case 8:
+            eedata_read(_CL_Speed[8],temp);
+            break;
+        case 9:
+            eedata_read(_CL_Speed[9],temp);
+            break;
+    }
+    *res = temp;
+}

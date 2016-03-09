@@ -391,6 +391,11 @@ void menu_add_22(){
             if(++_Menu32301Count1<=100){
                 break;
             }
+            if(_Menu22_ConfCount==1){
+                res = 0;
+            }else{
+                get_eedata_oppos(_Menu22_ConfCount-2,&res);
+            }/*
             switch(_Menu22_ConfCount-1){
                 case 0:
                     res = 0;
@@ -419,7 +424,7 @@ void menu_add_22(){
                 case 8:
                     eedata_read(_OP_Position8,res);
                     break;
-            }
+            }*/
             _Menu32301Count1 = ++res;
             break;
         case 1:   
@@ -445,7 +450,11 @@ void menu_add_23(){
                 _Menu32302Count1 = 0;
                 break;
             }
-            
+            if(_Menu23_ConfCount==1){
+                res = 100;
+            }else{
+                get_eedata_clpos(_Menu23_ConfCount-2,&res);
+            }/*
             switch(_Menu23_ConfCount-1){
                 case 0:
                     res = 100;
@@ -474,7 +483,7 @@ void menu_add_23(){
                 case 8:
                     eedata_read(_CL_Position8,res);
                     break;
-            }
+            }*/
             if(++_Menu32302Count1>=res){
                 _Menu32302Count1 = 0;
             }
