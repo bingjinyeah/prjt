@@ -48,6 +48,16 @@ Uint16 alu_dis_ic(){
     return 0;
 }
 
+Uint16 alu_dis_position_back(){
+    
+    return 0;
+}
+
+Uint16 alu_dis_tor_back(){
+    
+    return 0;
+}
+
 void cal_zero(Uint16 cll, Uint16 opl){
     
 }

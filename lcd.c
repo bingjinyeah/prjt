@@ -4378,7 +4378,6 @@ void lcd_dis_fkma(Uint16 num){
 }
 void lcd_dis_menu_330(){
     Uint16 res;
-    Uint8 reverse;
     
     _Menu = 25;
     lcd_dis_clr_all();
@@ -4430,18 +4429,222 @@ void lcd_dis_menu_330(){
             res = alu_dis_position_back();
             lcd_dis_fkma(res);
             break;
+        case 2:
+            lcd_dis_menu_330_1(0);
+            lcd_dis_menu_330_2(0);
+            lcd_dis_menu_330_3(1);
+            if(_EmRead==1){
+                _EmRead = 0;
+                eedata_read(_Pos_BackH,res);
+                _VPDA = res;
+                _Menu330Count = res;
+            }
+            res = alu_dis_position_back();
+            lcd_dis_fkma(res);
+            break;
     }
 #endif 
 }
 
 void lcd_dis_menu_331(){
+    Uint16 res;
     
-    
+    _Menu = 26;
+    lcd_dis_clr_all();
+#ifdef  LANGUAGE_EN
+#else
+    _DisWord0 = _ucharTabClr;
+    _DisWord1 = _ucharTabZhuan;
+    _DisWord2 = _ucharTabJu;
+    _DisWord3 = _ucharTabFan;
+    lcd_dis_chinese_left(0,0);
+    _DisWord0 = _ucharTabKui;
+    _DisWord1 = _ucharTabDian6;
+    _DisWord2 = _ucharTabLiu;
+    _DisWord3 = _ucharTabClr;
+    lcd_dis_chinese_right(0,0);
+    lcd_dis_smallchar(0,14,_ucharTabMh,0);   
+   
+    if(_uintCur>2){
+        return;
+    }
+    //menu_331 have the same lists as menu_330
+    switch(_uintCur){
+        case 0:
+            lcd_dis_menu_330_1(1);
+            lcd_dis_menu_330_2(0);
+            lcd_dis_menu_330_3(0);
+            if(_EmRead==1){
+                _EmRead = 0;
+                eedata_read(_Tor_BackLogic,res);
+                _RmRead = ((res==0x69) ? 0:1);
+            }
+            if(_RmRead){
+                lcd_dis_char(1,6,_ucharTabLing6,0);
+                lcd_dis_char(1,7,_ucharTabWei,0);
+            }else{
+                lcd_dis_char(1,6,_ucharTabMan,0);
+                lcd_dis_char(1,7,_ucharTabDu6,0);
+            }
+            break;
+        case 1:
+            lcd_dis_menu_330_1(0);
+            lcd_dis_menu_330_2(1);
+            lcd_dis_menu_330_3(0);
+            if(_EmRead==1){
+                _EmRead = 0;
+                eedata_read(_Tor_BackL,res);
+                _NJDA = res;
+                _Menu331Count = res;
+            }
+            res = alu_dis_position_back();
+            lcd_dis_fkma(res);
+            break;
+        case 2:
+            lcd_dis_menu_330_1(0);
+            lcd_dis_menu_330_2(0);
+            lcd_dis_menu_330_3(1);
+            if(_EmRead==1){
+                _EmRead = 0;
+                eedata_read(_Tor_BackH,res);
+                _NJDA = res;
+                _Menu331Count = res;
+            }
+            res = alu_dis_tor_back();
+            lcd_dis_fkma(res);
+            break;
+    }
+#endif     
+}
+void lcd_dis_menu_4_0(Uint8 reverse){
+#ifdef  LANGUAGE_EN
+#else
+    _DisWord0 = _ucharTabXuan;
+    _DisWord1 = _ucharTabNiu;
+    _DisWord2 = _ucharTabXin;
+    _DisWord3 = _ucharTabHao;
+    lcd_dis_chinese_left(0,reverse);
+#endif
+}
+void lcd_dis_menu_4_1(Uint8 reverse){
+#ifdef  LANGUAGE_EN
+#else
+    _DisWord0 = _ucharTabYuan;
+    _DisWord1 = _ucharTabCheng;
+    _DisWord2 = _ucharTabXin;
+    _DisWord3 = _ucharTabHao;
+    lcd_dis_chinese_left(1,reverse);
+#endif
+}
+void lcd_dis_menu_4_2(Uint8 reverse){
+#ifdef  LANGUAGE_EN
+#else
+    _DisWord0 = _ucharTabZhuan;
+    _DisWord1 = _ucharTabJu;
+    _DisWord2 = _ucharTabXin;
+    _DisWord3 = _ucharTabHao;
+    lcd_dis_chinese_left(2,reverse);
+#endif
+}
+void lcd_dis_menu_4_3(Uint8 reverse){
+#ifdef  LANGUAGE_EN
+#else
+    _DisWord0 = _ucharTabZong;
+    _DisWord1 = _ucharTabXian3;
+    _DisWord2 = _ucharTabKong;
+    _DisWord3 = _ucharTabZhi2;
+    lcd_dis_chinese_left(3,reverse);
+#endif
 }
 
 void lcd_dis_menu_4(){
+     Uint16 res;
     
-    
+    _Menu = 5;
+    _uchar_SignalPre = 0;
+    lcd_dis_clr_all();
+    if(_uintCur>3){
+        return;
+    }
+    switch(_uintCur){
+        case 0:
+            lcd_dis_menu_4_0(1);
+            lcd_dis_menu_4_1(0);
+            lcd_dis_menu_4_2(0);
+            lcd_dis_menu_4_3(0);
+#ifndef  LANGUAGE_EN
+            lcd_dis_jinru(0);
+#endif    
+            break;
+        case 1:
+            lcd_dis_menu_4_0(0);
+            lcd_dis_menu_4_1(1);
+            lcd_dis_menu_4_2(0);
+            lcd_dis_menu_4_3(0);
+#ifndef  LANGUAGE_EN
+            lcd_dis_jinru(1);
+#endif   
+            break;
+        case 2:
+            lcd_dis_menu_4_0(0);
+            lcd_dis_menu_4_1(0);
+            lcd_dis_menu_4_2(1);
+            lcd_dis_menu_4_3(0);
+#ifndef  LANGUAGE_EN
+            lcd_dis_jinru(2);
+#endif   
+            break;
+        case 3:
+            lcd_dis_menu_4_0(0);
+            lcd_dis_menu_4_1(0);
+            lcd_dis_menu_4_2(0);
+            lcd_dis_menu_4_3(1);
+            while(1){
+                clr_wdt();
+#ifndef  LANGUAGE_EN
+                eedata_read(_Card,res);
+                if(res==0xaa){
+                    lcd_dis_char(3,5,_ucharTabWu,0);
+                }else{
+                    lcd_dis_char(3,5,_ucharTabYou,0);
+                }
+#endif 
+                if(_strAlarmFlag & _PowerDownFlag){
+                    return;
+                }
+                if(_ucharOpenKey){
+                    while(1){
+                        if(_strAlarmFlag & _PowerDownFlag){
+                            return;
+                        }
+                        _uintMenuCount = 0;
+                        ClrWdt();//test inside wdt
+                        if((_ucharBackKey)||(_ucharDownKey)){
+                            return;
+                        }
+                    }
+                }
+                if(_ucharCloseKey){
+                    while(1){
+                        if(_strAlarmFlag & _PowerDownFlag){
+                            return;
+                        }
+                        _uintMenuCount = 0;
+                        clr_wdt();//test outside wdt
+                        if((_ucharBackKey)||(_ucharDownKey)){
+                            return;
+                        }
+                    }
+                }
+                if((_ucharBackKey)||(_ucharDownKey)){
+                    return;
+                }
+                if(_uintMenuCount>12000){
+                    return;
+                }
+            }
+            break;
+    }       
 }
 
 void lcd_dis_menu_40(){
