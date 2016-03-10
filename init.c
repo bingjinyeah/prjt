@@ -5,6 +5,8 @@
 #include "para.h"
 #include "lcd.h"
 #include "flag.h"
+#include "wdt.h"
+#include "relay.h"
 
 extern void spi_init();
 extern void poweron_init();

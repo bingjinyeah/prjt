@@ -4,6 +4,8 @@
 #include "para.h"
 #include "flag.h"
 #include "eedata.h"
+#include "adc.h"
+#include "dp.h"
 
 void set_oscconl(Uint8 num){
     SYS_ENTER_CRI;

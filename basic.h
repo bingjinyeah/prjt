@@ -62,6 +62,8 @@ typedef unsigned char	Bool8;
 
 #define ufalse          0x69
 #define utrue           0x96
+#define wfalse          0xa569
+#define wtrue           0xa596
 
 #define E_ERR           0xff
 #define E_OK            0        /* no error */

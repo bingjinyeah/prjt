@@ -16,6 +16,15 @@
 #include "lcd.h"
 #include "flag.h"
 #include "para.h"
+#include "init.h"
+#include "power.h"
+#include "wdt.h"
+#include "relay.h"
+#include "ir.h"
+#include "adc.h"
+#include "remote.h"
+#include "battery.h"
+#include "timer.h"
 
 // FOSC
 #pragma config FOSFPR = XT_PLL4         // Oscillator (XT w/PLL 4x)
@@ -36,9 +45,8 @@
 #pragma config GCP = GSS_OFF             // General Segment Code Protection (Enabled)
 
 
-extern void port_init();
-extern void check_power();
-extern void system_init();
+extern Uint8 button_stop_process();
+extern Uint8 button_local_process();
 
 
 void delayms(Uint16 num){
@@ -46,6 +54,7 @@ void delayms(Uint16 num){
     while(num--){
         while(c--){}
         c=500;
+        clr_wdt();
     }
 }
 
@@ -65,7 +74,7 @@ void main_power(){
     rush_status();
     relay_position_judge();
     rush_relay_main();
-    dis_alarm();
+    lcd_dis_alarm();
     check_remote_aux();
     ir_init_dummy();
     enable_wdt();

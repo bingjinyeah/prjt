@@ -3,6 +3,8 @@
 #include "pincfg.h"
 #include "para.h"
 #include "eedata.h"
+#include "lcd.h"
+#include "wdt.h"
 
 extern Uint16 _EEDATA(2) _FlowNum1;
 extern Uint16 _EEDATA(2) _FlowNum2;

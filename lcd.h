@@ -90,6 +90,29 @@ extern void lcd_dis_alarm_rmflick();
 extern void lcd_dis_alarm_oplimitover();
 extern void lcd_dis_alarm_cllimitover();
 extern void lcd_dis_alarm_lengtherror();
+extern void lcd_dis_alarm_cllock();
+extern void lcd_dis_alarm_oplock();
+extern void lcd_dis_alarm_esd();
+extern void lcd_dis_alarm_opesd();
+extern void lcd_dis_alarm_clesd();
+extern void lcd_dis_alarm_noload();
+extern void lcd_dis_alarm_jam();
+extern void lcd_dis_alarm_powerdown();
+extern void lcd_dis_alarm_vpstop();
+extern void lcd_dis_alarm_direrror();
+extern void lcd_dis_alarm_salos();
+extern void lcd_dis_alarm_dpsalos();
+extern void lcd_dis_alarm_opovertor();
+extern void lcd_dis_alarm_clovertor();
+extern void lcd_dis_alarm();
+
+extern void lcd_dis_remote();
+extern void lcd_dis_stop();
+extern void lcd_dis_local();
+extern void lcd_dis_ident();
+extern void lcd_dis_flow();
+
+extern void lcd_dis_clr_alarm();
 #ifdef TEST
 extern void lcd_test(void);
 #endif

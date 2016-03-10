@@ -4,8 +4,10 @@
 #include "para.h"
 #include "eedata.h"
 #include "flag.h"
-#include "menu_conf.h"
+#include "menu.h"
 #include "lcd.h"
+#include "relay.h"
+#include "code.h"
 
 
 void (*lcd_dis_saved[])() = {

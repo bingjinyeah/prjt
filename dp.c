@@ -5,6 +5,11 @@
 #include "para.h"
 #include "lcd.h"
 #include "pincfg.h"
+#include "relay.h"
+#include "code.h"
+#include "action.h"
+#include "remote.h"
+
 
 #define ACT_OPEN        0x55
 #define ACT_CLOSE       0x66
@@ -142,13 +147,11 @@ Uint8 remote_dp_open(){
     }
     _StatusBack &= ~_OP_LockFlag;
     _DP_IDATA2 &= ~BIT4;
-    open_phase1();
-    if(_Back_Flag==0x55){
+    if(open_phase1()==E_ERR){
         goto open_end;
     }
     lcd_dis_clr_alarm();
-    open_phase2();
-    if(_Back_Flag==0x55){
+    if(open_phase2()==E_ERR){
         goto stop_end;
     }
     open_phase4();
@@ -182,8 +185,7 @@ Uint8 remote_dp_open(){
         }
         _StatusBack &= ~_OP_LockFlag;
         _DP_IDATA2 &= ~BIT4;
-        open_phase3();
-        if(_Back_Flag==0x55){
+        if(open_phase3()==E_ERR){
             goto stop_end;
         }      
     }
@@ -219,13 +221,11 @@ Uint8 remote_dp_close(){
     }
     _StatusBack &= ~_CL_LockFlag;
     _DP_IDATA2 &= ~BIT5;
-    close_phase1();
-    if(_Back_Flag==0x55){
+    if(close_phase1()==E_ERR){
         goto close_end;
     }
     lcd_dis_clr_alarm();
-    close_phase2();
-    if(_Back_Flag==0x55){
+    if(close_phase2()==E_ERR){
         goto stop_end;
     }
     close_phase4();
@@ -259,8 +259,7 @@ Uint8 remote_dp_close(){
         }
         _StatusBack &= ~_CL_LockFlag;
         _DP_IDATA2 &= ~BIT5;
-        close_phase3();
-        if(_Back_Flag==0x55){
+        if(close_phase3()==E_ERR){
             goto stop_end;
         }      
     }
@@ -329,13 +328,11 @@ Uint8 remote_dp_position(){
         }
         _StatusBack &= ~_OP_LockFlag;
         _DP_IDATA2 &= ~BIT4;
-        open_phase1();
-        if(_Back_Flag==0x55){
+        if(open_phase1()==E_ERR){
             goto auto_end;
         }  
         lcd_dis_clr_alarm();
-        open_phase2();
-        if(_Back_Flag==0x55){
+        if(open_phase2()==E_ERR){
             goto stop_end;
         }
         open_phase4();
@@ -359,8 +356,7 @@ Uint8 remote_dp_position(){
             }
             _StatusBack &= ~_OP_LockFlag;
             _DP_IDATA2 &= ~BIT4;
-            open_phase3();
-            if(_Back_Flag==0x55){
+            if(open_phase3()==E_ERR){
                 goto stop_end;
             }
             if(set_dp_logic()==0x69){
@@ -393,13 +389,11 @@ Uint8 remote_dp_position(){
         }
         _StatusBack &= ~_CL_LockFlag;
         _DP_IDATA2 &= ~BIT5;
-        close_phase1();
-        if(_Back_Flag==0x55){
+        if(close_phase1()==E_ERR){
             goto auto_end;
         }
         lcd_dis_clr_alarm();
-        close_phase2();
-        if(_Back_Flag==0x55){
+        if(close_phase2()==E_ERR){
             goto stop_end;
         }
         close_phase4();
@@ -423,8 +417,7 @@ Uint8 remote_dp_position(){
             }
             _StatusBack &= ~_CL_LockFlag;
             _DP_IDATA2 &= ~BIT5;
-            close_phase3();
-            if(_Back_Flag==0x55){
+            if(close_phase3()==E_ERR){
                 goto stop_end;
             }
             if(set_dp_logic()==0x69){
@@ -512,6 +505,7 @@ Uint8 remote_dp_salos(){
     eedata_read(_L_OP_Limit,opl);
     eedata_read(_L_CL_Limit,cll);
     eedata_read(_LOSPOS_Code,lpc);
+    eedata_read(_Remote_Lock,rml);
     if(res_los==0){
         goto los_end;
     }else if(res_los==1){
@@ -558,12 +552,10 @@ Uint8 remote_dp_salos(){
         }
         _StatusBack &= ~_OP_LockFlag;
         _DP_IDATA2 &= ~BIT4;
-        open_phase1();
-        if(_Back_Flag==0x55){
+        if(open_phase1()==E_ERR){
             goto los_end;
         }  
-        open_phase2();
-        if(_Back_Flag==0x55){
+        if(open_phase2()==E_ERR){
             goto stop_end;
         }
         open_phase4();
@@ -586,8 +578,7 @@ Uint8 remote_dp_salos(){
             }
             _StatusBack &= ~_OP_LockFlag;
             _DP_IDATA2 &= ~BIT4;
-            open_phase3();
-            if(_Back_Flag==0x55){
+            if(open_phase3()==E_ERR){
                 goto stop_end;
             }
             if(_DP_Code<opl){
@@ -615,12 +606,10 @@ Uint8 remote_dp_salos(){
         }
         _StatusBack &= ~_CL_LockFlag;
         _DP_IDATA2 &= ~BIT5;
-        close_phase1();
-        if(_Back_Flag==0x55){
+        if(close_phase1()==E_ERR){
             goto los_end;
         }
-        close_phase2();
-        if(_Back_Flag==0x55){
+        if(close_phase2()==E_ERR){
             goto stop_end;
         }
         close_phase4();
@@ -643,8 +632,7 @@ Uint8 remote_dp_salos(){
             }
             _StatusBack &= ~_CL_LockFlag;
             _DP_IDATA2 &= ~BIT5;
-            close_phase3();
-            if(_Back_Flag==0x55){
+            if(close_phase3()==E_ERR){
                 goto stop_end;
             }
             

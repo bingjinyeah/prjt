@@ -5,6 +5,7 @@
 #include "flag.h"
 #include "eedata.h"
 #include "action.h"
+#include "port.h"
 
 Uint8 judge_esd_exceedlock(Uint16 time, Uint16 action){
     Uint16 res;
@@ -23,7 +24,7 @@ Uint8 judge_esd_exceedlock(Uint16 time, Uint16 action){
     if(res==ufalse){
         goto end;
     }
-    if(r_op_hold()){
+    if(!r_op_hold_read()){
         _StopTimer = time;
         if(action==ACTION_OP){
             dis_open_lock();

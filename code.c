@@ -65,3 +65,7 @@ void cal_zero(Uint16 cll, Uint16 opl){
 void cal_limit_length(){
     
 }
+
+Uint8 cal_length(){
+    
+}

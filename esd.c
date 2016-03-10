@@ -5,6 +5,13 @@
 #include "flag.h"
 #include "eedata.h"
 #include "action.h"
+#include "relay.h"
+#include "lcd.h"
+#include "esd.h"
+#include "remote.h"
+#include "port.h"
+#include "lock.h"
+#include "power.h"
 
 void esd_active(){
     _strAlarmFlag |= _ESDFlag;
@@ -17,26 +24,6 @@ void esd_inactive(){
     rush_relay_conesd();
 }
 
-Uint8 com_esd(){
-    Uint16 res;
-    
-    eedata_read(_AUXMSK,res);
-    if(res & BIT7){
-        if(judge_r_esd()){
-            esd_active();
-            return true;
-        }
-    }
-    eedata_read(_Card,res);
-    if((res==8)||(res==2)){
-        if((_DP_PARA_FLAG==0xa596)&&(_DP_ACTION==3)){
-            esd_active();
-            return true;
-        }
-    }
-    esd_inactive();
-    return false;
-}
 
 Uint8 esd_time_stop(Uint16 action){
     Uint16 res;
@@ -75,6 +62,27 @@ Uint8 esd_time_stop(Uint16 action){
         }
     }
     return E_OK;
+}
+
+Uint8 com_esd(){
+    Uint16 res;
+    
+    eedata_read(_AUXMSK,res);
+    if(res & BIT7){
+        if(judge_r_esd()){
+            esd_active();
+            return true;
+        }
+    }
+    eedata_read(_Card,res);
+    if((res==8)||(res==2)){
+        if((_DP_PARA_FLAG==0xa596)&&(_DP_ACTION==3)){
+            esd_active();
+            return true;
+        }
+    }
+    esd_inactive();
+    return false;
 }
 
 void esd_op_thread(){

@@ -6,6 +6,7 @@
 #include "flag.h"
 #include "menu_conf.h"
 #include "lcd.h"
+#include "code.h"
 
 void menu_back_1(){
     _Menu = 0;

@@ -14,5 +14,10 @@
 #define  ESD_CL         0x96
 #define  ESD_HD         0xff
 
+extern void esd_thread();
+extern Uint8 com_esd();
+//extern void esd_inactive();
+//extern void esd_active();
+
 #endif	/* ESD_H */
 

@@ -7,6 +7,8 @@
 #include "menu_conf.h"
 #include "lcd.h"
 
+extern void (*menu_add_func[])();
+
 void menu_sub_0(){
     
     if(--_Menu0Count0<0){
@@ -130,7 +132,8 @@ void menu_sub_9(){
 }
 
 void menu_sub_10(){
-    menu_add_10();
+    //menu_add_10();
+    menu_add_func[11]();
 }
 
 void menu_sub_11(){
@@ -233,11 +236,13 @@ void menu_sub_13(){
 }
 
 void menu_sub_14(){
-    menu_add_14();
+    //menu_add_14();
+    menu_add_func[15]();
 }
 
 void menu_sub_15(){
-    menu_add_15();
+    //menu_add_15();
+    menu_add_func[16]();
 }
 
 void menu_sub_16(){
@@ -265,7 +270,8 @@ void menu_sub_16(){
 }
 
 void menu_sub_17(){
-    menu_add_17();
+    //menu_add_17();
+    menu_add_func[18]();
 }
 
 void menu_sub_18(){
@@ -342,7 +348,8 @@ void menu_sub_20(){
 }
 
 void menu_sub_45(){
-    menu_add_45();
+    //menu_add_45();
+    menu_add_func[45]();
 }
 
 void menu_sub_21(){
@@ -602,7 +609,8 @@ void menu_sub_26(){
 }
 
 void menu_sub_33(){
-    menu_add_33();
+//    menu_add_33();
+    menu_add_func[34]();
 }
 
 void menu_sub_35(){
@@ -615,32 +623,42 @@ void menu_sub_35(){
 }
 
 void menu_sub_36(){
-    menu_add_36();
+//    menu_add_36();
+    menu_add_func[36]();
 }
 void menu_sub_37(){
-    menu_add_37();
+//    menu_add_37();
+    menu_add_func[37]();
 }
 void menu_sub_38(){
-    menu_add_38();
+//    menu_add_38();
+    menu_add_func[38]();
+    
 }
 void menu_sub_39(){
-    menu_add_39();
+//    menu_add_39();
+    menu_add_func[39]();
 }
 void menu_sub_40(){
-    menu_add_40();
+ //   menu_add_40();
+    menu_add_func[40]();
 }
 void menu_sub_41(){
-    menu_add_41();
+//    menu_add_41();
+    menu_add_func[41]();
 }
 void menu_sub_42(){
-    menu_add_42();
+//    menu_add_42();
+    menu_add_func[42]();
 }
 void menu_sub_43(){
-    menu_add_43();
+ //   menu_add_43();
+    menu_add_func[43]();
 }
 
 void menu_sub_44(){
-    menu_add_44();
+//    menu_add_44();
+    menu_add_func[44]();
 }
 
 void menu_sub_46(){

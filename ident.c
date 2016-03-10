@@ -4,6 +4,11 @@
 #include "para.h"
 #include "eedata.h"
 #include "flag.h"
+#include "lcd.h"
+#include "code.h"
+#include "power.h"
+#include "menu.h"
+#include "remote.h"
 
 extern Uint16 _EEDATA(2) _IdentNum1;
 extern Uint16 _EEDATA(2) _IdentNum2;

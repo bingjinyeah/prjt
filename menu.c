@@ -4,6 +4,16 @@
 #include "para.h"
 #include "eedata.h"
 #include "flag.h"
+#include "lcd.h"
+#include "timer.h"
+#include "init.h"
+#include "code.h"
+#include "power.h"
+#include "wdt.h"
+#include "remote.h"
+#include "menu.h"
+
+extern void local_thread();
 
 void menu_idle_env(){
     Uint8 i;

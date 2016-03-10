@@ -4,22 +4,14 @@
 #include "para.h"
 #include "flag.h"
 #include "eedata.h"
+#include "action.h"
+#include "menu.h"
+#include "lcd.h"
+#include "esd.h"
 
 //extern Uint16 _EEDATA(2) _ESD_ExceedSp;
-
-
-Uint8 in_stop(){
-    XN_STOP_Tris = 1;
-    Nop();
-    if(XN_STOP_Read){
-        delayus(100);
-        if(XN_STOP_Read){
-            return true;
-        }
-    }
-    return false;
-}
-
+extern void ident_thread();
+extern void flow_thread();
 Uint8 button_stop_process(){
     
     Uint16 res;

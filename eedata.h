@@ -423,17 +423,13 @@ extern  Uint16 eedata_val;
     __builtin_write_NVM();\
     while(NVMCONbits.WR);\
 }
-#ifdef	__cplusplus
-extern "C" {
-#endif /* __cplusplus */
 
-    // TODO If C++ is being used             regular C code needs function names to have C 
-    // linkage so the functions can be used by the c code. 
- 
-
-#ifdef	__cplusplus
-}
-#endif /* __cplusplus */
-
+extern void get_eedata_snfun(Uint16 n,Uint16 *res);
+extern void get_eedata_snpos(Uint16 n,Uint16 *res);
+extern void get_eedata_snstatus(Uint16 n,Uint16 *res);
+extern void get_eedata_oppos(Uint16 n,Uint16 *res);
+extern void get_eedata_clpos(Uint16 n,Uint16 *res);
+extern void get_eedata_opspeed(Uint16 n,Uint16 *res);
+extern void get_eedata_clspeed(Uint16 n,Uint16 *res);
 #endif	
 
