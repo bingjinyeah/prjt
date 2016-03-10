@@ -66,6 +66,7 @@ void cal_limit_length(){
     
 }
 
-Uint8 cal_length(){
+Uint8 cal_length(Uint16 low, Uint16 high){
     
+    return 0;
 }

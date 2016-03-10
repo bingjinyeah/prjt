@@ -15,6 +15,7 @@
 #include "action.h"
 #include "code.h"
 #include "spi.h"
+#include "remote.h"
 
 void motor_run_clock(){
     OP_Tris = 0;
@@ -179,7 +180,8 @@ Uint8 open_phase3(){
         return E_ERR;
     }
     if(_Menu==3){
-        if(cal_length()==E_ERR){
+        eedata_read(_CL_Limit,res);
+        if(cal_length(res,_CodeVP)==E_ERR){
             return E_ERR;
         }
     }
@@ -213,35 +215,7 @@ Uint8 open_phase3(){
         if(_VPPercent < res){
             return E_OK;
         }
-        if(_StatusBack & _RunOver){
-            _StatusBack &= ~_RunOver;
-            stop();
-            _StatusBack |= _TimeStopFlag;
-            _DP_IDATA2 |= BIT2;
-            eedata_read(_StopTime,res);
-            if(res>99){
-                res = 99;
-            }
-            _StopTimer = 5*res;
-            while(--_StopTimer){
-                if(in_stop()){
-                    return E_ERR;
-                }
-                rush_status();
-                relay_position_judge();
-                rush_relay_main();
-                delayms(200);
-            }
-            eedata_read(_OPDir_Protect,res);
-            if(res==0x69){
-                return open_phase2();
-            }
-            if(_strAlarmFlag & _OSFlag){
-                return E_ERR;
-            }
-            return open_phase2();
-            
-        }else{
+        if((_StatusBack & _RunOver)==0){
             eedata_read(_MoveTime,res);
             if(res>99){
                 res = 99;
@@ -250,29 +224,51 @@ Uint8 open_phase3(){
             if(_MoveCount <= res){
                 return E_OK;
             }
-            _StatusBack &= ~_RunOver;
-            stop();
-            _StatusBack |= _TimeStopFlag;
-            _DP_IDATA2 |= BIT2;
-            eedata_read(_StopTime,res);
-            if(res>99){
-                res = 99;
-            }
-            _StopTimer = 5*res;
-            while(--_StopTimer){
-                if(in_stop()){
-                    return E_ERR;
-                }
-                rush_status();
-                relay_position_judge();
-                rush_relay_main();
-                delayms(200);
-            }
         }
+         
+    }else if(res==0x96){
+        eedata_read(_Stop_Pos,res);
+        if(_VPPercent > res){
+            return E_OK;
+        }
+        eedata_read(_MoveTime,res);
+        if(res>99){
+            res = 99;
+        }
+        res *= 200;
+        if(_MoveCount <= res){
+            return E_OK;
+        }
+    }else{
+        return E_OK;
     }
+    _StatusBack &= ~_RunOver;
+    stop();
+    _StatusBack |= _TimeStopFlag;
+    _DP_IDATA2 |= BIT2;
+    eedata_read(_StopTime,res);
+    if(res>99){
+        res = 99;
+    }
+    _StopTimer = 5*res;
+    while(--_StopTimer){
+        if(in_stop()){
+            return E_ERR;
+        }
+        rush_status();
+        relay_position_judge();
+        rush_relay_main();
+        delayms(200);
+    }
+    eedata_read(_OPDir_Protect,res);
+    if(res==0x69){
+        return open_phase2();
+    }
+    if(_strAlarmFlag & _OSFlag){
+        return E_ERR;
+    }
+    return open_phase2();
     
-    
-    return E_OK;
 }
 
 Uint8 open_phase4(){
@@ -409,7 +405,104 @@ Uint8 close_phase2(){
 }
 
 Uint8 close_phase3(){
-    return E_OK;
+    Uint16 res;
+    
+    rush_status();
+    check_remote_aux();
+    relay_position_judge();
+    rush_relay_main();
+    if(judge_close_dir()==E_ERR){
+        return E_ERR;
+    }
+    if(_Menu==3){
+        eedata_read(_OP_Limit,res);
+        if(cal_length(_CodeVP,res)==E_ERR){
+            return E_ERR;
+        }
+    }
+#ifdef  PHASE1
+    res = 400;
+#else
+    res = 100;
+#endif
+    if(_JamCount>=res){
+        _JamCount = 101;
+        eedata_read(_CL_TorProtect,res);
+        if(_NJPercent>=res){
+            _strAlarmFlag |= _CTFlag;
+            _DP_DIAGR0 |= BIT3;
+            _WriteEEPROMFlag = 0x55aa;
+            eedata_write(_CL_OverTorPos,_VPPercent);
+            _WriteEEPROMFlag = 0;
+            lcd_dis_alarm_clovertor();
+            return E_ERR;
+        }
+    }
+    if(close_phase1()==E_ERR){
+        return E_ERR;
+    }
+    if((_StatusBack & _ClosingFlag)==0){
+        return E_ERR;
+    }
+    eedata_read(_Interim_Ctrl,res);
+    if(res==0x96){
+        eedata_read(_Start_Pos,res);
+        if(_VPPercent > res){
+            return E_OK;
+        }
+        if((_StatusBack & _RunOver)==0){
+            eedata_read(_MoveTime,res);
+            if(res>99){
+                res = 99;
+            }
+            res *= 200;
+            if(_MoveCount <= res){
+                return E_OK;
+            }
+        }
+         
+    }else if(res==0x69){
+        eedata_read(_Stop_Pos,res);
+        if(_VPPercent <= res){
+            return E_OK;
+        }
+        eedata_read(_MoveTime,res);
+        if(res>99){
+            res = 99;
+        }
+        res *= 200;
+        if(_MoveCount <= res){
+            return E_OK;
+        }
+    }else{
+        return E_OK;
+    }
+    _StatusBack &= ~_RunOver;
+    stop();
+    _StatusBack |= _TimeStopFlag;
+    _DP_IDATA2 |= BIT2;
+    eedata_read(_StopTime,res);
+    if(res>99){
+        res = 99;
+    }
+    _StopTimer = 5*res;
+    while(--_StopTimer){
+        if(in_stop()){
+            return E_ERR;
+        }
+        rush_status();
+        relay_position_judge();
+        rush_relay_main();
+        delayms(200);
+    }
+    eedata_read(_CLDir_Protect,res);
+    if(res==0x69){
+        return close_phase2();
+    }
+    if(_strAlarmFlag & _OSFlag){
+        return E_ERR;
+    }
+    return close_phase2();
 }
 
 Uint8 close_phase4(){
