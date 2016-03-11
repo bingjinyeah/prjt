@@ -1,7 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-//#include "pincfg.h"
-//#include "para.h"
+#include "includes.h"
 
 Uint8 check_powerdown(){
 	

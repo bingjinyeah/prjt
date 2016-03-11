@@ -8,7 +8,7 @@
 #ifndef RELAY_H
 #define	RELAY_H
 
-extern void rush_status();
+
 extern void sx_status(Uint8 n);
 extern void rush_relay_tor(Uint16 num, Uint16 flag);
 extern void rush_relay_midtor();

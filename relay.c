@@ -1,12 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "eedata.h"
-#include "flag.h"
-
-
-
+#include "includes.h"
 
 void sx_status(Uint8 n){
     Uint16 res;
@@ -357,9 +349,6 @@ void rush_relay_conesd(){
     rush_relay_mov(4,utrue,9);
 }
 
-void rush_status(){
-    
-}
 
 void monitor_release_dummy(){
     E_S5_Tris = 0;

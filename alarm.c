@@ -1,8 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "flag.h"
+#include "includes.h"
 
 
 Uint8 alarm_flag_read(Uint16 b){

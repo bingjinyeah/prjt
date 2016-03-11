@@ -1,26 +1,5 @@
 #define _PARA_EXT
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "lcd.h"
-#include "flag.h"
-#include "wdt.h"
-#include "relay.h"
-
-extern void spi_init();
-extern void poweron_init();
-extern void power_init();
-extern void process_power_down();
-extern void check_card();
-extern void battery_manage_init();
-extern void self_check();
-extern void ir_init();
-extern void ir_open();
-extern void adc12_init();
-extern void di_init();
-extern void t1_init(Uint16 num);
-
+#include "includes.h"
 
 void op_cl_port_init(){
     OP_Tris = 0;
@@ -32,8 +11,12 @@ void op_cl_port_init(){
     CL_Write = 0;
     CL_Write = 0;
 }
-
+extern Uint16 _RomValue[] _AUTO_PSV;
 void cpu_init(){
+    
+    _PSV = 1;
+    PSVPAG = __builtin_psvpage(&_RomValue);
+    _PSV = 1;
     enable_wdt();
     clr_wdt();
     SET_CPU_IPL(3);
@@ -99,7 +82,7 @@ void para_init(){
 void public_init(){
     
     poweron_init();
-    spi_init();
+    spi2_init();
     check_card();
     _strAlarmFlag = 0;
     _BytePowerDown = 0;

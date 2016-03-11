@@ -1,17 +1,5 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "wdt.h"
-#include "eedata.h"
-#include "lcd.h"
+#include "includes.h"
 #include "char.h"
-#include "para.h"
-#include "flag.h"
-#include "relay.h"
-#include "port.h"
-#include "code.h"
-#include "power.h"
-#include "di.h"
 
 extern void delayus(Uint16 num);
 extern void delayms(Uint16 num);
@@ -32,15 +20,12 @@ void lcd_init(){
 	delayus(500);
 	RESETB_Write = 1;
 	dis_init();
-	
 }
 
 void dis_init(){
-	
 	Uint16 inverse;
 	
 	eedata_read(_InverseDisEnable,inverse);
-	
 	ADPCFG = 0xffe3;
 	RW_WRB_Tris = 0;
 	RS_Tris = 0;
@@ -1686,7 +1671,7 @@ void lcd_dis_menu_300(){
     _DisWord0 = _ucharTabChu1;
     _DisWord1 = _ucharTabDian;
     _DisWord2 = _ucharTabXuan1;
-    _DisWord3 = _ucharTabXiang6;
+    _DisWord3 = _ucharTabXiang;
     lcd_dis_sxxx(0,_Menu300Atemp);
     if((_uintCur>=0)&&(_uintCur<=9)){
         r = (_uintCur>=2) ? 3:(_uintCur+1);
@@ -2072,7 +2057,7 @@ void lcd_dis_menu_312(){
     lcd_dis_chinese_left(0,0);
     _DisWord0 = _ucharTabZhi2;
     _DisWord1 = _ucharTabXuan1;
-    _DisWord2 = _ucharTabXiang6;
+    _DisWord2 = _ucharTabXiang;
     _DisWord3 = _ucharTabClr;
     lcd_dis_chinese_right(0,0);
     lcd_dis_smallchar(0,14,_ucharTabMh,0);
@@ -2372,9 +2357,9 @@ void lcd_dis_menu_buslist_2(Uint8 row, Uint8 reverse){
 
 #ifdef  LANGUAGE_EN
 #else
-    _DisWord0 = _ucharTabJiao8;
+    _DisWord0 = _ucharTabJiao;
     _DisWord1 = _ucharTabYan8;
-    _DisWord2 = _ucharTabWei8;
+    _DisWord2 = _ucharTabWei;
     _DisWord3 = _ucharTabClr;
     lcd_dis_chinese_left(row,reverse);
 #endif
@@ -2399,7 +2384,7 @@ void lcd_dis_menu_buslist_2(Uint8 row, Uint8 reverse){
 #else
             _DisWord0 = _ucharTabClr;
             _DisWord1 = _ucharTabQi8;
-            _DisWord2 = _ucharTabJiao8;
+            _DisWord2 = _ucharTabJiao;
             _DisWord3 = _ucharTabYan8;
 #endif
             break;
@@ -2408,7 +2393,7 @@ void lcd_dis_menu_buslist_2(Uint8 row, Uint8 reverse){
 #else
             _DisWord0 = _ucharTabClr;
             _DisWord1 = _ucharTabOu8;
-            _DisWord2 = _ucharTabJiao8;
+            _DisWord2 = _ucharTabJiao;
             _DisWord3 = _ucharTabYan8;
 #endif
             break;
@@ -2417,7 +2402,7 @@ void lcd_dis_menu_buslist_2(Uint8 row, Uint8 reverse){
 #else
             _DisWord0 = _ucharTabClr;
             _DisWord1 = _ucharTabWu;
-            _DisWord2 = _ucharTabJiao8;
+            _DisWord2 = _ucharTabJiao;
             _DisWord3 = _ucharTabYan8;
 #endif
             break;
@@ -3148,7 +3133,7 @@ void lcd_dis_menu_posals(){
     _DisWord2 = _ucharTabDiu;
     _DisWord3 = _ucharTabXin;
     lcd_dis_chinese_left(0,0);
-    _DisWord0 = _ucharTabWei8;
+    _DisWord0 = _ucharTabWei;
     _DisWord1 = _ucharTabZhi1;
     _DisWord2 = _ucharTabClr;
     _DisWord3 = _ucharTabClr;
@@ -3156,7 +3141,7 @@ void lcd_dis_menu_posals(){
      */
     lcd_dis_char(0,2,_ucharTabDiu,0);
     lcd_dis_char(0,3,_ucharTabXin,0);
-    lcd_dis_char(0,4,_ucharTabWei8,0);
+    lcd_dis_char(0,4,_ucharTabWei,0);
     lcd_dis_char(0,5,_ucharTabZhi1,0);
     lcd_dis_smallchar(0,12,_ucharTabMh,0);
 #endif   
@@ -3546,7 +3531,7 @@ void lcd_dis_menu_3210_2(Uint8 row, Uint8 reverse){
     _DisWord2 = _ucharTabYou;
     _DisWord3 = _ucharTabXiao;
     lcd_dis_chinese_left(row,reverse);
-    _DisWord0 = _ucharTabDian6;
+    _DisWord0 = _ucharTabDian4;
     _DisWord1 = _ucharTabPing;
     _DisWord2 = _ucharTabClr;
     _DisWord3 = _ucharTabClr;
@@ -3787,7 +3772,7 @@ void lcd_dis_menu_3220_1(Uint8 reverse){
     _DisWord0 = _ucharTabKai;
     _DisWord1 = _ucharTabShi;
     _DisWord2 = _ucharTabTing;
-    _DisWord3 = _ucharTabZhi5;
+    _DisWord3 = _ucharTabZhi;
     lcd_dis_chinese_left(1,reverse);
     lcd_dis_char(1,4,_ucharTabWei,reverse);
 }
@@ -3818,7 +3803,7 @@ void lcd_dis_menu_3221_1(Uint8 reverse){
     _DisWord0 = _ucharTabGuan;
     _DisWord1 = _ucharTabShi;
     _DisWord2 = _ucharTabTing;
-    _DisWord3 = _ucharTabZhi5;
+    _DisWord3 = _ucharTabZhi;
     lcd_dis_chinese_left(1,reverse);
     lcd_dis_char(1,4,_ucharTabWei,reverse);
 }
@@ -4076,7 +4061,7 @@ void lcd_dis_menu_3230(){
     _DisWord3 = _ucharTabZhi2;
     lcd_dis_chinese_left(0,0);
     _DisWord0 = _ucharTabXuan1;
-    _DisWord1 = _ucharTabXiang6;
+    _DisWord1 = _ucharTabXiang;
     _DisWord2 = _ucharTabClr;
     _DisWord3 = _ucharTabClr;
     lcd_dis_chinese_right(0,0);
@@ -4375,7 +4360,7 @@ void lcd_dis_menu_330(){
     _DisWord3 = _ucharTabFan;
     lcd_dis_chinese_left(0,0);
     _DisWord0 = _ucharTabKui;
-    _DisWord1 = _ucharTabDian6;
+    _DisWord1 = _ucharTabDian4;
     _DisWord2 = _ucharTabLiu;
     _DisWord3 = _ucharTabClr;
     lcd_dis_chinese_right(0,0);
@@ -4445,7 +4430,7 @@ void lcd_dis_menu_331(){
     _DisWord3 = _ucharTabFan;
     lcd_dis_chinese_left(0,0);
     _DisWord0 = _ucharTabKui;
-    _DisWord1 = _ucharTabDian6;
+    _DisWord1 = _ucharTabDian4;
     _DisWord2 = _ucharTabLiu;
     _DisWord3 = _ucharTabClr;
     lcd_dis_chinese_right(0,0);
@@ -5023,56 +5008,9 @@ void lcd_dis_menu_41(){
 #endif
     
 }
-#ifndef  LANGUAGE_EN
-void lcd_dis_menu_43_1(Uint8 row,Uint8 reverse){
-    _DisWord0 = _ucharTabFa;
-    _DisWord1 = _ucharTabWei;
-    _DisWord2 = _ucharTabKai;
-    _DisWord3 = _ucharTabDu1;
-    lcd_dis_chinese_left(row,reverse);
-}
-void lcd_dis_menu_43_2(Uint8 row,Uint8 reverse){
-    _DisWord0 = _ucharTabZhuan;
-    _DisWord1 = _ucharTabJu;
-    _DisWord2 = _ucharTabShu;
-    _DisWord3 = _ucharTabZhi3;
-    lcd_dis_chinese_left(row,reverse);
-}
-#endif
-void lcd_dis_menu_43(){
+void lcd_dis_menu_43_content(){
     Uint8 skip;
     
-    _Menu = 32;
-    _uchar_SignalPre = 0;
-    lcd_dis_clr_all();
-    if(_uintCur>7){
-        return;
-    }
-#ifdef  LANGUAGE_EN
-#else
-    _DisWord0 = _ucharTabClr;
-    _DisWord1 = _ucharTabZhuan;
-    _DisWord2 = _ucharTabJu;
-    _DisWord3 = _ucharTabXin;
-    lcd_dis_chinese_left(0,0);
-    _DisWord0 = _ucharTabHao;
-    _DisWord1 = _ucharTabCha;
-    _DisWord2 = _ucharTabXun;
-    _DisWord3 = _ucharTabClr;
-    lcd_dis_chinese_right(0,0);
-    lcd_dis_smallchar(0,14,_ucharTabMh,0); 
-    
-    _DisWord0 = _ucharTabFa;
-    _DisWord1 = _ucharTabWei;
-    _DisWord2 = _ucharTabKai;
-    _DisWord3 = _ucharTabDu1;
-    lcd_dis_chinese_left(1,0);
-    _DisWord0 = _ucharTabZhuan;
-    _DisWord1 = _ucharTabJu;
-    _DisWord2 = _ucharTabShu;
-    _DisWord3 = _ucharTabZhi3;
-    lcd_dis_chinese_left(2,0);
-#endif
     if(((_strAlarmFlag & _CTFlag)==0)&&((_strAlarmFlag & _OTFlag)==0)){
         lcd_dis_clr_alarm();
     }
@@ -5110,6 +5048,41 @@ void lcd_dis_menu_43(){
         lcd_dis_smallchar(2,15,_ucharTabBfhx,0);
     }
 #endif
+}
+void lcd_dis_menu_43(){
+
+    _Menu = 32;
+    _uchar_SignalPre = 0;
+    lcd_dis_clr_all();
+    if(_uintCur>7){
+        return;
+    }
+#ifdef  LANGUAGE_EN
+#else
+    _DisWord0 = _ucharTabClr;
+    _DisWord1 = _ucharTabZhuan;
+    _DisWord2 = _ucharTabJu;
+    _DisWord3 = _ucharTabXin;
+    lcd_dis_chinese_left(0,0);
+    _DisWord0 = _ucharTabHao;
+    _DisWord1 = _ucharTabCha;
+    _DisWord2 = _ucharTabXun;
+    _DisWord3 = _ucharTabClr;
+    lcd_dis_chinese_right(0,0);
+    lcd_dis_smallchar(0,14,_ucharTabMh,0); 
+    
+    _DisWord0 = _ucharTabFa;
+    _DisWord1 = _ucharTabWei;
+    _DisWord2 = _ucharTabKai;
+    _DisWord3 = _ucharTabDu1;
+    lcd_dis_chinese_left(1,0);
+    _DisWord0 = _ucharTabZhuan;
+    _DisWord1 = _ucharTabJu;
+    _DisWord2 = _ucharTabShu;
+    _DisWord3 = _ucharTabZhi3;
+    lcd_dis_chinese_left(2,0);
+#endif
+    lcd_dis_menu_43_content();
 }
 
 void lcd_dis_menu_44(){

@@ -125,5 +125,5 @@ extern void delayus(Uint16 num);
 
 /* --- define for additional tests ONLY for BFD_HW ------------------------- */
 //efine ADDITIONAL_TEST
-#define _AUTO_PSV __attribute__((space(auto_psv)))
+#define _AUTO_PSV __attribute__((space(psv)))
 #endif /* __BASIC_H__ */

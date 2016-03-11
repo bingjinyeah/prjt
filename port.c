@@ -1,9 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "eedata.h"
-#include "flag.h"
+#include "includes.h"
 
 Uint8 fb_fw_read(){
     FB_FW_Tris = 1;
@@ -173,4 +168,11 @@ Uint8 r_esd_read(){
     return false;
 }
 
+void led_g_r_set(Uint8 g, Uint8 r){
+    
+    LED_G_Tris = 0;
+    LED_R_Tris = 0;
+    LED_G_Write = g;
+    LED_R_Write = r;
+}
 

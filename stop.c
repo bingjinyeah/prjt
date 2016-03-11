@@ -1,13 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "flag.h"
-#include "eedata.h"
-#include "action.h"
-#include "menu.h"
-#include "lcd.h"
-#include "esd.h"
+#include "includes.h"
 
 //extern Uint16 _EEDATA(2) _ESD_ExceedSp;
 extern void ident_thread();

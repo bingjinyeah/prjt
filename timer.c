@@ -1,11 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "flag.h"
-#include "eedata.h"
-#include "adc.h"
-#include "dp.h"
+#include "includes.h"
 
 void set_oscconl(Uint8 num){
     SYS_ENTER_CRI;
@@ -195,8 +188,8 @@ void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void){
         _Bat_AlarmCount = 0;
     }
 }
-extern Uint16 _EEDATA(2) _POSALS;
-extern Uint16 _EEDATA(2) _DPSLTO;
+//extern Uint16 _EEDATA(2) _POSALS;
+//extern Uint16 _EEDATA(2) _DPSLTO;
 void __attribute__((interrupt,no_auto_psv)) _T3Interrupt(void){
     
     _T4IF = 0;

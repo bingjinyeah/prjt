@@ -22,5 +22,6 @@ extern Uint8 r_cl_read();
 extern Uint8 r_st_read();
 extern Uint8 r_cv_read();
 extern Uint8 r_esd_read();
+extern void led_g_r_set(Uint8 g, Uint8 r);
 #endif	/* PORT_H */
 

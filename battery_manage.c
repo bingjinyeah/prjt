@@ -1,5 +1,4 @@
-#include "xc.h"
-#include "basic.h"
+#include "includes.h"
 
 void battery_manage_init() {
     

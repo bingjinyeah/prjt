@@ -1,17 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "eedata.h"
-#include "flag.h"
-#include "lcd.h"
-#include "timer.h"
-#include "init.h"
-#include "code.h"
-#include "power.h"
-#include "wdt.h"
-#include "remote.h"
-#include "menu.h"
+#include "includes.h"
 
 extern void local_thread();
 

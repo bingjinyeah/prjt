@@ -1,25 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "eedata.h"
-#include "flag.h"
-#include "para.h"
-#include "lcd.h"
-#include "pincfg.h"
-#include "ir.h"
-#include "code.h"
-#include "action.h"
-#include "dp.h"
-#include "esd.h"
-#include "relay.h"
-#include "port.h"
-/*
-extern Uint16 _EEDATA(2) _AUXMSK;
-extern Uint16 _EEDATA(2) _Remote_Lock;
-extern Uint16 _EEDATA(2) _TwoLinesCtrl;
-extern Uint16 _EEDATA(2) _L_OP_Limit;
-extern Uint16 _EEDATA(2) _L_CL_Limit;
-extern Uint16 _EEDATA(2) _Card;
-*/
+#include "includes.h"
 
 
 void check_card(){

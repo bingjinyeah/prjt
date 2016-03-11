@@ -9,22 +9,7 @@
 
 // 'C' source line config statements
 
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "eedata.h"
-#include "lcd.h"
-#include "flag.h"
-#include "para.h"
-#include "init.h"
-#include "power.h"
-#include "wdt.h"
-#include "relay.h"
-#include "ir.h"
-#include "adc.h"
-#include "remote.h"
-#include "battery.h"
-#include "timer.h"
+#include "includes.h"
 
 // FOSC
 #pragma config FOSFPR = XT_PLL4         // Oscillator (XT w/PLL 4x)
@@ -51,10 +36,11 @@ extern Uint8 button_local_process();
 
 void delayms(Uint16 num){
     Uint16 c=500;
+    clr_wdt();
     while(num--){
         while(c--){}
         c=500;
-        clr_wdt();
+        
     }
 }
 

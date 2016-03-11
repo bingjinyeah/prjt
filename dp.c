@@ -1,14 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "eedata.h"
-#include "flag.h"
-#include "para.h"
-#include "lcd.h"
-#include "pincfg.h"
-#include "relay.h"
-#include "code.h"
-#include "action.h"
-#include "remote.h"
+#include "includes.h"
 
 
 #define ACT_OPEN        0x55

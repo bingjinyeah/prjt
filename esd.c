@@ -1,17 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "flag.h"
-#include "eedata.h"
-#include "action.h"
-#include "relay.h"
-#include "lcd.h"
-#include "esd.h"
-#include "remote.h"
-#include "port.h"
-#include "lock.h"
-#include "power.h"
+#include "includes.h"
 
 void esd_active(){
     _strAlarmFlag |= _ESDFlag;

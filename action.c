@@ -1,21 +1,15 @@
-#include <xc.h>
-#include "basic.h"
-#include "eedata.h"
-#include "flag.h"
-#include "para.h"
-#include "lcd.h"
-#include "pincfg.h"
-#include "relay.h"
-#include "power.h"
-#include "esd.h"
-#include "port.h"
-#include "timer.h"
-#include "adc.h"
-#include "di.h"
-#include "action.h"
-#include "code.h"
-#include "spi.h"
-#include "remote.h"
+#include "includes.h"
+
+void motor_run_stop(){
+    OP_Tris = 0;
+    Nop();
+    OP_Write = 0;
+    OP_Write = 0;
+    CL_Tris = 0;
+    Nop();
+    CL_Write = 0;
+    CL_Write = 0;   
+}
 
 void motor_run_clock(){
     OP_Tris = 0;
@@ -26,7 +20,7 @@ void motor_run_clock(){
     Nop();
     CL_Write = 1;
     CL_Write = 1;
-    _Movement_Dire = 0x6996;
+    
 }
 void motor_run_antic(){
     OP_Tris = 0;
@@ -37,7 +31,7 @@ void motor_run_antic(){
     Nop();
     CL_Write = 0;
     CL_Write = 0;
-    _Movement_Dire = 0x9669;
+    
 }
 
 Uint8 open_phase1(){
@@ -105,8 +99,10 @@ Uint8 open_phase2(){
     
     if(((ord==wtrue)&&(dir==ufalse))||((ord==wfalse)&&(dir==utrue))){
         motor_run_clock();
+        _Movement_Dire = 0x6996;
     }else{
         motor_run_antic();
+        _Movement_Dire = 0x9669;
     }
     t1_init(_conT1Time);
     rush_relay_open();
@@ -114,7 +110,7 @@ Uint8 open_phase2(){
     _JamCount = 0;
     while(1){
         if((_L_CodeVP==_L_CodePreVP)||(_L_CodeVP==_L_CodePPreVP)){
-            spi_init_dummy();
+            spi2_init_dummy();
             adc12_init_dummy();
             t1_init_dummy();
             di_init_dummy();
@@ -251,7 +247,7 @@ Uint8 open_phase3(){
         res = 99;
     }
     _StopTimer = 5*res;
-    while(--_StopTimer){
+    while(_StopTimer--){
         if(in_stop()){
             return E_ERR;
         }
@@ -272,6 +268,12 @@ Uint8 open_phase3(){
 }
 
 Uint8 open_phase4(){
+    Uint16 res;
+    _StatusBack &= ~_RunOver;
+    eedata_read(_Interim_Ctrl,res);
+    if(res==0x69){
+        _StatusBack |= _RunOver;
+    }
     return E_OK;
 }
 
@@ -340,8 +342,10 @@ Uint8 close_phase2(){
     
     if(((ord==wtrue)&&(dir==ufalse))||((ord==wfalse)&&(dir==utrue))){
         motor_run_antic();
+        _Movement_Dire = 0x9669;
     }else{
         motor_run_clock();
+        _Movement_Dire = 0x6996;
     }
     t1_init(_conT1Time);
     rush_relay_close();
@@ -349,7 +353,7 @@ Uint8 close_phase2(){
     _JamCount = 0;
     while(1){
         if((_L_CodeVP==_L_CodePreVP)||(_L_CodeVP==_L_CodePPreVP)){
-            spi_init_dummy();
+            spi2_init_dummy();
             adc12_init_dummy();
             t1_init_dummy();
             di_init_dummy();
@@ -486,7 +490,7 @@ Uint8 close_phase3(){
         res = 99;
     }
     _StopTimer = 5*res;
-    while(--_StopTimer){
+    while(_StopTimer--){
         if(in_stop()){
             return E_ERR;
         }
@@ -506,16 +510,71 @@ Uint8 close_phase3(){
 }
 
 Uint8 close_phase4(){
-    
+    Uint16 res;
+    _StatusBack &= ~_RunOver;
+    eedata_read(_Interim_Ctrl,res);
+    if(res==0x96){
+        _StatusBack |= _RunOver;
+    }
     return E_OK;
 }
 
 void forbid(){
+    Uint16 res;
     
+    eedata_read(_POSMIT,res);
+    if(res<3){
+        goto brake;
+    }
+    if(_strAlarmFlag & _CSFlag){
+        goto brake;
+    }
+    if(_strAlarmFlag & _OSFlag){
+        goto brake;
+    }
+    motor_run_stop();
+    delayms(100);
+    if(_Movement_Dire==0x9669){
+        motor_run_clock();
+    }else{
+        motor_run_antic();
+    }
+    delayms(res);
+
+brake:
+    stop();
+    _StatusBack &= ~_TimeStopFlag;
+    _DP_IDATA2 &= ~BIT2;
+    _StatusBack |= _FbTimeFlag;
+    _DP_IDATA2 |= BIT3;
+    if(_Thread_Flag==0x07){
+        _StopTimer = 300;
+    }else{
+        _StopTimer = 100;
+    }
+    while(_StopTimer--){
+        rush_status();
+        relay_position_judge();
+        rush_relay_main();
+        delayms(10);
+    }
+    _StatusBack &= ~_FbTimeFlag;
+    _DP_IDATA2 &= ~BIT3;
+    _Rush_PlaceCount = 40;
+    _Rush_AlarmCount = 40;
 }
 
 void stop(){
-    
+    motor_run_stop();
+    _StatusBack &= ~_ClosingFlag;
+    _StatusBack &= ~_OpeningFlag;
+    _StatusBack &= ~_RunningFlag;
+    _DP_IDATA2 &= ~BIT0;
+    _DP_IDATA2 &= ~BIT1;
+    _ByteRunningFlag = 0;
+    rush_relay_concl();
+    rush_relay_conop();
+    rush_relay_conrun();
 }
 
 void dis_open_lock(){
@@ -609,10 +668,60 @@ Uint8 judge_cltor_protect(){
 
 Uint8 judge_open_dir(){
     
+    if(_Count2S<400){
+        return E_OK;
+    }
+    _Count2S = 0;
+    if((_DirPreVP<=_L_CodeVP)&&((_DirPreVP+2)<=_L_CodeVP)){
+        _strAlarmFlag &= ~_VPStopFlag;
+        _strAlarmFlag &= ~_DirErrorFlag;
+        _DP_DIAGR0 &= ~BIT0;
+        _DirPreVP = _L_CodeVP;
+        return E_OK;
+    }else if((_DirPreVP>_L_CodeVP)&&(_DirPreVP>(_L_CodeVP+2))){
+        _strAlarmFlag |= _DirErrorFlag;
+        _DP_DIAGR0 |= BIT0;
+        lcd_dis_clr_alarm();
+        lcd_dis_alarm_direrror();
+        delayms(1000);
+        return E_ERR;
+    }else{
+        _strAlarmFlag |= _VPStopFlag;
+        lcd_dis_clr_alarm();
+        lcd_dis_alarm_vpstop();
+        delayms(1000);
+        return E_ERR; 
+    }
+    
     return E_OK;
 }
 
 Uint8 judge_close_dir(){
+    
+    if(_Count2S<400){
+        return E_OK;
+    }
+    _Count2S = 0;
+    if((_DirPreVP>=_L_CodeVP)&&(_DirPreVP>=(_L_CodeVP+2))){
+        _strAlarmFlag &= ~_VPStopFlag;
+        _strAlarmFlag &= ~_DirErrorFlag;
+        _DP_DIAGR0 &= ~BIT0;
+        _DirPreVP = _L_CodeVP;
+        return E_OK;
+    }else if((_DirPreVP<_L_CodeVP)&&((_DirPreVP+2)<_L_CodeVP)){
+        _strAlarmFlag |= _DirErrorFlag;
+        _DP_DIAGR0 |= BIT0;
+        lcd_dis_clr_alarm();
+        lcd_dis_alarm_direrror();
+        delayms(1000);
+        return E_ERR;
+    }else{
+        _strAlarmFlag |= _VPStopFlag;
+        lcd_dis_clr_alarm();
+        lcd_dis_alarm_vpstop();
+        delayms(1000);
+        return E_ERR; 
+    }
     
     return E_OK;
 }

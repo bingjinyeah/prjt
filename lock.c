@@ -1,11 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "flag.h"
-#include "eedata.h"
-#include "action.h"
-#include "port.h"
+#include "includes.h"
 
 Uint8 judge_esd_exceedlock(Uint16 time, Uint16 action){
     Uint16 res;

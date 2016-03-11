@@ -32,10 +32,10 @@ extern "C" {
 #define  SPI_CLK_Read            _RG6
 #define  SPI_CLK_Bit            6	
 /**************************************************/
-//#define  SPI_DI_Tris            _TRISG7	
-//#define  SPI_DI_Write            _LATG7		
-//#define  SPI_DI_Read            _RG7
-//#define  SPI_DI_Bit            7	
+#define  SPI_DI_Tris            _TRISG7	
+#define  SPI_DI_Write            _LATG7		
+#define  SPI_DI_Read            _RG7
+#define  SPI_DI_Bit            7	
 /**************************************************/
 #define  SPI_DO_Tris            _TRISG8	
 #define  SPI_DO_Write            _LATG8		

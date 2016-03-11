@@ -1,6 +1,4 @@
-
-#include <xc.h>
-#include "basic.h"
+#include "includes.h"
 
 void di_init(){
     

@@ -1,7 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
+#include "includes.h"
 
 void ir_init(){
     

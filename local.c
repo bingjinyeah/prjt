@@ -1,13 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "eedata.h"
-#include "flag.h"
-#include "para.h"
-#include "lcd.h"
-#include "pincfg.h"
-#include "esd.h"
-#include "action.h"
-#include "menu.h"
+#include "includes.h"
 
 #define IR_CONTROL      0x55
 #define LC_CONTROL      0xAA

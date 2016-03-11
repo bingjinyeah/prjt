@@ -1,13 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
-#include "para.h"
-#include "eedata.h"
-#include "flag.h"
-#include "menu.h"
-#include "lcd.h"
-#include "relay.h"
-#include "code.h"
+#include "includes.h"
 
 
 void (*lcd_dis_saved[])() = {

@@ -1,6 +1,4 @@
-#include <xc.h>
-#include "basic.h"
-#include "pincfg.h"
+#include "includes.h"
 
 void enable_wdt(){
     _SWDTEN = 1;

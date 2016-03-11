@@ -82,6 +82,7 @@ extern void lcd_dis_menu_331(void);
 extern void lcd_dis_menu_40(void);
 extern void lcd_dis_menu_41(void);
 extern void lcd_dis_menu_43(void);
+extern void lcd_dis_menu_43_content();
 extern void lcd_dis_menu_44(void);
 extern void lcd_dis_menu_50(void);  
 
@@ -111,7 +112,7 @@ extern void lcd_dis_stop();
 extern void lcd_dis_local();
 extern void lcd_dis_ident();
 extern void lcd_dis_flow();
-
+extern void lcd_dis_vp();
 extern void lcd_dis_clr_alarm();
 #ifdef TEST
 extern void lcd_test(void);
