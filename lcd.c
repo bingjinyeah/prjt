@@ -1217,7 +1217,7 @@ void lcd_dis_menu_2_9(){
 
 void lcd_dis_menu_2_12(){
     _DisWord0 = _ucharTabClr;
-    _DisWord1 = _ucharTabKai;
+    _DisWord1 = _ucharTabGuan;
     _DisWord2 = _ucharTabDao5;
     _DisWord3 = _ucharTabWei;
     lcd_dis_chinese_right(1,0);
@@ -1225,7 +1225,7 @@ void lcd_dis_menu_2_12(){
 
 void lcd_dis_menu_2_13(){
     _DisWord0 = _ucharTabClr;
-    _DisWord1 = _ucharTabGuan;
+    _DisWord1 = _ucharTabKai;
     _DisWord2 = _ucharTabDao5;
     _DisWord3 = _ucharTabWei;
     lcd_dis_chinese_right(1,0);

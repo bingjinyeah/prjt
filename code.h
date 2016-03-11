@@ -23,5 +23,6 @@ extern Uint16 alu_dis_tor_back();
 extern void cal_zero(Uint16 cll, Uint16 opl);
 extern void cal_limit_length();
 extern Uint8 cal_length(Uint16 low, Uint16 high);
+extern Uint8 cal_limit(Uint16 opl, Uint16 cll, Uint16 lz);
 #endif	/* CODE_H */
 

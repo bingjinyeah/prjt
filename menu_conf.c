@@ -127,8 +127,6 @@ void menu_conf_1(){
 
 void menu_conf_2(){
     Uint16  res,res1;
-    Uint16 opl,cll,sub;
-    Uint32 mul;
     
     switch(_uintCur){
     case 0: 
@@ -153,37 +151,9 @@ void menu_conf_2(){
                 eedata_read(_L_Zero,res);
                 eedata_read(_OP_Limit,res1);
                 if(res1!=_CodeVP){
-                    cal_zero(_CodeVP,res1);
-                    opl = circle_to_line(res1);
-                    cll = circle_to_line(_CodeVP);
-                    sub = opl - cll;
-                    if(sub > (65535-512)){
-                        eedata_write(_L_Zero,res);
-                        lcd_dis_clr_alarm();
-                        lcd_dis_alarm_lengtherror();
-                        delayms(400);
-                        lcd_dis_clr_alarm();
-                        delayms(200);
-                        lcd_dis_alarm_lengtherror();
-                        delayms(400);
-                        lcd_dis_clr_alarm();
-                        lcd_dis_menu_2();
+                    if(cal_limit(_CodeVP,res1,res)==E_ERR){
                         return;
-                    }else{
-                        eedata_write(_Limit_Length,sub);
-                        eedata_write(_L_OP_Limit,opl);
-                        eedata_write(_L_CL_Limit,cll);
-                        eedata_read(_POSMIN,res);
-                        mul = res * sub;
-                        res = mul/100;
-                        res += cll;
-                        eedata_write(_POSMIN_Code,res);
-                        eedata_read(_POSMAX,res);
-                        mul = res * sub;
-                        res = mul/100;
-                        res += cll;
-                        eedata_write(_POSMAX_Code,res);
-                    }  
+                    } 
                 }else{
                     lcd_dis_clr_alarm();
                     lcd_dis_alarm_cllimitover();
@@ -215,37 +185,10 @@ void menu_conf_2(){
                 eedata_read(_L_Zero,res);
                 eedata_read(_CL_Limit,res1);
                 if(res1!=_CodeVP){
-                    cal_zero(res1,_CodeVP);
-                    cll = circle_to_line(res1);
-                    opl = circle_to_line(_CodeVP);
-                    sub = opl - cll;
-                    if(sub > (65535-512)){
-                        eedata_write(_L_Zero,res);
-                        lcd_dis_clr_alarm();
-                        lcd_dis_alarm_lengtherror();
-                        delayms(400);
-                        lcd_dis_clr_alarm();
-                        delayms(200);
-                        lcd_dis_alarm_lengtherror();
-                        delayms(400);
-                        lcd_dis_clr_alarm();
-                        lcd_dis_menu_2();
+                    if(cal_limit(res1,_CodeVP,res)==E_ERR){
                         return;
-                    }else{
-                        eedata_write(_Limit_Length,sub);
-                        eedata_write(_L_OP_Limit,opl);
-                        eedata_write(_L_CL_Limit,cll);
-                        eedata_read(_POSMIN,res);
-                        mul = res * sub;
-                        res = mul/100;
-                        res += cll;
-                        eedata_write(_POSMIN_Code,res);
-                        eedata_read(_POSMAX,res);
-                        mul = res * sub;
-                        res = mul/100;
-                        res += cll;
-                        eedata_write(_POSMAX_Code,res);
-                    }  
+                    }
+                     
                 }else{
                     lcd_dis_clr_alarm();
                     lcd_dis_alarm_oplimitover();
