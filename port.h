@@ -23,5 +23,8 @@ extern Uint8 r_st_read();
 extern Uint8 r_cv_read();
 extern Uint8 r_esd_read();
 extern void led_g_r_set(Uint8 g, Uint8 r);
+extern void motor_run_stop();
+extern void motor_run_clock();
+extern void motor_run_antic();
 #endif	/* PORT_H */
 

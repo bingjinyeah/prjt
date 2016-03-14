@@ -1,16 +1,6 @@
 #define _PARA_EXT
 #include "includes.h"
 
-void op_cl_port_init(){
-    OP_Tris = 0;
-    Nop();
-    OP_Write = 0;
-    OP_Write = 0;
-    CL_Tris = 0;
-    Nop();
-    CL_Write = 0;
-    CL_Write = 0;
-}
 extern Uint16 _RomValue[] _AUTO_PSV;
 void cpu_init(){
     
@@ -24,7 +14,7 @@ void cpu_init(){
 
 void port_init(){
     
-    op_cl_port_init();
+    motor_run_stop();
     _POR = 0;
     _StatusBack&=0xff;
     Code_Ctrl_Tris = 0;
@@ -84,7 +74,7 @@ void public_init(){
     poweron_init();
     spi2_init();
     check_card();
-    _strAlarmFlag = 0;
+    _strAlarmFlag &= ~BIT0;
     _BytePowerDown = 0;
     power_init();
     delayms(110);

@@ -1,38 +1,6 @@
 #include "includes.h"
 
-void motor_run_stop(){
-    OP_Tris = 0;
-    Nop();
-    OP_Write = 0;
-    OP_Write = 0;
-    CL_Tris = 0;
-    Nop();
-    CL_Write = 0;
-    CL_Write = 0;   
-}
 
-void motor_run_clock(){
-    OP_Tris = 0;
-    Nop();
-    OP_Write = 0;
-    OP_Write = 0;
-    CL_Tris = 0;
-    Nop();
-    CL_Write = 1;
-    CL_Write = 1;
-    
-}
-void motor_run_antic(){
-    OP_Tris = 0;
-    Nop();
-    OP_Write = 1;
-    OP_Write = 1;
-    CL_Tris = 0;
-    Nop();
-    CL_Write = 0;
-    CL_Write = 0;
-    
-}
 
 Uint8 open_phase1(){
     Uint16 res;

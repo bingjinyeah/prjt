@@ -45,37 +45,20 @@ void local_open(Uint8 ctrl){
     if(_Thread_Flag!=thread){
         goto open_end;
     }
-    Local_Tris = 1;
-    Nop();
-    if(Local_Read!=0){
-        goto open_end;
-    }
-    delayus(100);
-    if(Local_Read!=0){
+    if(!in_local()){
         goto open_end;
     }
     if(ctrl!=IR_CONTROL){
-        L_OP_Tris = 1;
-        Nop();
-        if(L_OP_Read!=0){
-            goto open_end;
-        }
-        delayus(100);
-        if(L_OP_Read!=0){
+        if(!l_op_read()){
             goto open_end;
         }
     }
     eedata_read(_Local_Lock,res_ll);
     if(res_ll!=0x69){
-        R_OP_Hold_Tris = 1;
-        Nop();
-        if(R_OP_Hold_Read==0){
-            delayus(100);
-            if(R_OP_Hold_Read==0){
-                _StopTimer = 50;
-                dis_open_lock();
-                goto open_end;
-            }         
+        if(!r_op_hold_read()){
+            _StopTimer = 50;
+            dis_open_lock();
+            goto open_end;
         }
     }
     _StatusBack &= ~_OP_LockFlag;
@@ -92,37 +75,22 @@ void local_open(Uint8 ctrl){
         if(_Thread_Flag!=0x01){
             goto stop_end;
         }
-        Local_Tris = 1;
-        Nop();
-        if(Local_Read!=0){
-            delayus(100);
-            if(Local_Read!=0){
-                goto stop_end;
-            }
+        if(!in_local()){
+            goto open_end;
         }
         if(ctrl!=IR_CONTROL){
-            L_OP_Tris = 1;
-            Nop();
-            if(L_OP_Read!=0){   
-                delayus(100);
-                if(L_OP_Read!=0){
-                    eedata_read(_LocalCtrl,res_lc);
-                    if(res_lc!=0x69){
-                        goto stop_end;
-                    }
+            if(!l_op_read()){
+                eedata_read(_LocalCtrl,res_lc);
+                if(res_lc!=0x69){
+                    goto stop_end;
                 }
             }
         }
         if(res_ll!=0x69){
-            R_OP_Hold_Tris = 1;
-            Nop();
-            if(R_OP_Hold_Read==0){
-                delayus(100);
-                if(R_OP_Hold_Read==0){
-                    _StopTimer = 25;
-                    dis_open_lock();
-                    goto stop_end;
-                }         
+            if(!r_op_hold_read()){
+                _StopTimer = 25;
+                dis_open_lock();
+                goto stop_end;
             }
         }
         _StatusBack &= ~_OP_LockFlag;
@@ -135,7 +103,6 @@ stop_end:
     forbid();
 open_end:
     local_exit();
-    return ;
 }
 
 void local_close (Uint8 ctrl){
@@ -153,37 +120,20 @@ void local_close (Uint8 ctrl){
     if(_Thread_Flag!=thread){
         goto close_end;
     }
-    Local_Tris = 1;
-    Nop();
-    if(Local_Read!=0){
-        goto close_end;
-    }
-    delayus(100);
-    if(Local_Read!=0){
+    if(!in_local()){
         goto close_end;
     }
     if(ctrl!=IR_CONTROL){
-        L_CL_Tris = 1;
-        Nop();
-        if(L_CL_Read!=0){
-            goto close_end;
-        }
-        delayus(100);
-        if(L_CL_Read!=0){
+        if(!l_op_read()){
             goto close_end;
         }
     }
     eedata_read(_Local_Lock,res_ll);
     if(res_ll!=0x69){
-        R_CL_Hold_Tris = 1;
-        Nop();
-        if(R_CL_Hold_Read==0){
-            delayus(100);
-            if(R_CL_Hold_Read==0){
-                _StopTimer = 50;
-                dis_close_lock();
-                goto close_end;
-            }         
+        if(!r_cl_hold_read()){
+            _StopTimer = 50;
+            dis_close_lock();
+            goto close_end;
         }
     }
     _StatusBack &= ~_CL_LockFlag;
@@ -200,37 +150,23 @@ void local_close (Uint8 ctrl){
         if(_Thread_Flag!=0x02){
             goto stop_end;
         }
-        Local_Tris = 1;
-        Nop();
-        if(Local_Read!=0){
-            delayus(100);
-            if(Local_Read!=0){
-                goto stop_end;
-            }
+        if(!in_local()){
+            goto close_end;
         }
         if(ctrl!=IR_CONTROL){
-            L_CL_Tris = 1;
-            Nop();
-            if(L_CL_Read!=0){   
-                delayus(100);
-                if(L_CL_Read!=0){
-                    eedata_read(_LocalCtrl,res_lc);
-                    if(res_lc!=0x69){
-                        goto stop_end;
-                    }
+            if(!l_op_read()){
+                eedata_read(_LocalCtrl,res_lc);
+                if(res_lc!=0x69){
+                    goto stop_end;
                 }
             }
+            
         }
         if(res_ll!=0x69){
-            R_CL_Hold_Tris = 1;
-            Nop();
-            if(R_CL_Hold_Read==0){
-                delayus(100);
-                if(R_CL_Hold_Read==0){
-                    _StopTimer = 25;
-                    dis_close_lock();
-                    goto stop_end;
-                }         
+            if(!r_cl_hold_read()){
+                _StopTimer = 25;
+                dis_close_lock();
+                goto stop_end;
             }
         }
         _StatusBack &= ~_CL_LockFlag;
@@ -243,29 +179,17 @@ stop_end:
     forbid();
 close_end:
     local_exit();
-    return;
 }
 
 void local_thread(){
     
-    L_CL_Tris = 1;
-    Nop();
-    if(L_CL_Read==0){
-        delayus(100);
-        if(L_CL_Read==0){
-            local_close(LC_CONTROL);
-            return;
-        }
+    if(l_cl_read()){
+        local_close(LC_CONTROL);
+        return;
     }
-    
-    L_OP_Tris = 1;
-    Nop();
-    if(L_OP_Read==0){
-        delayus(100);
-        if(L_OP_Read==0){
-            local_open(LC_CONTROL);
-            return;
-        }
+    if(l_op_read()){
+        local_open(LC_CONTROL);
+        return;
     }
     if(_ucharCloseKey){
         local_close(IR_CONTROL);
@@ -278,7 +202,7 @@ void local_thread(){
     }
 }
 
-Uint8 button_local_process(){
+void button_local_process(){
     
     if(_Rush_PlaceCount>=40){
         _Rush_PlaceCount = 0;
@@ -296,6 +220,4 @@ Uint8 button_local_process(){
     }else{
         local_thread();
     }
-    return E_OK;
-    
 }

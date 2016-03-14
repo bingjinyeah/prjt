@@ -49,7 +49,7 @@ void delayus(Uint16 num){
 }
 
 void main_power(){
-    op_cl_port_init();
+    motor_run_stop();
     if(_strAlarmFlag & _PowerDownFlag){
         process_power_down();
     }

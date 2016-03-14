@@ -15,7 +15,7 @@ extern void dp_init2();
 extern void dp_reset(); 
 extern void dp_app_func(); 
 extern void dp_tx_func(); 
-extern Uint8 remote_dp();
+extern void remote_dp();
 
 
 #endif	/* DP_H */

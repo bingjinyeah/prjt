@@ -6,14 +6,6 @@
 #define ACT_POSITION    0x99
 #define ACT_SALOS       0xaa
 
-extern Uint16 _EEDATA(2) _AUXMSK;
-extern Uint16 _EEDATA(2) _Remote_Lock;
-extern Uint16 _EEDATA(2) _DPCtrl;
-extern Uint16 _EEDATA(2) _L_OP_Limit;
-extern Uint16 _EEDATA(2) _L_CL_Limit;
-extern Uint16 _EEDATA(2) _Card;
-extern Uint16 _EEDATA(2) _LOSPOS_Code;
-extern Uint16 _EEDATA(2) _POSALS;
 
 extern void remote_exit(void);
 
@@ -65,20 +57,11 @@ void check_dp_action1(Uint8 act){
     if(_Thread_Flag!=thread){
         goto action_end;
     }
-    Remote_Tris = 1;
-    Nop();
-    if(Remote_Read!=0){   
-        delayus(100);
-        if(Remote_Read!=0){
-            goto action_end;
-        }
+    if(!in_remote()){
+        goto action_end;
     }
-    R_CV_Tris = 1;
-    if(R_CV_Read!=0){   
-        delayus(100);
-        if(R_CV_Read!=0){
-            goto action_end;
-        }
+    if(r_cv_read()){
+        goto action_end;
     }
     eedata_read(_AUXMSK,res_aux);
     if((res_aux & BIT4)!=0){
@@ -113,7 +96,7 @@ void check_dp_action(Uint8 act){
     }
 }
 
-Uint8 remote_dp_open(){
+void remote_dp_open(){
     Uint16 res_card,res_rl,res_dc;
     
     _Thread_Flag = 0x09;
@@ -124,15 +107,10 @@ Uint8 remote_dp_open(){
 
     eedata_read(_Remote_Lock,res_rl);
     if(res_rl!=0x69){
-        R_OP_Hold_Tris = 1;
-        Nop();
-        if(R_OP_Hold_Read==0){
-            delayus(100);
-            if(R_OP_Hold_Read==0){
-                _StopTimer = 50;
-                dis_open_lock();
-                goto open_end;
-            }         
+        if(!r_op_hold_read()){
+            _StopTimer = 50;
+            dis_open_lock();
+            goto open_end;
         }
     }
     _StatusBack &= ~_OP_LockFlag;
@@ -162,15 +140,10 @@ Uint8 remote_dp_open(){
             goto stop_end;
         }     
         if(res_rl!=0x69){
-            R_OP_Hold_Tris = 1;
-            Nop();
-            if(R_OP_Hold_Read==0){
-                delayus(100);
-                if(R_OP_Hold_Read==0){
-                    _StopTimer = 25;
-                    dis_open_lock();
-                    goto stop_end;
-                }         
+            if(!r_op_hold_read()){
+                _StopTimer = 25;
+                dis_open_lock();
+                goto stop_end;
             }
         }
         _StatusBack &= ~_OP_LockFlag;
@@ -184,10 +157,9 @@ stop_end:
     forbid();
 open_end:
     remote_exit();
-    return E_ERR;
 }
 
-Uint8 remote_dp_close(){
+void remote_dp_close(){
      Uint16 res_card,res_rl,res_dc;
     
     _Thread_Flag = 0x0a;
@@ -198,15 +170,10 @@ Uint8 remote_dp_close(){
 
     eedata_read(_Remote_Lock,res_rl);
     if(res_rl!=0x69){
-        R_CL_Hold_Tris = 1;
-        Nop();
-        if(R_CL_Hold_Read==0){
-            delayus(100);
-            if(R_CL_Hold_Read==0){
-                _StopTimer = 50;
-                dis_close_lock();
-                goto close_end;
-            }         
+        if(!r_cl_hold_read()){
+            _StopTimer = 50;
+            dis_close_lock();
+            goto close_end;
         }
     }
     _StatusBack &= ~_CL_LockFlag;
@@ -236,15 +203,10 @@ Uint8 remote_dp_close(){
             goto stop_end;
         }     
         if(res_rl!=0x69){
-            R_CL_Hold_Tris = 1;
-            Nop();
-            if(R_CL_Hold_Read==0){
-                delayus(100);
-                if(R_CL_Hold_Read==0){
-                    _StopTimer = 25;
-                    dis_close_lock();
-                    goto stop_end;
-                }         
+            if(!r_cl_hold_read()){
+                _StopTimer = 25;
+                dis_close_lock();
+                goto stop_end;
             }
         }
         _StatusBack &= ~_CL_LockFlag;
@@ -258,10 +220,9 @@ stop_end:
     forbid();
 close_end:
     remote_exit();
-    return E_ERR;
 }
 
-Uint8 remote_dp_position(){
+void remote_dp_position(){
     
     Uint16 dbd,cll,opl,rml,sub,act_flag;
     
@@ -271,13 +232,7 @@ Uint8 remote_dp_position(){
         goto auto_end;
     }
     _DP_IDATA1 |= BIT6;
-    
-    if(set_dp_logic()==0x69){
-        alu_dp_nnx();
-    }else{
-        alu_dp_nx();
-    }
-
+    alu_dp_code();
     dbd = alu_dbd();
     eedata_read(_L_OP_Limit,opl);
     eedata_read(_Remote_Lock,rml);
@@ -305,15 +260,10 @@ Uint8 remote_dp_position(){
     }
     if(act_flag==1){
         if(rml!=0x69){
-            R_OP_Hold_Tris = 1;
-            Nop();
-            if(R_OP_Hold_Read==0){
-                delayus(100);
-                if(R_OP_Hold_Read==0){
-                    _StopTimer = 50;
-                    dis_open_lock();
-                    goto auto_end;
-                }
+            if(!r_op_hold_read()){
+                _StopTimer = 50;
+                dis_open_lock();
+                goto auto_end;
             }
         }
         _StatusBack &= ~_OP_LockFlag;
@@ -333,15 +283,10 @@ Uint8 remote_dp_position(){
                 goto stop_end;
             }
             if(rml!=0x69){
-                R_OP_Hold_Tris = 1;
-                Nop();
-                if(R_OP_Hold_Read==0){
-                    delayus(100);
-                    if(R_OP_Hold_Read==0){
-                        _StopTimer = 25;
-                        dis_open_lock();
-                        goto stop_end;
-                    }
+                if(!r_op_hold_read()){
+                    _StopTimer = 25;
+                    dis_open_lock();
+                    goto stop_end;
                 }
             }
             _StatusBack &= ~_OP_LockFlag;
@@ -349,11 +294,7 @@ Uint8 remote_dp_position(){
             if(open_phase3()==E_ERR){
                 goto stop_end;
             }
-            if(set_dp_logic()==0x69){
-                alu_dp_nnx();
-            }else{
-                alu_dp_nx();
-            }
+            alu_dp_code();
             if(_DP_Code<opl){
                 if(_DP_Code<=_L_CodeVP){
                     goto stop_end;
@@ -366,15 +307,10 @@ Uint8 remote_dp_position(){
         }
     }else if(act_flag==2){
         if(rml!=0x69){
-            R_CL_Hold_Tris = 1;
-            Nop();
-            if(R_CL_Hold_Read==0){
-                delayus(100);
-                if(R_CL_Hold_Read==0){
-                    _StopTimer = 50;
+            if(!r_cl_hold_read()){
+                _StopTimer = 50;
                     dis_close_lock();
                     goto auto_end;
-                }
             }
         }
         _StatusBack &= ~_CL_LockFlag;
@@ -394,15 +330,10 @@ Uint8 remote_dp_position(){
                 goto stop_end;
             }
             if(rml!=0x69){
-                R_CL_Hold_Tris = 1;
-                Nop();
-                if(R_CL_Hold_Read==0){
-                    delayus(100);
-                    if(R_CL_Hold_Read==0){
-                        _StopTimer = 25;
-                        dis_close_lock();
-                        goto stop_end;
-                    }
+                if(!r_cl_hold_read()){
+                    _StopTimer = 25;
+                    dis_close_lock();
+                    goto stop_end;
                 }
             }
             _StatusBack &= ~_CL_LockFlag;
@@ -410,11 +341,7 @@ Uint8 remote_dp_position(){
             if(close_phase3()==E_ERR){
                 goto stop_end;
             }
-            if(set_dp_logic()==0x69){
-                alu_dp_nnx();
-            }else{
-                alu_dp_nx();
-            }
+            alu_dp_code();
             if(_DP_Code>cll){
                 if(_L_CodeVP<=_DP_Code){
                     goto stop_end;
@@ -431,10 +358,9 @@ stop_end:
     forbid();
 auto_end:    
     remote_exit();
-    return E_ERR;
 }
 
-Uint8 remote_dp_relay(){
+void remote_dp_relay(){
     Uint16  rc;
     
     eedata_read(_RelayControl,rc);
@@ -476,10 +402,9 @@ Uint8 remote_dp_relay(){
     }
     rush_relays();
     remote_exit();
-    return E_OK;
 }
 
-Uint8 remote_dp_salos(){
+void remote_dp_salos(){
     
     Uint16 dbd,cll,opl,rml,sub,act_flag,res_los,lpc;
     
@@ -529,15 +454,10 @@ Uint8 remote_dp_salos(){
     }
     if(act_flag==1){
         if(rml!=0x69){
-            R_OP_Hold_Tris = 1;
-            Nop();
-            if(R_OP_Hold_Read==0){
-                delayus(100);
-                if(R_OP_Hold_Read==0){
-                    _StopTimer = 50;
-                    dis_open_lock();
-                    goto los_end;
-                }
+            if(!r_op_hold_read()){
+                _StopTimer = 50;
+                dis_open_lock();
+                goto los_end;
             }
         }
         _StatusBack &= ~_OP_LockFlag;
@@ -555,15 +475,10 @@ Uint8 remote_dp_salos(){
                 goto stop_end;
             }
             if(rml!=0x69){
-                R_OP_Hold_Tris = 1;
-                Nop();
-                if(R_OP_Hold_Read==0){
-                    delayus(100);
-                    if(R_OP_Hold_Read==0){
-                        _StopTimer = 25;
-                        dis_open_lock();
-                        goto stop_end;
-                    }
+                if(!r_op_hold_read()){
+                    _StopTimer = 25;
+                    dis_open_lock();
+                    goto stop_end;
                 }
             }
             _StatusBack &= ~_OP_LockFlag;
@@ -583,15 +498,10 @@ Uint8 remote_dp_salos(){
         }
     }else if(act_flag==2){
         if(rml!=0x69){
-            R_CL_Hold_Tris = 1;
-            Nop();
-            if(R_CL_Hold_Read==0){
-                delayus(100);
-                if(R_CL_Hold_Read==0){
-                    _StopTimer = 50;
-                    dis_close_lock();
-                    goto los_end;
-                }
+            if(!r_cl_hold_read()){
+                _StopTimer = 50;
+                dis_close_lock();
+                goto los_end;
             }
         }
         _StatusBack &= ~_CL_LockFlag;
@@ -609,15 +519,10 @@ Uint8 remote_dp_salos(){
                 goto stop_end;
             }
             if(rml!=0x69){
-                R_CL_Hold_Tris = 1;
-                Nop();
-                if(R_CL_Hold_Read==0){
-                    delayus(100);
-                    if(R_CL_Hold_Read==0){
-                        _StopTimer = 25;
-                        dis_close_lock();
-                        goto stop_end;
-                    }
+                if(!r_cl_hold_read()){
+                    _StopTimer = 25;
+                    dis_close_lock();
+                    goto stop_end;
                 }
             }
             _StatusBack &= ~_CL_LockFlag;
@@ -643,10 +548,9 @@ stop_end:
     forbid();
 los_end:    
     remote_exit();
-    return E_ERR;
 }
 
-Uint8 remote_dp(){
+void remote_dp(){
     
     Uint16 res;
     
@@ -657,19 +561,23 @@ Uint8 remote_dp(){
         }
         if(_DP_ACTION==0x08){
             _DP_IDATA2 |= BIT6;
-            return remote_dp_position();
+            remote_dp_position();
+            return;
         }
         if(_DP_ACTION==0x02){
             _DP_IDATA2 &= ~BIT6;
-            return remote_dp_open();
+            remote_dp_open();
+            return;
         }
         if(_DP_ACTION==0x01){
             _DP_IDATA2 &= ~BIT6;
-            return remote_dp_close();
+            remote_dp_close();
+            return;
         }
         if(_DP_ACTION==0x04){
             _DP_IDATA2 &= ~BIT6;
-            return remote_dp_relay();
+            remote_dp_relay();
+            return;
         }
         /*
         if(_DP_ACTION==0x00){
@@ -677,12 +585,12 @@ Uint8 remote_dp(){
         }*/
         if(_DP_ACTION==0x55){
             _DP_IDATA2 &= ~BIT6;
-            return remote_dp_salos();
+            remote_dp_salos();
+            return;
         }
     }
     
 dp_end:   
     _DP_IDATA2 &= ~BIT6;
     remote_exit();
-    return E_ERR;
 }

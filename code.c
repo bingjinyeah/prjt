@@ -64,49 +64,137 @@ Uint16 circle_to_line(Uint16 vp){
     }  
 
 }
-
+/*
 Uint8 set_logic(){
-    return 0x69;
+    Uint16 low,high;
+    
+    eedata_read(_IC_Low_VP,low);
+    eedata_read(_IC_High_VP,high);
+    if(high>low){
+        return 0x69;
+    }else{
+        return 0xff;
+    }
 }
-
+*/
 Uint16 alu_dbd(){
     
     return 0;
 }
-
-void alu_nx(){
+void alu_ic_code(){
+    Uint16 dl,dh;
+    Uint16 lvp,hvp;
+    Uint16 cll,opl;
+    float res;
+    
+    _Back_Flag = 0;
+    eedata_read(_IC_Low_VP,dl);
+    eedata_read(_IC_High_VP,dh);
+    if(dh<dl){
+        hvp = dl;
+        lvp = dh;
+    }else{
+        hvp = dh;
+        lvp = dl;
+    }
+    eedata_read(_L_CL_Limit,cll);
+    eedata_read(_L_OP_Limit,opl);
+    eedata_read(_IC_Low,dl);
+    eedata_read(_IC_High,dh);
+    if(_IC[10]>=dh){
+        res = hvp;
+    }else if(_IC[10]>=dl){
+        res = 1.0*(hvp-lvp)*(_IC[10]-dl)/(dh-dl)+lvp;
+    }else if(_IC[10]>=dl/2){
+        res = lvp;
+    }else{
+        lcd_dis_clr_alarm();
+        lcd_dis_alarm_salos();
+        _strAlarmFlag |= _SignLostedFlag;
+        monitor_release_dummy();
+        eedata_read(_POSALS,dl);
+        if(dl==0x03){
+            _IC_Code = cll;
+        }else if(dl==0x01){
+            _IC_Code = opl;
+        }else if(dl==0x07){
+            eedata_read(_LOSPOS,dl);
+            _IC_Code = (opl-cll)*dl/100+cll;
+        }else{
+            _Back_Flag = 0x55;
+        }
+        return;
+    }
+    res = res*(opl-cll)/100 + cll;
+    _strAlarmFlag &= ~_SignLostedFlag;
+    _IC_Code = (Uint16)res;
     
 }
-
-void alu_nnx(){
-    
-}
-
+/*
 Uint8 set_dp_logic(){
-    return 0x69;
+    Uint16 low,high;
+    
+    eedata_read(_POSMIN,low);
+    eedata_read(_POSMAX,high);
+    if(high>low){
+        return 0x69;
+    }else{
+        return 0xff;
+    }
+}
+*/
+void alu_dp_code(){
+    Uint16 min,max;
+    
+    eedata_read(_POSMIN_Code,min);
+    eedata_read(_POSMAX_Code,max);
+    if(max>min){
+        _DP_Code = _DP_ACTPOS*(max-min)/0xff+min;
+    }else{
+        _DP_Code = min - _DP_ACTPOS*(min-max)/0xff;
+    }
 }
 
-void alu_dp_nx(){
-    
-}
-
-void alu_dp_nnx(){
-    
-}
 
 Uint16 alu_dis_ic(){
+    Uint16 low,high,res;
     
-    return 0;
+    eedata_read(_IC_Low,low);
+    eedata_read(_IC_High,high);
+    if(_IC[10]>=low){
+        res = 160*(_IC[10]-low)/(high-low) + 40;
+    }else{
+        res = 40 - 160*(low-_IC[10])/(high-low);
+    }
+    return res;
 }
 
 Uint16 alu_dis_position_back(){
     
-    return 0;
+    Uint16 low,high,res;
+    
+    eedata_read(_Pos_BackL,low);
+    eedata_read(_Pos_BackH,high);
+    if(_Menu330Count>=low){
+        res = 1600*(_Menu330Count-low)/(high-low) + 400;
+    }else{
+        res = 400 - 1600*(low-_Menu330Count)/(high-low);
+    }
+    return res;
 }
 
 Uint16 alu_dis_tor_back(){
     
-    return 0;
+    Uint16 low,high,res;
+    
+    eedata_read(_Tor_BackL,low);
+    eedata_read(_Tor_BackH,high);
+    if(_Menu331Count>=low){
+        res = 1600*(_Menu331Count-low)/(high-low) + 400;
+    }else{
+        res = 400 - 1600*(low-_Menu331Count)/(high-low);
+    }
+    return res;
 }
 
 void cal_zero(Uint16 cll, Uint16 opl){
@@ -121,7 +209,8 @@ void cal_zero(Uint16 cll, Uint16 opl){
         res = cll - opl;
         res>>=1;
         if((opl>=cll)&&(res<=cll)){
-                res = cll - res;
+            
+            res = cll - res;
         }else{
             res += opl;
         }      

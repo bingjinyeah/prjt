@@ -10,13 +10,14 @@
 
 extern void get_code_vp();
 extern Uint16 circle_to_line(Uint16 vp);
-extern Uint8 set_logic();
+//extern Uint8 set_logic();
 extern Uint16 alu_dbd();
-extern void alu_nx();
-extern void alu_nnx();
-extern Uint8 set_dp_logic();
-extern void alu_dp_nx();
-extern void alu_dp_nnx();
+extern void alu_ic_code();
+//extern void alu_nx();
+//extern void alu_nnx();
+//extern Uint8 set_dp_logic();
+extern void alu_dp_code();
+//extern void alu_dp_nnx();
 extern Uint16 alu_dis_ic();
 extern Uint16 alu_dis_position_back();
 extern Uint16 alu_dis_tor_back();
