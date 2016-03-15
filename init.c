@@ -17,9 +17,7 @@ void port_init(){
     motor_run_stop();
     _POR = 0;
     _StatusBack&=0xff;
-    Code_Ctrl_Tris = 0;
-    Nop();
-    Code_Ctrl_Write = 0;
+    code_ctrl_clr();
     E_S1A_Tris = 0;
 	E_S1B_Tris = 0;
 	E_S2A_Tris = 0;
@@ -71,12 +69,9 @@ void para_init(){
 
 void public_init(){
     
-    poweron_init();
     spi2_init();
     check_card();
-    _strAlarmFlag &= ~BIT0;
-    _BytePowerDown = 0;
-    power_init();
+    poweron_init();
     delayms(110);
     if(_BytePowerDown==0x55){
         process_power_down();
@@ -100,9 +95,9 @@ void system_init(){
     lcd_init();
     lcd_dis_clr_all();
     
-    if(_PowerIsOn!=NOINIT_STATUS){
-        _SelfCheckFlag = INIT_STATUS;
-        //rush_feedback();
+    if(_PowerIsOn!=0xaa55){
+        _SelfCheckFlag = 0x55aa;
+        rush_feedback();
         lcd_dis_softver();
         SYS_ENTER_CRI;
         self_check();
@@ -113,7 +108,7 @@ void system_init(){
         TQ_OP_Write = 1;
         lcd_dis_company();
         battery_manage_init();
-        _PowerIsOn = NOINIT_STATUS;
+        _PowerIsOn = 0xaa55;
     }
     public_init();
 }

@@ -23,7 +23,7 @@ void local_exit(){
         _ucharCloseKey = 0;
         lcd_dis_alarm();
         //_VPCount = 5;
-        _WriteEEPROMFlag = 0x55aa;
+        //_WriteEEPROMFlag = 0x55aa;
         if(_Menu!=33){
             lcd_dis_menu_2();
         } 
@@ -76,7 +76,7 @@ void local_open(Uint8 ctrl){
             goto stop_end;
         }
         if(!in_local()){
-            goto open_end;
+            goto stop_end;
         }
         if(ctrl!=IR_CONTROL){
             if(!l_op_read()){
@@ -151,7 +151,7 @@ void local_close (Uint8 ctrl){
             goto stop_end;
         }
         if(!in_local()){
-            goto close_end;
+            goto stop_end;
         }
         if(ctrl!=IR_CONTROL){
             if(!l_op_read()){

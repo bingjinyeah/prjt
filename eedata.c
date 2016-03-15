@@ -25,9 +25,11 @@ Uint16 _EEDATA(2) _CL_Limit = 0x0;
 Uint16 _EEDATA(2) _L_CL_Limit = 0x0;		
 		
 Uint16 _EEDATA(2) _OP_Limit = 0x0;			
-		
-Uint16 _EEDATA(2) _L_OP_Limit = 0x0;		
-		
+#ifdef  TEST
+Uint16 _EEDATA(2) _L_OP_Limit = 0x100;	//test
+#else
+Uint16 _EEDATA(2) _L_OP_Limit = 0x0;	//test	
+#endif	
 Uint16 _EEDATA(2) _Limit_Length = 0x0;		
 	
 Uint16 _EEDATA(2) _L_Zero = 0x0;			

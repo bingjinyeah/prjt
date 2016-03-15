@@ -160,9 +160,9 @@ Uint8 open_phase3(){
         if(_NJPercent>=res){
             _strAlarmFlag |= _OTFlag;
             _DP_DIAGR0 |= BIT4;
-            _WriteEEPROMFlag = 0x55aa;
+            //_WriteEEPROMFlag = 0x55aa;
             eedata_write(_OP_OverTorPos,_VPPercent);
-            _WriteEEPROMFlag = 0;
+            //_WriteEEPROMFlag = 0;
             lcd_dis_alarm_opovertor();
             return E_ERR;
         }
@@ -403,9 +403,9 @@ Uint8 close_phase3(){
         if(_NJPercent>=res){
             _strAlarmFlag |= _CTFlag;
             _DP_DIAGR0 |= BIT3;
-            _WriteEEPROMFlag = 0x55aa;
+            //_WriteEEPROMFlag = 0x55aa;
             eedata_write(_CL_OverTorPos,_VPPercent);
-            _WriteEEPROMFlag = 0;
+            //_WriteEEPROMFlag = 0;
             lcd_dis_alarm_clovertor();
             return E_ERR;
         }
@@ -592,9 +592,9 @@ Uint8 judge_optor_protect(){
     if(_NJPercent>=res){
         _strAlarmFlag |= _OTFlag;
         _DP_DIAGR0 |= BIT4;
-        _WriteEEPROMFlag = 0x55aa;
+        //_WriteEEPROMFlag = 0x55aa;
         eedata_write(_OP_OverTorPos,_VPPercent);
-        _WriteEEPROMFlag = 0;
+        //_WriteEEPROMFlag = 0;
         lcd_dis_clr_alarm();
         lcd_dis_alarm_opovertor();
         return true;
@@ -623,9 +623,9 @@ Uint8 judge_cltor_protect(){
     if(_NJPercent>=res){
         _strAlarmFlag |= _CTFlag;
         _DP_DIAGR0 |= BIT3;
-        _WriteEEPROMFlag = 0x55aa;
+        //_WriteEEPROMFlag = 0x55aa;
         eedata_write(_CL_OverTorPos,_VPPercent);
-        _WriteEEPROMFlag = 0;
+        //_WriteEEPROMFlag = 0;
         lcd_dis_clr_alarm();
         lcd_dis_alarm_clovertor();
         return true;

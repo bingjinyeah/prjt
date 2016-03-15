@@ -16,7 +16,7 @@ DESCRIPTION        This file contains the  basic data types
 #ifndef __BASIC_H__
 #define __BASIC_H__
 
-//#define TEST
+#define TEST
 //#define LANGUAGE_EN
 #define PHASE1
 #define LITTLE_ENDIAN

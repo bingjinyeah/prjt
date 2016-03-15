@@ -208,3 +208,47 @@ void motor_run_antic(){
     CL_Write = 0;
 }
 
+void code_ctrl_clr(){
+    Code_Ctrl_Tris = 0;
+    Nop();
+    Code_Ctrl_Write = 0;
+}
+
+#ifdef  PHASE1
+Uint8 phase_a_read(){
+    Phase_A_Tris = 1;
+    Nop();
+    if(Phase_A_Read==0){
+        delayus(100);
+        if(Phase_A_Read==0){
+            return false;
+        }
+    }
+    return true;
+}
+
+Uint8 phase_b_read(){
+    Phase_B_Tris = 1;
+    Nop();
+    if(Phase_B_Read==0){
+        delayus(100);
+        if(Phase_B_Read==0){
+            return false;
+        }
+    }
+    return true;
+}
+
+Uint8 phase_c_read(){
+    Phase_C_Tris = 1;
+    Nop();
+    if(Phase_C_Read==0){
+        delayus(100);
+        if(Phase_C_Read==0){
+            return false;
+        }
+    }
+    return true;
+}
+#endif
+

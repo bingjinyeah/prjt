@@ -1094,7 +1094,7 @@ void lcd_dis_jinru(Uint8 row){
 #endif
 void lcd_dis_menu_0(){
     
-    _WriteEEPROMFlag = 0x55aa;
+    //_WriteEEPROMFlag = 0x55aa;
     _Menu = 1;
     lcd_dis_clr_all();
 #ifdef  LANGUAGE_EN
@@ -1122,7 +1122,7 @@ void lcd_dis_menu_0(){
 
 void lcd_dis_menu_1(){
     
-    _WriteEEPROMFlag = 0x55aa;
+    //_WriteEEPROMFlag = 0x55aa;
     _Menu = 2;
     lcd_dis_clr_all();
 #ifdef  LANGUAGE_EN

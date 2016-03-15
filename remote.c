@@ -2,10 +2,59 @@
 
 
 void check_card(){
+    Uint16 res;
     
+    _TRISB11 = 1;
+    _TRISB12 = 1;
+    _TRISB13 = 1;
+    _TRISB14 = 1;
+    _TRISB15 = 1;
+    delayms(1);
+    res = PORTB;
+    res = (res>>11)&0x1f;
+    if(res!=0){
+        delayus(100);
+        res = PORTB;
+        res = (res>>11)&0x1f;
+        if(res==0){
+            res = 0xaa;
+        }
+    }else{
+        res = 0xaa;
+    }
+    eedata_write(_Card,res);
+    if(res==8){
+        dp_init0();
+    }else if(res==2){
+        eedata_write(_DPSLTO,1);
+        dp_init0();
+    }
 }
 
 void check_remote_aux(){
+    if(judge_aux_open()){
+        _DP_IDATA3 |= BIT6;
+    }else{
+        _DP_IDATA3 &= ~BIT6;
+    }
+    
+    if(judge_aux_close()){
+        _DP_IDATA3 |= BIT5;
+    }else{
+        _DP_IDATA3 &= ~BIT5;
+    }
+    
+    if(judge_r_st()){
+        _DP_IDATA3 |= BIT4;
+    }else{
+        _DP_IDATA3 &= ~BIT4;
+    }
+    
+    if(judge_r_esd()){
+        _DP_IDATA3 |= BIT7;
+    }else{
+        _DP_IDATA3 &= ~BIT7;
+    }
     
 }
 
@@ -13,7 +62,6 @@ Uint8 judge_aux_open(){
     Uint16 res;
     Uint8  b;
     eedata_read(_AUXMSK,res);
-    R_OP_Tris = 1;
     if((res & BIT0)==0){
         b = true;
     }else{
@@ -30,7 +78,6 @@ Uint8 judge_aux_close(){
     Uint16 res;
     Uint8  b;
     eedata_read(_AUXMSK,res);
-    R_CL_Tris = 1;
     if((res & BIT1)==0){
         b = true;
     }else{
@@ -46,7 +93,6 @@ Uint8 judge_r_st(){
     Uint16 res;
     Uint8  b;
     eedata_read(_AUXMSK,res);
-    R_ST_Tris = 1;
     if((res & BIT2)==0){
         b = true;
     }else{
@@ -67,7 +113,6 @@ Uint8 judge_r_esd(){
     Uint16 res;
     Uint8  b;
     eedata_read(_AUXMSK,res);
-    R_ESD_Tris = 1;
     if((res & BIT3)==0){
         b = true;
     }else{
@@ -223,7 +268,7 @@ void remote_aux_close(){
             goto stop_end;
         }
         if(!in_remote()){
-            goto close_end;
+            goto stop_end;
         }
         if((res_aux & BIT5)==0){
             goto stop_end;
@@ -341,10 +386,10 @@ void remote_auto(){
                 goto stop_end;
             }
             if(!in_remote()){
-                goto auto_end;
+                goto stop_end;
             }
             if(!r_cv_read()){
-                goto auto_end;
+                goto stop_end;
             }
             if(rml!=0x69){
                 if(!r_op_hold_read()){
@@ -404,10 +449,10 @@ void remote_auto(){
                 goto stop_end;
             }
             if(!in_remote()){
-                goto auto_end;
+                goto stop_end;
             }
             if(!r_cv_read()){
-                goto auto_end;
+                goto stop_end;
             }
             if(rml!=0x69){
                 if(!r_cl_hold_read()){
@@ -537,10 +582,9 @@ void remote_thread(){
     if(r_cv_read()){
         _DP_IDATA2 |= BIT6;
         remote_auto();
-        return;
+    }else{
+        remote_man();
     }
-    
-    remote_man();
 }
 
 void button_remote_process(){

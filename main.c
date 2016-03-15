@@ -48,14 +48,12 @@ void delayus(Uint16 num){
     while(num--);
 }
 
-void main_power(){
+void main_rush(){
     motor_run_stop();
     if(_strAlarmFlag & _PowerDownFlag){
         process_power_down();
     }
-    Code_Ctrl_Tris = 0;
-    Nop();
-    Code_Ctrl_Write = 0;
+    code_ctrl_clr();
     _DP_IDATA2 &= 0x40;
     rush_status();
     relay_position_judge();
@@ -67,7 +65,7 @@ void main_power(){
     SET_CPU_IPL(3);	
     _StatusBack &= 0xff;
     _Length_Check_Flag = 0;
-    _WriteEEPROMFlag = 0;
+    //_WriteEEPROMFlag = 0;
     battery_manage();
     /*low power cost mode*/
     adc12_close();
@@ -97,38 +95,14 @@ void main_idle(){
 }
 
 Uint16 temp;
-int main(void) {
-#ifdef TEST 
-    LED_G_Tris = 0; // set port bit to be output
-    LED_R_Tris = 0;
-    // Timer3 setup
-    T3CON = 0;
-    _T3IF = 0;
-    PR3 = 50000;
-    TMR3 = 0;
-    _T3IE = 1; // enable interrupts for timer 1
-    _T3IP = 0x001; // set interrupt priority (lowest)
-    T3CONbits.TON = 1;
-    T3CONbits.TCKPS = 2;
-    lcd_test(); 
-    while(1){
-        
-        //LED_R_Write = 0;
-        LED_G_Write = 0;
-        delayms(500);
-        //LED_R_Write = 1;
-        LED_G_Write = 1;
-        delayms(500);
-        //lcd_dis_smallchar(0,4,_ucharTabR,0); 
-    }
-#else   
+int main(void) { 
     cpu_init();
     port_init();
     check_power();
     system_init();
     para_init();
     while(1){
-        main_power();
+        main_rush();
         main_idle();
         XN_STOP_Tris = 1;
         Nop();
@@ -166,7 +140,6 @@ int main(void) {
             _Rush_PlaceCount = 0;
             lcd_dis_stop();
         }
-    }
- #endif       
+    }     
     return 0;
 }

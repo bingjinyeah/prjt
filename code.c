@@ -41,7 +41,9 @@ void get_code_vp(){
     DA_CS_Write = 1;
     SPI2BUF = res;
     _SPI2IF = 0;
+#ifndef TEST
     while(_SPI2IF==0);
+#endif
     delayus(42);
     DA_CS_Write = 0;
     delayus(10);

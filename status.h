@@ -10,6 +10,7 @@
 
 extern void rush_status();
 extern void cal_status();
+extern void rush_feedback();
 
 #endif	/* STATUS_H */
 

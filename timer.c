@@ -12,8 +12,13 @@ void set_t1(Uint16 num){
     
     T1CON = 0;
     TMR1 = 0;
-    PR1 = num * 33;
-    T1CON = 2;
+
+    PR1 = num * 16;
+    T1CON = 0x30;
+    //32.768k don't work ,so change to fosc clock
+    //PR1 = num * 33;
+    //T1CON = 2;
+
     T1CONbits.TON = 1;
 }
 
@@ -21,16 +26,16 @@ void t1_init(Uint16 num){
     set_oscconl(2);
     _T1IE = 0;
     _T1IP = 4;
-    set_t1(num);
     _T1IF = 0;
     _T1IE = 1;
+    set_t1(num);
 }
 
 void t1_init_dummy(){
     set_oscconl(2);
     _T1IP = 4;
-    T1CONbits.TON = 1;
-    _T1IE = 1;    
+    _T1IE = 1; 
+    T1CONbits.TON = 1;       
 }
 
 void t1_close(){
@@ -190,7 +195,7 @@ void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void){
 }
 //extern Uint16 _EEDATA(2) _POSALS;
 //extern Uint16 _EEDATA(2) _DPSLTO;
-void __attribute__((interrupt,no_auto_psv)) _T3Interrupt(void){
+void __attribute__((interrupt,no_auto_psv)) _T4Interrupt(void){
     
     _T4IF = 0;
     //push _RCOUNT;
@@ -230,13 +235,4 @@ void __attribute__((interrupt,no_auto_psv)) _T3Interrupt(void){
         dp_tx_func();
     }
 }
-#ifdef TEST
-void __attribute__((interrupt,no_auto_psv)) _T3Interrupt(void){
-    // static variable for permanent storage duration
-    static Uint8 portValue = 0;
-    // write to port latch
-    LED_R_Write = portValue++;
-    // clear this interrupt condition
-    _T3IF = 0;
-}
-#endif
+

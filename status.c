@@ -187,3 +187,25 @@ rs_90:
     }
     
 }
+
+void rush_feedback(){
+    Uint16 cll,opl;
+    
+    spi2_init();
+    delayms(10);
+    _SPI2_DA = ufalse;
+    _NJDA = 0;
+    //sample the vpcode when power on,commit for test as no bianmaqi 
+    get_code_vp();
+    get_code_vp();
+    _L_CodeVP = circle_to_line(_CodeVP);
+    eedata_read(_L_CL_Limit,cll);
+    eedata_read(_L_OP_Limit,opl);
+    if(_CodeVP<=cll){
+        led_g_r_set(1,0);
+    }else if(_CodeVP>=opl){
+        led_g_r_set(0,1);
+    }else{
+        led_g_r_set(1,1);
+    }
+}

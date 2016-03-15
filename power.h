@@ -8,7 +8,7 @@
 #ifndef POWER_H
 #define	POWER_H
 
-extern Uint8 check_powerdown();
+extern void check_powerdown();
 extern void power_down();
 extern void poweron_init();
 extern void power_init();

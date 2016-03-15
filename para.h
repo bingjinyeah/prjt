@@ -21,7 +21,7 @@
 					
 PARA_EXT Uint16 _Tab_Order_ADDR; 
 	
-PARA_EXT Uint16 _WriteEEPROMFlag;
+//PARA_EXT Uint16 _WriteEEPROMFlag;
 	
 PARA_EXT Uint16 BL;	
 	

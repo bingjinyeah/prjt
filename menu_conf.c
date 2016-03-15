@@ -240,7 +240,7 @@ void menu_conf_2(){
     case 4: 
         eedata_write(_OP_TorProtect,_Menu2Count1);
         _strAlarmFlag &= ~_OTFlag;
-        _DP_DIAGR0 &= BIT4;
+        _DP_DIAGR0 &= ~BIT4;
         menu_conf_exit(SAVED,MENU_2);
         break;
     case 5: 

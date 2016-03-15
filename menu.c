@@ -120,7 +120,7 @@ void menu_loop(){
         }
         check_remote_aux();
         if(_strAlarmFlag & _PowerDownFlag){
-            power_down();
+            process_power_down();
             return;
         }
         

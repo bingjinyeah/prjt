@@ -32,12 +32,14 @@
 #define	_conCloseCode            	0xaa
 #define	_conOpenCode            	0x55
 #define	_conBackCode            	0xfc
-#define	_conAddCode            	0x2f
-#define	_conSubCode            	0x7e
+#define	_conAddCode                 0x2f
+#define	_conSubCode                 0x7e
 #define	_conDownCode            	0xcf
 #define	_conConfCode            	0xf2
 #define	_conIdentCode            	0x5a
-#define	_conReadIdentCode            	0xa5
+#define	_conReadIdentCode           0xa5
+#define _conFlowCode                0xa5
+#define _conReadFlowCode            0x5a
 /*****************************************************************/
 //--------------------?????---------------------------------
 /*****************************************************************/
