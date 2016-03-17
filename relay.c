@@ -7,7 +7,7 @@ void sx_status(Uint8 n){
         return;
     }
     get_eedata_snstatus(n,&res);   
-    if(res==0x69){
+    if(res==ufalse){
         _RmReadS = 1;
     }else{
         _RmReadS = 0;
@@ -387,7 +387,7 @@ void rush_monitor(){
         goto mnt_end;
     }
     eedata_read(_Monitor_With_OverTorque,res);
-    if(res==0x69){
+    if(res==utrue){
         if(_strAlarmFlag & _CTFlag){
             goto mnt_end;
         }
@@ -396,7 +396,7 @@ void rush_monitor(){
         }
     }
     eedata_read(_Monitor_With_Remote,res);
-    if(res==0x69){
+    if(res==utrue){
         if((_DP_IDATA1 & BIT6)==0){
             goto mnt_end;
         }

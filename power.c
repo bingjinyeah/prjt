@@ -3,12 +3,12 @@
 void multi_phase_test(){
 #ifdef  PHASE1
     if(phase_b_read()&&phase_c_read()){
-        _BytePowerDown = 0;
+        _BytePowerDown = false;
         return;
     }
 #endif
-    _BytePowerDown = 0x55;
-    _PowerIsOn = 0;
+    _BytePowerDown = true;
+    _PowerIsOn = false;
     return;
 }
 
@@ -29,7 +29,7 @@ void check_powerdown(){
     while(1){
         delayms(2);
         if(phase_a_read()){
-            _BytePowerDown = 0;
+            _BytePowerDown = false;
             return;
         }
         if(++_IC2Count>=10){
@@ -43,8 +43,8 @@ void poweron_init(){
     Uint16 res;
 #ifdef  PHASE1
     eedata_read(_PhaseOrder,res);
-    if(res!=0xa596){
-        eedata_write(_PhaseOrder,0xa596);
+    if(res!=utrue){
+        eedata_write(_PhaseOrder,utrue);
     }
 #else
     for(res=1;res<4;res++){
@@ -58,8 +58,8 @@ void poweron_init(){
 #endif
     _strAlarmFlag &= ~_PhaseLostedFlag;
     _strAlarmFlag &= ~_PowerDownFlag;
-    _BytePowerDown = 0;
-    _ByteRunningFlag = 0;
+    _BytePowerDown = false;
+    _ByteRunningFlag = false;
     _PhaseCount = 0;
     power_init();
 }
@@ -75,7 +75,7 @@ void rush_power(){
 void check_power(){
 	
 	check_powerdown();
-    if(_BytePowerDown==0x55){
+    if(_BytePowerDown==true){
 		process_power_down();
 	}	
 }  

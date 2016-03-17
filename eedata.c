@@ -23,18 +23,19 @@ Uint16 _EEDATA(2) _CL_Dir = _CL_Dir_Init;;
 Uint16 _EEDATA(2) _CL_Limit = 0x0;			
 		
 Uint16 _EEDATA(2) _L_CL_Limit = 0x0;		
-		
-Uint16 _EEDATA(2) _OP_Limit = 0x0;			
-#ifdef  TEST
-Uint16 _EEDATA(2) _L_OP_Limit = 0x100;	//test
+#ifdef  TEST		
+Uint16 _EEDATA(2) _OP_Limit = 0x1000;			
+
+Uint16 _EEDATA(2) _L_OP_Limit = 0x1000;	//test
 #else
-Uint16 _EEDATA(2) _L_OP_Limit = 0x0;	//test	
+Uint16 _EEDATA(2) _OP_Limit = 0x0;
+Uint16 _EEDATA(2) _L_OP_Limit = 0x0;		
 #endif	
 Uint16 _EEDATA(2) _Limit_Length = 0x0;		
 	
 Uint16 _EEDATA(2) _L_Zero = 0x0;			
 	
-Uint16 _EEDATA(2) _PhaseOrder = 0x0;		
+Uint16 _EEDATA(2) _PhaseOrder = ufalse;		
 	
 Uint16 _EEDATA(2) _Chargelapse = 0x0;		
 	
@@ -132,15 +133,15 @@ Uint16 _EEDATA(2) _Local_Lock =  _Local_Lock_Init;
 
 Uint16 _EEDATA(2) _Remote_Lock =  _Remote_Lock_Init;
 
-Uint16 _EEDATA(2) _ESD_Action	 = 0x0;	
+Uint16 _EEDATA(2) _ESD_Action	 = _ESD_Action_Init;	
 					
-Uint16 _EEDATA(2) _ESD_ExceedHot = 0x0;		
+Uint16 _EEDATA(2) _ESD_ExceedHot = _ESD_ExceedHot_Init;		
 		
-Uint16 _EEDATA(2) _ESD_ExceedSp = 0x0;		
+Uint16 _EEDATA(2) _ESD_ExceedSp = _ESD_ExceedSp_Init;		
 		
-Uint16 _EEDATA(2) _ESD_ExceedLock = 0x0;	
+Uint16 _EEDATA(2) _ESD_ExceedLock = _ESD_ExceedLock_Init;	
 		
-Uint16 _EEDATA(2) _ESD_ExceedTime = 0x0;	
+Uint16 _EEDATA(2) _ESD_ExceedTime = _ESD_ExceedTime_Init;	
 	
 Uint16 _EEDATA(2) _Forbid_ESD =  _Forbid_ESD_Init;
 
@@ -331,7 +332,7 @@ Uint16 _EEDATA(2) _PARITY = _PARITY_Init;
 
 Uint16 _EEDATA(2) _RelayControl = _RelayControl_Init;
 
-Uint16 _EEDATA(2) _Redundancy = 0x0;			
+Uint16 _EEDATA(2) _Redundancy = ufalse;			
 
 Uint16 _EEDATA(2) _CL_TorPercent = 0x0;				
 

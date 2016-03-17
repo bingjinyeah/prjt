@@ -16,7 +16,7 @@ void get_code_vp(){
     Uint16 res;
     
     res = SPI2BUF;
-    if(_SPIRBF){
+    if(SPI2STATbits.SPIRBF){
         res = (res>>1)|(_CodeVP15<<15);
         _CodeVP = gray_to_bin(res);
     }
@@ -41,9 +41,9 @@ void get_code_vp(){
     DA_CS_Write = 1;
     SPI2BUF = res;
     _SPI2IF = 0;
-#ifndef TEST
+//#ifndef TEST
     while(_SPI2IF==0);
-#endif
+//#endif
     delayus(42);
     DA_CS_Write = 0;
     delayus(10);
@@ -58,30 +58,21 @@ Uint16 circle_to_line(Uint16 vp){
     eedata_read(_CL_Dir,cld);
     eedata_read(_BIG_SHUCK ,bs);
     eedata_read(_L_Zero,lz);
-    if(((cld==ufalse)&&(bs==0x69))||
-       ((cld!=ufalse)&&(bs!=0x69))){
+    if(((cld==ufalse)&&(bs==ufalse))||
+       ((cld!=ufalse)&&(bs!=ufalse))){
             return (vp - lz);
     }else{
         return (lz - vp);
     }  
 
 }
-/*
-Uint8 set_logic(){
-    Uint16 low,high;
-    
-    eedata_read(_IC_Low_VP,low);
-    eedata_read(_IC_High_VP,high);
-    if(high>low){
-        return 0x69;
-    }else{
-        return 0xff;
-    }
-}
-*/
+
 Uint16 alu_dbd(){
+    Uint16 id,ll;
     
-    return 0;
+    eedata_read(_IC_Dbd,id);
+    eedata_read(_Limit_Length,ll);
+    return ((Uint32)id*ll/1000 + 1);
 }
 void alu_ic_code(){
     Uint16 dl,dh;
@@ -89,7 +80,7 @@ void alu_ic_code(){
     Uint16 cll,opl;
     float res;
     
-    _Back_Flag = 0;
+    _Back_Flag = false;
     eedata_read(_IC_Low_VP,dl);
     eedata_read(_IC_High_VP,dh);
     if(dh<dl){
@@ -121,39 +112,27 @@ void alu_ic_code(){
             _IC_Code = opl;
         }else if(dl==0x07){
             eedata_read(_LOSPOS,dl);
-            _IC_Code = (opl-cll)*dl/100+cll;
+            _IC_Code = (Uint32)(opl-cll)*dl/100+cll;
         }else{
-            _Back_Flag = 0x55;
+            _Back_Flag = true;
         }
         return;
     }
-    res = res*(opl-cll)/100 + cll;
+    res = (Uint32)res*(opl-cll)/100 + cll;
     _strAlarmFlag &= ~_SignLostedFlag;
     _IC_Code = (Uint16)res;
     
 }
-/*
-Uint8 set_dp_logic(){
-    Uint16 low,high;
-    
-    eedata_read(_POSMIN,low);
-    eedata_read(_POSMAX,high);
-    if(high>low){
-        return 0x69;
-    }else{
-        return 0xff;
-    }
-}
-*/
+
 void alu_dp_code(){
     Uint16 min,max;
     
     eedata_read(_POSMIN_Code,min);
     eedata_read(_POSMAX_Code,max);
     if(max>min){
-        _DP_Code = _DP_ACTPOS*(max-min)/0xff+min;
+        _DP_Code = (Uint32)_DP_ACTPOS*(max-min)/0xff+min;
     }else{
-        _DP_Code = min - _DP_ACTPOS*(min-max)/0xff;
+        _DP_Code = min - (Uint32)_DP_ACTPOS*(min-max)/0xff;
     }
 }
 
@@ -164,9 +143,9 @@ Uint16 alu_dis_ic(){
     eedata_read(_IC_Low,low);
     eedata_read(_IC_High,high);
     if(_IC[10]>=low){
-        res = 160*(_IC[10]-low)/(high-low) + 40;
+        res = 160*((Uint32)(_IC[10]-low))/(high-low) + 40;
     }else{
-        res = 40 - 160*(low-_IC[10])/(high-low);
+        res = 40 - 160*((Uint32)(low-_IC[10]))/(high-low);
     }
     return res;
 }
@@ -178,9 +157,9 @@ Uint16 alu_dis_position_back(){
     eedata_read(_Pos_BackL,low);
     eedata_read(_Pos_BackH,high);
     if(_Menu330Count>=low){
-        res = 1600*(_Menu330Count-low)/(high-low) + 400;
+        res = 1600*((Uint32)(_Menu330Count-low))/(high-low) + 400;
     }else{
-        res = 400 - 1600*(low-_Menu330Count)/(high-low);
+        res = 400 - 1600*((Uint32)(low-_Menu330Count))/(high-low);
     }
     return res;
 }
@@ -192,9 +171,9 @@ Uint16 alu_dis_tor_back(){
     eedata_read(_Tor_BackL,low);
     eedata_read(_Tor_BackH,high);
     if(_Menu331Count>=low){
-        res = 1600*(_Menu331Count-low)/(high-low) + 400;
+        res = 1600*((Uint32)(_Menu331Count-low))/(high-low) + 400;
     }else{
-        res = 400 - 1600*(low-_Menu331Count)/(high-low);
+        res = 400 - 1600*((Uint32)(low-_Menu331Count))/(high-low);
     }
     return res;
 }
@@ -206,8 +185,8 @@ void cal_zero(Uint16 cll, Uint16 opl){
     eedata_read(_CL_Dir,cld);
     eedata_read(_BIG_SHUCK ,bs);
 
-    if(((cld==ufalse)&&(bs==0x69))||
-       ((cld!=ufalse)&&(bs!=0x69))){  
+    if(((cld==ufalse)&&(bs==ufalse))||
+       ((cld!=ufalse)&&(bs!=ufalse))){  
         res = cll - opl;
         res>>=1;
         if((opl>=cll)&&(res<=cll)){
@@ -228,7 +207,7 @@ void cal_zero(Uint16 cll, Uint16 opl){
     eedata_write(_L_Zero,res);
 }
 
-Uint8 cal_limit(Uint16 opl, Uint16 cll, Uint16 lz){
+Uint8 cal_limit(Uint16 cll, Uint16 opl, Uint16 lz){
     Uint32  mul;
     Uint16  sub,res;
     
@@ -253,12 +232,12 @@ Uint8 cal_limit(Uint16 opl, Uint16 cll, Uint16 lz){
         eedata_write(_L_OP_Limit,opl);
         eedata_write(_L_CL_Limit,cll);
         eedata_read(_POSMIN,res);
-        mul = res * sub;
+        mul = (Uint32)res * sub;
         res = mul/100;
         res += cll;
         eedata_write(_POSMIN_Code,res);
         eedata_read(_POSMAX,res);
-        mul = res * sub;
+        mul = (Uint32)res * sub;
         res = mul/100;
         res += cll;
         eedata_write(_POSMAX_Code,res);
@@ -270,16 +249,16 @@ Uint8 cal_limit(Uint16 opl, Uint16 cll, Uint16 lz){
 void cal_limit_length(){
     Uint16  lz,opl,cll;
     
-    if(((_SetOPLimitFlag==0x69)&&(_SetCLLimitFlag!=0x69))||
-       ((_SetOPLimitFlag!=0x69)&&(_SetCLLimitFlag==0x69))){
+    if(((_SetOPLimitFlag==true)&&(_SetCLLimitFlag!=true))||
+       ((_SetOPLimitFlag!=true)&&(_SetCLLimitFlag==true))){
         eedata_read(_L_Zero,lz);
         eedata_read(_OP_Limit,opl);
         eedata_read(_CL_Limit,cll);
         cal_limit(cll,opl,lz);
     }
         
-    _SetOPLimitFlag = 0;
-    _SetCLLimitFlag = 0;
+    _SetOPLimitFlag = false;
+    _SetCLLimitFlag = false;
     relay_position_judge();
     rush_relays();
 }
@@ -287,27 +266,27 @@ void cal_limit_length(){
 Uint8 cal_length(Uint16 low, Uint16 high){    
     Uint16 cld,bs,res;
     
-    if((_SetOPLimitFlag==0x69)||(_SetCLLimitFlag==0x69)){
+    if((_SetOPLimitFlag==true)||(_SetCLLimitFlag==true)){
 
         eedata_read(_CL_Dir,cld);
         eedata_read(_BIG_SHUCK ,bs);
-        if(((cld==ufalse)&&(bs==0x69))||
-           ((cld!=ufalse)&&(bs!=0x69))){   
+        if(((cld==ufalse)&&(bs==ufalse))||
+           ((cld!=ufalse)&&(bs!=ufalse))){   
             res = low - high;
         }else{
             res = high - low;
         } 
-        if(_Length_Check_Flag==0x69){
+        if(_Length_Check_Flag==true){
             if(res<=200){
-                _Length_Error_Flag = 0x69;
+                _Length_Error_Flag = true;
                 return E_ERR;
             }
         }else{
             if((res>=200)&&(res<=400)){
-                _Length_Check_Flag = 0x69;
+                _Length_Check_Flag = true;
             }
         }
     }
-    _Length_Error_Flag = 0;
+    _Length_Error_Flag = false;
     return E_OK;
 }

@@ -145,7 +145,7 @@ void esd_op_thread(){
             continue;
         }
         eedata_read(_Interim_Ctrl,res);
-        if(res==0x69){
+        if(res==OPEN_MOV){
             eedata_read(_Start_Pos,res);
             if(_VPPercent<res){
                 continue;
@@ -157,7 +157,7 @@ void esd_op_thread(){
                     continue;
                 }
             }  
-        }else if(res==0x96){
+        }else if(res==CLOSE_MOV){
             eedata_read(_Stop_Pos,res);
             if(_VPPercent>res){
                 continue;
@@ -252,7 +252,7 @@ void esd_cl_thread(){
             continue;
         }
         eedata_read(_Interim_Ctrl,res);
-        if(res==0x96){
+        if(res==CLOSE_MOV){
             eedata_read(_Start_Pos,res);
             if(_VPPercent>res){
                 continue;
@@ -264,7 +264,7 @@ void esd_cl_thread(){
                     continue;
                 }
             }  
-        }else if(res==0x69){
+        }else if(res==OPEN_MOV){
             eedata_read(_Stop_Pos,res);
             if(_VPPercent<res){
                 continue;

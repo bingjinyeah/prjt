@@ -82,15 +82,15 @@ void check_dp_action1(Uint8 act){
         goto action_end;
     }
     
-    _Back_Flag = 0;
+    _Back_Flag = false;
     return;
 action_end:
-    _Back_Flag = 0x55;
+    _Back_Flag = true;
     return;
 }
 void check_dp_action(Uint8 act){
     if(_DP_ACTION==0){
-        _Back_Flag = 0x55;
+        _Back_Flag = true;
     }else{
         check_dp_action1(act);
     }
@@ -101,12 +101,12 @@ void remote_dp_open(){
     
     _Thread_Flag = 0x09;
     check_dp_action(ACT_OPEN);
-    if(_Back_Flag==0x55){
+    if(_Back_Flag==true){
         goto open_end;
     }
 
     eedata_read(_Remote_Lock,res_rl);
-    if(res_rl!=0x69){
+    if(res_rl!=ufalse){
         if(!r_op_hold_read()){
             _StopTimer = 50;
             dis_open_lock();
@@ -128,7 +128,7 @@ void remote_dp_open(){
         
         if(res_card==8){
             eedata_read(_DPCtrl,res_dc);
-            if(res_dc==0x69){
+            if(res_dc==ufalse){
                 check_dp_action1(ACT_OPEN);
             }else{
                 check_dp_action(ACT_OPEN);
@@ -136,10 +136,10 @@ void remote_dp_open(){
         }else{
             check_dp_action(ACT_OPEN);
         }
-        if(_Back_Flag==0x55){
+        if(_Back_Flag==true){
             goto stop_end;
         }     
-        if(res_rl!=0x69){
+        if(res_rl!=ufalse){
             if(!r_op_hold_read()){
                 _StopTimer = 25;
                 dis_open_lock();
@@ -164,12 +164,12 @@ void remote_dp_close(){
     
     _Thread_Flag = 0x0a;
     check_dp_action(ACT_CLOSE);
-    if(_Back_Flag==0x55){
+    if(_Back_Flag==true){
         goto close_end;
     }
 
     eedata_read(_Remote_Lock,res_rl);
-    if(res_rl!=0x69){
+    if(res_rl!=ufalse){
         if(!r_cl_hold_read()){
             _StopTimer = 50;
             dis_close_lock();
@@ -191,7 +191,7 @@ void remote_dp_close(){
         
         if(res_card==8){
             eedata_read(_DPCtrl,res_dc);
-            if(res_dc==0x69){
+            if(res_dc==ufalse){
                 check_dp_action1(ACT_CLOSE);
             }else{
                 check_dp_action(ACT_CLOSE);
@@ -199,10 +199,10 @@ void remote_dp_close(){
         }else{
             check_dp_action(ACT_CLOSE);
         }
-        if(_Back_Flag==0x55){
+        if(_Back_Flag==true){
             goto stop_end;
         }     
-        if(res_rl!=0x69){
+        if(res_rl!=ufalse){
             if(!r_cl_hold_read()){
                 _StopTimer = 25;
                 dis_close_lock();
@@ -228,7 +228,7 @@ void remote_dp_position(){
     
     _Thread_Flag = 0x0b;
     check_dp_action(ACT_POSITION);
-    if(_Back_Flag==0x55){
+    if(_Back_Flag==true){
         goto auto_end;
     }
     _DP_IDATA1 |= BIT6;
@@ -259,7 +259,7 @@ void remote_dp_position(){
         }
     }
     if(act_flag==1){
-        if(rml!=0x69){
+        if(rml!=ufalse){
             if(!r_op_hold_read()){
                 _StopTimer = 50;
                 dis_open_lock();
@@ -279,10 +279,10 @@ void remote_dp_position(){
         _DP_DIAGR1 |= BIT3;
         while(1){
             check_dp_action(ACT_POSITION);
-            if(_Back_Flag==0x55){
+            if(_Back_Flag==true){
                 goto stop_end;
             }
-            if(rml!=0x69){
+            if(rml!=ufalse){
                 if(!r_op_hold_read()){
                     _StopTimer = 25;
                     dis_open_lock();
@@ -306,7 +306,7 @@ void remote_dp_position(){
             }
         }
     }else if(act_flag==2){
-        if(rml!=0x69){
+        if(rml!=ufalse){
             if(!r_cl_hold_read()){
                 _StopTimer = 50;
                     dis_close_lock();
@@ -326,10 +326,10 @@ void remote_dp_position(){
         _DP_DIAGR1 |= BIT3;
         while(1){
             check_dp_action(ACT_POSITION);
-            if(_Back_Flag==0x55){
+            if(_Back_Flag==true){
                 goto stop_end;
             }
-            if(rml!=0x69){
+            if(rml!=ufalse){
                 if(!r_cl_hold_read()){
                     _StopTimer = 25;
                     dis_close_lock();
@@ -410,7 +410,7 @@ void remote_dp_salos(){
     
     _Thread_Flag = 0x0c;
     check_dp_action(ACT_SALOS);
-    if(_Back_Flag==0x55){
+    if(_Back_Flag==true){
         goto los_end;
     }
     _DP_IDATA1 &= ~BIT4;
@@ -453,7 +453,7 @@ void remote_dp_salos(){
         }
     }
     if(act_flag==1){
-        if(rml!=0x69){
+        if(rml!=ufalse){
             if(!r_op_hold_read()){
                 _StopTimer = 50;
                 dis_open_lock();
@@ -471,10 +471,10 @@ void remote_dp_salos(){
         open_phase4();
         while(1){
             check_dp_action(ACT_SALOS);
-            if(_Back_Flag==0x55){
+            if(_Back_Flag==true){
                 goto stop_end;
             }
-            if(rml!=0x69){
+            if(rml!=ufalse){
                 if(!r_op_hold_read()){
                     _StopTimer = 25;
                     dis_open_lock();
@@ -497,7 +497,7 @@ void remote_dp_salos(){
             }
         }
     }else if(act_flag==2){
-        if(rml!=0x69){
+        if(rml!=ufalse){
             if(!r_cl_hold_read()){
                 _StopTimer = 50;
                 dis_close_lock();
@@ -515,10 +515,10 @@ void remote_dp_salos(){
         close_phase4();
         while(1){
             check_dp_action(ACT_SALOS);
-            if(_Back_Flag==0x55){
+            if(_Back_Flag==true){
                 goto stop_end;
             }
-            if(rml!=0x69){
+            if(rml!=ufalse){
                 if(!r_cl_hold_read()){
                     _StopTimer = 25;
                     dis_close_lock();

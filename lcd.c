@@ -39,7 +39,7 @@ void dis_init(){
 	DB7_Tris = 0;
 	lcd_write_reg(0xa2);
 	lcd_write_reg(0x2f);
-	if(inverse==0x69){
+	if(inverse==utrue){
 		lcd_write_reg(0xa1);
 		lcd_write_reg(0xc0);
 	}else{
@@ -166,7 +166,7 @@ void lcd_dis_smallchar(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse){
 	row<<=1;
 	cloumn<<=3;
 	eedata_read(_InverseDisEnable,inverse);
-    if(inverse==0x69){
+    if(inverse==utrue){
 		cloumn+=4;
 	}
 	while(rcount--){
@@ -194,7 +194,7 @@ void lcd_dis_char(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse){
 	row<<=1;
 	cloumn<<=4;
 	eedata_read(_InverseDisEnable,inverse);
-    if(inverse==0x69){
+    if(inverse==utrue){
 		cloumn+=4;
 	}
 	while(rcount--){
@@ -222,7 +222,7 @@ void lcd_dis_bigchar(Uint8 row, Uint8 cloumn, Uint8 *data, Uint8 reverse){
 	row<<=1;
 	cloumn<<=4;
 	eedata_read(_InverseDisEnable,inverse);
-    if(inverse==0x69){
+    if(inverse==utrue){
 		cloumn+=4;
 	}
 	while(rcount--){
@@ -1070,7 +1070,7 @@ void lcd_dis_yunxu(Uint8 row, Uint8 cloumn, Uint8 reverse){
     lcd_dis_char(row,++cloumn,_ucharTabXu,reverse);
 }
 void lcd_dis_buyunxu(Uint8 row, Uint8 cloumn, Uint8 reverse){
-    lcd_dis_char(row,cloumn,_ucharTabYun1,reverse);
+    lcd_dis_char(row,cloumn,_ucharTabBu,reverse);
     lcd_dis_char(row,++cloumn,_ucharTabYun1,reverse);
     lcd_dis_char(row,++cloumn,_ucharTabXu,reverse);
 }
@@ -1131,25 +1131,25 @@ void lcd_dis_menu_1(){
     _DisWord1 = _ucharTabJi;
     _DisWord2 = _ucharTabShe;
     _DisWord3 = _ucharTabDing;
-    lcd_dis_chinese_left(0,0);
+    lcd_dis_chinese_left(0,(_uintCur==0));
     
     _DisWord0 = _ucharTabEr;
     _DisWord1 = _ucharTabJi;
     _DisWord2 = _ucharTabShe;
     _DisWord3 = _ucharTabDing;
-    lcd_dis_chinese_left(1,0);
+    lcd_dis_chinese_left(1,(_uintCur==1));
     
     _DisWord0 = _ucharTabXin;
     _DisWord1 = _ucharTabHao;
     _DisWord2 = _ucharTabCha;
     _DisWord3 = _ucharTabXun;
-    lcd_dis_chinese_left(2,0);
+    lcd_dis_chinese_left(2,(_uintCur==2));
     
     _DisWord0 = _ucharTabXi;
     _DisWord1 = _ucharTabTong;
     _DisWord2 = _ucharTabShe;
     _DisWord3 = _ucharTabZhi1;
-    lcd_dis_chinese_left(3,0);
+    lcd_dis_chinese_left(3,(_uintCur==3));
     
     lcd_dis_jinru(_uintCur);
 #endif    
@@ -1277,7 +1277,7 @@ void lcd_dis_menu_2(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_CL_Dir,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==ufalse) ? 1:0);
             }
             if(_RmRead){
                 lcd_dis_menu_2_9();
@@ -1290,7 +1290,7 @@ void lcd_dis_menu_2(){
             lcd_dis_menu_2_1(1,1);
             lcd_dis_menu_2_2(2,0);
             lcd_dis_menu_2_3(3,0);
-            if((_Length_Check_Flag==0x69)&&(_Length_Error_Flag==0x69)){
+            if((_Length_Check_Flag==true)&&(_Length_Error_Flag==true)){
                 lcd_dis_alarm_lengtherror();
             }
             if(_EmRead==1){
@@ -1323,7 +1323,7 @@ void lcd_dis_menu_2(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_CLDir_Protect,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==ufalse) ? 1:0);
             }
             if(_RmRead){
                lcd_dis_menu_2_31();
@@ -1351,7 +1351,7 @@ void lcd_dis_menu_2(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_OPDir_Protect,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==ufalse) ? 1:0);
             }
             if(_RmRead){
                lcd_dis_menu_2_31();
@@ -1515,6 +1515,10 @@ void lcd_dis_menu_3(){
             }
             break;
         case 3:
+            lcd_dis_menu_3_0(0);
+            lcd_dis_menu_3_1(0);
+            lcd_dis_menu_3_2(0);
+            lcd_dis_menu_3_3(1);
             if(fb_fw_read()){
                 if(fb_tq_read()){
                     _FB_Temp = 0;
@@ -1876,7 +1880,7 @@ void lcd_dis_menu_300b(){
         if(_EmRead==1){
             _EmRead = 0;
             eedata_read(_Monitor_With_Remote,res);
-            if(res==0x69){
+            if(res==utrue){
                 _RmRead = 0;
             }else{
                 _RmRead = 1;
@@ -1886,7 +1890,7 @@ void lcd_dis_menu_300b(){
         if(_EmRead==1){
             _EmRead = 0;
             eedata_read(_Monitor_With_OverTorque,res);
-            if(res==0x69){
+            if(res==utrue){
                 _RmRead = 0;
             }else{
                 _RmRead = 1;
@@ -1925,11 +1929,11 @@ void lcd_dis_menu_310(){
     
     reverse = (_uintCur==0) ? 1:0;
     lcd_dis_char(1,3,_ucharTabBao,reverse);
-    lcd_dis_char(1,3,_ucharTabChi,reverse);
+    lcd_dis_char(1,4,_ucharTabChi,reverse);
     
     reverse = _uintCur;
     lcd_dis_char(2,3,_ucharTabDian,reverse);
-    lcd_dis_char(2,3,_ucharTabDong,reverse);
+    lcd_dis_char(2,4,_ucharTabDong,reverse);
 #endif
 }
 
@@ -2568,9 +2572,9 @@ void lcd_dis_menu_buslist_5(Uint8 row, Uint8 reverse){
     if(_EmRead==1){
         _EmRead = 0;
         eedata_read(_ESD_Action,res);
-        if(res==0x69){
+        if(res==ESD_OPENL){
             _RmRead = 0;
-        }else if(res==0x96){
+        }else if(res==ESD_CLOSEL){
             _RmRead = 1;
         }else{
             _RmRead = 2;
@@ -2893,7 +2897,7 @@ void lcd_dis_menu_buslist_13(Uint8 row, Uint8 reverse){
     if(_EmRead==1){
         _EmRead = 0;
         eedata_read(_Redundancy,res);
-        _RmRead = (res==0x69) ? 1:0;
+        _RmRead = (res==utrue) ? 1:0;
     } 
     if(_RmRead>1){
         return;
@@ -2938,7 +2942,7 @@ void lcd_dis_menu_buslist_15(Uint8 row, Uint8 reverse){
     if(_EmRead==1){
         _EmRead = 0;
         eedata_read(_DPCtrl,res);
-        _RmRead = (res==0x69) ? 0x69:0;
+        _RmRead = (res==ufalse) ? 0x69:0;
     } 
     switch(_RmRead){
         case 0:
@@ -3471,7 +3475,7 @@ void lcd_dis_menu_320(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_Local_Lock,res);
-                _RmRead = (res==0x69) ? 1:0;
+                _RmRead = (res==ufalse) ? 1:0;
             }   
             if(_RmRead){
                 lcd_dis_buyunxu(1,5,0);
@@ -3485,7 +3489,7 @@ void lcd_dis_menu_320(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_Remote_Lock,res);
-                _RmRead1 = (res==0x69) ? 1:0;
+                _RmRead1 = (res==ufalse) ? 1:0;
             }   
             if(_RmRead1){
                 lcd_dis_buyunxu(2,5,0);
@@ -3600,7 +3604,7 @@ void lcd_dis_menu_3210(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_ESD_Action,res);
-                _RmRead = ((res==0x69)?0:((res==0x96)?1:2));
+                _RmRead = ((res==ESD_OPENL)?0:((res==ESD_CLOSEL)?1:2));
             }  
             switch(_RmRead){
                 case 0:
@@ -3651,7 +3655,7 @@ void lcd_dis_menu_3210(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_ESD_ExceedHot,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==ufalse) ? 1:0);
             }  
             switch(_RmRead){
                 case 0:
@@ -3669,7 +3673,7 @@ void lcd_dis_menu_3210(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_ESD_ExceedSp,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==ufalse) ? 1:0);
             }  
             switch(_RmRead){
                 case 0:
@@ -3687,7 +3691,7 @@ void lcd_dis_menu_3210(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_ESD_ExceedLock,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==ufalse) ? 1:0);
             }  
             switch(_RmRead){
                 case 0:
@@ -3705,7 +3709,7 @@ void lcd_dis_menu_3210(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_ESD_ExceedTime,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==ufalse) ? 1:0);
             }  
             switch(_RmRead){
                 case 0:
@@ -4306,7 +4310,7 @@ void lcd_dis_menu_330_1(Uint8 reverse){
     _DisWord1 = _ucharTabXin;
     _DisWord2 = _ucharTabHao;
     _DisWord3 = _ucharTabDui;
-    lcd_dis_chinese_left(1,0);
+    lcd_dis_chinese_left(1,reverse);
     _DisWord0 = _ucharTabYing;
     _DisWord1 = _ucharTabClr;
     _DisWord2 = _ucharTabClr;
@@ -4377,7 +4381,7 @@ void lcd_dis_menu_330(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_Pos_BackLogic,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==ufalse) ? 1:0);
             }
             if(_RmRead){
                 lcd_dis_char(1,6,_ucharTabQuan,0);
@@ -4448,7 +4452,7 @@ void lcd_dis_menu_331(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_Tor_BackLogic,res);
-                _RmRead = ((res==0x69) ? 0:1);
+                _RmRead = ((res==ufalse) ? 0:1);
             }
             if(_RmRead){
                 lcd_dis_char(1,6,_ucharTabLing6,0);
@@ -4638,12 +4642,12 @@ void lcd_dis_menu_40(){
     Uint8 reverse;
     
     _Menu = 31;
-    _uchar_OpenPre = 0;
-    _uchar_ClosePre = 0;
-    _uchar_IdlePre = 0;
-    _uchar_LocalPre = 0;
-    _uchar_RemotePre = 0;	
-    _uchar_StopPre = 0;
+    _uchar_OpenPre = false;
+    _uchar_ClosePre = false;
+    _uchar_IdlePre = false;
+    _uchar_LocalPre = false;
+    _uchar_RemotePre = false;	
+    _uchar_StopPre = false;
     lcd_dis_clr_all();
     if(_uintCur>1){
         return;
@@ -4676,13 +4680,13 @@ void lcd_dis_menu_40(){
             _CNIE = 1;
             _CN11IE = 1;
             if(in_stop()){
-                _uchar_LocalPre = 0;
-                _uchar_RemotePre = 0;
-                if(_uchar_StopPre==0x69){
+                _uchar_LocalPre = false;
+                _uchar_RemotePre = _uchar_RemotePre;
+                if(_uchar_StopPre==true){
                     goto menu_40_end;
                 }else{
                     _uintMenuCount = 0;
-                    _uchar_StopPre = 0x69;
+                    _uchar_StopPre = true;
                 }
     #ifdef  LANGUAGE_EN
     #else 
@@ -4693,13 +4697,13 @@ void lcd_dis_menu_40(){
                 lcd_dis_chinese_right(1,0);
     #endif     
             }else if(in_local()){
-                _uchar_StopPre = 0;
-                _uchar_RemotePre = 0;
-                if(_uchar_LocalPre==0x69){
+                _uchar_StopPre = false;
+                _uchar_RemotePre = false;
+                if(_uchar_LocalPre==true){
                     goto menu_40_end;
                 }else{
                     _uintMenuCount = 0;
-                    _uchar_LocalPre = 0x69;
+                    _uchar_LocalPre = true;
                 }
     #ifdef  LANGUAGE_EN
     #else 
@@ -4710,13 +4714,13 @@ void lcd_dis_menu_40(){
                 lcd_dis_chinese_right(1,0);
     #endif     
             }else if(in_remote()){
-                _uchar_StopPre = 0;
-                _uchar_LocalPre = 0;
-                if(_uchar_RemotePre==0x69){
+                _uchar_StopPre = false;
+                _uchar_LocalPre = false;
+                if(_uchar_RemotePre==true){
                     goto menu_40_end;
                 }else{
                     _uintMenuCount = 0;
-                    _uchar_RemotePre = 0x69;
+                    _uchar_RemotePre = true;
                 }
     #ifdef  LANGUAGE_EN
     #else 
@@ -4741,13 +4745,13 @@ void lcd_dis_menu_40(){
     #endif          
             _T3IE = 1;
             if(l_op_read()){
-                _uchar_ClosePre = 0;
-                _uchar_IdlePre = 0;
-                if(_uchar_OpenPre==0x69){
+                _uchar_ClosePre = false;
+                _uchar_IdlePre = false;
+                if(_uchar_OpenPre==true){
                     goto menu_40_end;
                 }else{
                     _uintMenuCount = 0;
-                    _uchar_OpenPre = 0x69;
+                    _uchar_OpenPre = true;
                 }
     #ifdef  LANGUAGE_EN
     #else 
@@ -4758,13 +4762,13 @@ void lcd_dis_menu_40(){
                 lcd_dis_chinese_right(2,0);
     #endif     
             }else if(l_cl_read()){
-                _uchar_OpenPre = 0;
-                _uchar_IdlePre = 0;
-                if(_uchar_ClosePre==0x69){
+                _uchar_OpenPre = false;
+                _uchar_IdlePre = false;
+                if(_uchar_ClosePre==true){
                     goto menu_40_end;
                 }else{
                     _uintMenuCount = 0;
-                    _uchar_ClosePre = 0x69;
+                    _uchar_ClosePre = true;
                 }
     #ifdef  LANGUAGE_EN
     #else 
@@ -4775,13 +4779,13 @@ void lcd_dis_menu_40(){
                 lcd_dis_chinese_right(2,0);
     #endif     
             }else{
-                _uchar_OpenPre = 0;
-                _uchar_ClosePre = 0;
-                if(_uchar_IdlePre==0x69){
+                _uchar_OpenPre = false;
+                _uchar_ClosePre = false;
+                if(_uchar_IdlePre==true){
                     goto menu_40_end;
                 }else{
                     _uintMenuCount = 0;
-                    _uchar_IdlePre = 0x69;
+                    _uchar_IdlePre = true;
                 }
     #ifdef  LANGUAGE_EN
     #else 
@@ -5051,7 +5055,7 @@ void lcd_dis_menu_43_content(){
 }
 void lcd_dis_menu_43(){
 
-    _Menu = 32;
+    _Menu = 33;
     _uchar_SignalPre = 0;
     lcd_dis_clr_all();
     if(_uintCur>7){
@@ -5101,7 +5105,7 @@ void lcd_dis_menu_44(){
     if(_EmRead==1){
         _EmRead = 0;
         eedata_read(_BIG_SHUCK,res);
-        _RmRead = ((res==0x69) ? 1:0);
+        _RmRead = ((res==ufalse) ? 1:0);
     }
     if(_RmRead){
         lcd_dis_char(2,3,_ucharTabDa1,0);
@@ -5121,7 +5125,7 @@ void lcd_dis_menu_5_1(Uint8 reverse){
     _DisWord1 = _ucharTabShi1;
     _DisWord2 = _ucharTabFang;
     _DisWord3 = _ucharTabShi2;
-    lcd_dis_chinese_left(0,0);
+    lcd_dis_chinese_left(0,reverse);
 #endif    
 }
 void lcd_dis_menu_5_2(Uint8 reverse){
@@ -5131,7 +5135,7 @@ void lcd_dis_menu_5_2(Uint8 reverse){
     _DisWord1 = _ucharTabGai;
     _DisWord2 = _ucharTabKou;
     _DisWord3 = _ucharTabLing;
-    lcd_dis_chinese_left(1,0);
+    lcd_dis_chinese_left(1,reverse);
 #endif    
 }
 void lcd_dis_menu_5_3(Uint8 reverse){
@@ -5141,12 +5145,12 @@ void lcd_dis_menu_5_3(Uint8 reverse){
     _DisWord1 = _ucharTabFu;
     _DisWord2 = _ucharTabChu;
     _DisWord3 = _ucharTabChang;
-    lcd_dis_chinese_left(2,0);
+    lcd_dis_chinese_left(2,reverse);
     _DisWord0 = _ucharTabShe;
     _DisWord1 = _ucharTabZhi1;
     _DisWord2 = _ucharTabClr;
     _DisWord3 = _ucharTabClr;
-    lcd_dis_chinese_right(2,0);
+    lcd_dis_chinese_right(2,reverse);
 #endif    
 }
 
@@ -5168,7 +5172,7 @@ void lcd_dis_menu_5(){
             if(_EmRead==1){
                 _EmRead = 0;
                 eedata_read(_InverseDisEnable,res);
-                _RmRead = ((res==0x69) ? 1:0);
+                _RmRead = ((res==utrue) ? 1:0);
             }
             if(_RmRead){
                 _DisWord0 = _ucharTabClr;
@@ -5193,9 +5197,9 @@ void lcd_dis_menu_5(){
                 eedata_read(_Code_Orde,res);
                 _Menu5Count0 = res;
             }
-            lcd_dis_num_bai(2,12,_Menu5Count0,0);
-            lcd_dis_num_shi(2,13,_Menu5Count0,0);
-            lcd_dis_num_ge(2,14,_Menu5Count0,0);
+            lcd_dis_num_bai(1,12,_Menu5Count0,0);
+            lcd_dis_num_shi(1,13,_Menu5Count0,0);
+            lcd_dis_num_ge(1,14,_Menu5Count0,0);
             break;
         case 2:
             lcd_dis_menu_5_1(0);
@@ -5240,9 +5244,9 @@ void lcd_test(){
     lcd_dis_smallchar(1,8,_ucharTabL,0);
     lcd_dis_smallchar(1,9,_ucharTabL,0);
     lcd_dis_smallchar(1,10,_ucharTabO,0);
-    delayms(1000);
+    delays(1);
     lcd_dis_softver();
-    delayms(1000);
+    delays(1);
     lcd_dis_company();
 }
 #endif

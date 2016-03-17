@@ -27,5 +27,10 @@ extern void motor_run_stop();
 extern void motor_run_clock();
 extern void motor_run_antic();
 extern void code_ctrl_clr();
+#ifdef  PHASE1
+extern Uint8 phase_a_read();
+extern Uint8 phase_b_read();
+extern Uint8 phase_c_read();
+#endif
 #endif	/* PORT_H */
 

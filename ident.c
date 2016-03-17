@@ -115,7 +115,7 @@ void ident_thread(){
         delayus(100);
         if(L_OP_Read==0){
             res = 0;
-            if(_Flag_Ident_Key==0x55){
+            if(_Flag_Ident_Key==true){
                 _Count_Ident_Key++;
                 _Flag_Ident_Key = false;
                 _uintIdentCount = 0; 
@@ -127,11 +127,11 @@ void ident_thread(){
     }
     if(res==1){
         if(_uintIdentCount<30){
-            _Flag_Ident_Key = 0x55;
+            _Flag_Ident_Key = true;
         }else{
             _Count_Ident_Key = 0;
             _uintIdentCount = 0;
-            _Flag_Ident_Key = 0x55;
+            _Flag_Ident_Key = true;
         }
     }
     ident_loop();

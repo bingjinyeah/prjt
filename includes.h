@@ -10,6 +10,7 @@
 
 #include <xc.h>
 #include "basic.h"
+#include "flag.h"
 #include "action.h"
 #include "adc.h"
 #include "battery.h"
@@ -19,7 +20,7 @@
 #include "dp.h"
 #include "eedata.h"
 #include "esd.h"
-#include "flag.h"
+
 #include "init.h"
 #include "ir.h"
 #include "lcd.h"

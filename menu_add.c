@@ -219,7 +219,7 @@ void menu_add_13(){
             _RmRead = (_RmRead==0) ? 1:0;
             break;
         case 12:
-            _RmRead = (_RmRead==0x69) ? 0:0x69;
+            _RmRead = (_RmRead==ufalse) ? 0:ufalse;
             break;
     }
     lcd_dis_menu_profibus();

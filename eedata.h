@@ -3,6 +3,7 @@
 #define	EEDATA_H
 
 #include "basic.h"
+#include "flag.h"
 /*****************************************************************/
 //						?????????
 /*****************************************************************/
@@ -16,49 +17,49 @@
 /*****************************************************************/
 //-----------------------????????---------------------------------------
 /*****************************************************************/
-#define  _CL_Dir_Init            0xff 	
+#define  _CL_Dir_Init            utrue 	
 #define  _Code_Orde_Init            0x00	
-#define  _CLDir_Protect_Init            0xff
+#define  _CLDir_Protect_Init            utrue
 #define  _CL_TorProtect_Init            60
-#define  _OPDir_Protect_Init            0xff
+#define  _OPDir_Protect_Init            utrue
 #define  _OP_TorProtect_Init            80
 /*****************************************************************/
 //-----------------------????????---------------------------------------
 /*****************************************************************/	
 #define  _S1_Fun_Init            0xff		
-#define  _S1_Status_Init            0xff	
+#define  _S1_Status_Init            utrue	
 #define  _S2_Fun_Init            0x01		
-#define  _S2_Status_Init            0xff	
+#define  _S2_Status_Init            utrue	
 #define  _S3_Fun_Init            0xff		
-#define  _S3_Status_Init            0x69	
+#define  _S3_Status_Init            ufalse	
 #define  _S4_Fun_Init            0x01		
-#define  _S4_Status_Init            0x69	
+#define  _S4_Status_Init            ufalse	
 /*****************************************************************/
 //----------------------????????---------------------------------------
 /*****************************************************************/						
-#define  _LocalCtrl_Init            0xff	
-#define	_DPCtrl_Init            0xff	
-#define  _TwoLinesCtrl_Init            0xff
+#define  _LocalCtrl_Init            utrue	
+#define	_DPCtrl_Init            utrue	
+#define  _TwoLinesCtrl_Init            TWOLINE_NO
 #define  _IC_Dbd_Init            10		
-#define  _IC_Logic_Init            0xffff	
+#define  _IC_Logic_Init            utrue	
 #define  _IC_Low_Init            0x02DD      
 #define  _IC_High_Init            0x0E53	   
 #define  _IC_Low_VP_Init            0		
 #define  _IC_High_VP_Init            100	
-#define  _Local_Lock_Init            0x69	
-#define  _Remote_Lock_Init            0x69
-#define  _ESD_Action_Init            0xff	
+#define  _Local_Lock_Init            ufalse	
+#define  _Remote_Lock_Init            ufalse
+#define  _ESD_Action_Init            ESD_HOLD	
 #define  _ESD_ExceedHot_Init            ufalse
 #define  _ESD_ExceedSp_Init            ufalse
 #define  _ESD_ExceedLock_Init            ufalse
 #define  _ESD_ExceedTime_Init            ufalse
-#define  _Forbid_ESD_Init            0xff	
-#define  _Interim_Ctrl_Init            0xff
+#define  _Forbid_ESD_Init            utrue	
+#define  _Interim_Ctrl_Init            NO_MOV
 #define  _Pos_BackL_Init            400	
 #define  _Pos_BackH_Init            2000	
 #define  _Tor_BackL_Init            400	
 #define  _Tor_BackH_Init            2000	
-#define  _VarSpeedEnable_Init            0xff
+#define  _VarSpeedEnable_Init            ufalse
 #define  _OP_Position1_Init            1	
 #define  _OP_Position2_Init            2	
 #define  _OP_Position3_Init            3	
@@ -100,8 +101,8 @@
 #define  _CL_Speed9_Init            9		
 #define  _CL_Speed10_Init            10	
 #define  _ESD_Speed_Init            200	
-#define  _Pos_BackLogic_Init            0x69
-#define  _Tor_BackLogic_Init            0x69
+#define  _Pos_BackLogic_Init            ufalse
+#define  _Tor_BackLogic_Init            ufalse
 #define  _DP_Adress_Init            126	
 #define  _POSALS_Init            0x05									
 #define  _POSMIN_Init            0x00 														
@@ -115,13 +116,13 @@
 #define  _RelayControl_Init            0x00  
 #define  _BANDRT_Init            0x05         
 #define  _PARITY_Init            0x02        
-#define  _InverseDisEnable_Init            0xff
-#define  _conEn            	0x69		
+#define  _InverseDisEnable_Init            ufalse
+#define  _conEn            	ufalse		
 #define  _conCn            	0xff		
-#define  _BIG_SHUCK_Init            0	       
+#define  _BIG_SHUCK_Init            utrue	       
 #define  _EEPRomValue_Init            0x00
-#define	_Monitor_With_OverTorque_Init             0x00
-#define	_Monitor_With_Remote_Init             0x00 
+#define	_Monitor_With_OverTorque_Init             ufalse
+#define	_Monitor_With_Remote_Init             ufalse 
 
 
 extern Uint16 _EEDATA(2) _Card;

@@ -98,12 +98,12 @@ void time_compensate(){
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void){
     
     _T1IF = 0;
-    T1Int_Flag = 0x69;
+    T1Int_Flag = true;
     _RushCount++;
     _Rush_PlaceCount++;
     _Rush_AlarmCount++;
     _Count5M++;
-    if(_BytePowerDown==0x55){
+    if(_BytePowerDown==true){
         return;
     }
     _RushRuning++;                

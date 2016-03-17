@@ -33,7 +33,7 @@ Uint8 open_phase1(){
     _strAlarmFlag &= ~_VPOver;
     _DP_DIAGR1 &= ~BIT6;
     eedata_read(_OPDir_Protect,res);
-    if(res==0x69){
+    if(res==ufalse){
         return E_OK;
     }
     if(_strAlarmFlag & _OSFlag){
@@ -55,7 +55,7 @@ Uint8 open_phase2(){
     _StatusBack |= _OpeningFlag;
     _DP_IDATA2 |= BIT1;
     _StatusBack |= _RunningFlag;
-    _ByteRunningFlag = 0x55;
+    _ByteRunningFlag = true;
     _L_CodePreVP = _L_CodeVP;
     _L_CodePreVP2 = _L_CodeVP;
     _DirPreVP = _L_CodeVP;
@@ -65,12 +65,12 @@ Uint8 open_phase2(){
     eedata_read(_PhaseOrder,ord);
     eedata_read(_CL_Dir,dir);
     
-    if(((ord==wtrue)&&(dir==ufalse))||((ord==wfalse)&&(dir==utrue))){
+    if(((ord==utrue)&&(dir==ufalse))||((ord!=utrue)&&(dir!=ufalse))){
         motor_run_clock();
-        _Movement_Dire = 0x6996;
+        _Movement_Dire = MOVE_DIR_CLOCK;
     }else{
         motor_run_antic();
-        _Movement_Dire = 0x9669;
+        _Movement_Dire = MOVE_DIR_ANTIC;
     }
     t1_init(_conT1Time);
     rush_relay_open();
@@ -82,7 +82,7 @@ Uint8 open_phase2(){
             adc12_init_dummy();
             t1_init_dummy();
             di_init_dummy();
-            delayms(2);
+            delayms(2);//clrwdt will be called in delay function
             if(_strAlarmFlag & _PowerDownFlag){
                 stop();
                 return E_ERR;
@@ -103,14 +103,14 @@ Uint8 open_phase2(){
                     rush_relay_jam();
                     lcd_dis_clr_alarm();
                     lcd_dis_alarm_jam();
-                    delayms(5000);
+                    delays(5);
                     rush_relay_conjam(); 
                 }else{
                     _strAlarmFlag |= _NoLoadFlag;
                     _DP_DIAGR1 |= BIT2;
                     lcd_dis_clr_alarm();
                     lcd_dis_alarm_noload();
-                    delayms(1000);
+                    delays(1);
                 }
                 return E_ERR;
             }
@@ -123,7 +123,7 @@ Uint8 open_phase2(){
             _DP_IDATA2 &= ~BIT2;
             rush_relay_conjam();
             eedata_read(_Interim_Ctrl,res);
-            if((_Interim_Ctrl==0x69)||(_Interim_Ctrl==0x96)){
+            if((res==OPEN_MOV)||(res==CLOSE_MOV)){
                 _MoveCount = 0;
                 _JamCount = 0;
             }
@@ -174,7 +174,7 @@ Uint8 open_phase3(){
         return E_ERR;
     }
     eedata_read(_Interim_Ctrl,res);
-    if(res==0x69){
+    if(res==OPEN_MOV){
         eedata_read(_Start_Pos,res);
         if(_VPPercent < res){
             return E_OK;
@@ -190,7 +190,7 @@ Uint8 open_phase3(){
             }
         }
          
-    }else if(res==0x96){
+    }else if(res==CLOSE_MOV){
         eedata_read(_Stop_Pos,res);
         if(_VPPercent > res){
             return E_OK;
@@ -225,7 +225,7 @@ Uint8 open_phase3(){
         delayms(200);
     }
     eedata_read(_OPDir_Protect,res);
-    if(res==0x69){
+    if(res==ufalse){
         return open_phase2();
     }
     if(_strAlarmFlag & _OSFlag){
@@ -239,7 +239,7 @@ Uint8 open_phase4(){
     Uint16 res;
     _StatusBack &= ~_RunOver;
     eedata_read(_Interim_Ctrl,res);
-    if(res==0x69){
+    if(res==OPEN_MOV){
         _StatusBack |= _RunOver;
     }
     return E_OK;
@@ -276,7 +276,7 @@ Uint8 close_phase1(){
     _strAlarmFlag &= ~_VPOver;
     _DP_DIAGR1 &= ~BIT6;
     eedata_read(_CLDir_Protect,res);
-    if(res==0x69){
+    if(res==ufalse){
         return E_OK;
     }
     if(_strAlarmFlag & _CSFlag){
@@ -298,7 +298,7 @@ Uint8 close_phase2(){
     _StatusBack |= _ClosingFlag;
     _DP_IDATA2 |= BIT0;
     _StatusBack |= _RunningFlag;
-    _ByteRunningFlag = 0x55;
+    _ByteRunningFlag = true;
     _L_CodePreVP = _L_CodeVP;
     _L_CodePreVP2 = _L_CodeVP;
     _DirPreVP = _L_CodeVP;
@@ -308,12 +308,12 @@ Uint8 close_phase2(){
     eedata_read(_PhaseOrder,ord);
     eedata_read(_CL_Dir,dir);
     
-    if(((ord==wtrue)&&(dir==ufalse))||((ord==wfalse)&&(dir==utrue))){
+    if(((ord==utrue)&&(dir==ufalse))||((ord!=utrue)&&(dir==ufalse))){
         motor_run_antic();
-        _Movement_Dire = 0x9669;
+        _Movement_Dire = MOVE_DIR_ANTIC;
     }else{
         motor_run_clock();
-        _Movement_Dire = 0x6996;
+        _Movement_Dire = MOVE_DIR_CLOCK;
     }
     t1_init(_conT1Time);
     rush_relay_close();
@@ -346,14 +346,14 @@ Uint8 close_phase2(){
                     rush_relay_jam();
                     lcd_dis_clr_alarm();
                     lcd_dis_alarm_jam();
-                    delayms(5000);
+                    delays(5);
                     rush_relay_conjam(); 
                 }else{
                     _strAlarmFlag |= _NoLoadFlag;
                     _DP_DIAGR1 |= BIT2;
                     lcd_dis_clr_alarm();
                     lcd_dis_alarm_noload();
-                    delayms(1000);
+                    delays(1);
                 }
                 return E_ERR;
             }
@@ -366,7 +366,7 @@ Uint8 close_phase2(){
             _DP_IDATA2 &= ~BIT2;
             rush_relay_conjam();
             eedata_read(_Interim_Ctrl,res);
-            if((_Interim_Ctrl==0x69)||(_Interim_Ctrl==0x96)){
+            if((res==OPEN_MOV)||(res==CLOSE_MOV)){
                 _MoveCount = 0;
                 _JamCount = 0;
             }
@@ -417,7 +417,7 @@ Uint8 close_phase3(){
         return E_ERR;
     }
     eedata_read(_Interim_Ctrl,res);
-    if(res==0x96){
+    if(res==CLOSE_MOV){
         eedata_read(_Start_Pos,res);
         if(_VPPercent > res){
             return E_OK;
@@ -433,7 +433,7 @@ Uint8 close_phase3(){
             }
         }
          
-    }else if(res==0x69){
+    }else if(res==OPEN_MOV){
         eedata_read(_Stop_Pos,res);
         if(_VPPercent <= res){
             return E_OK;
@@ -468,7 +468,7 @@ Uint8 close_phase3(){
         delayms(200);
     }
     eedata_read(_CLDir_Protect,res);
-    if(res==0x69){
+    if(res==ufalse){
         return close_phase2();
     }
     if(_strAlarmFlag & _OSFlag){
@@ -481,7 +481,7 @@ Uint8 close_phase4(){
     Uint16 res;
     _StatusBack &= ~_RunOver;
     eedata_read(_Interim_Ctrl,res);
-    if(res==0x96){
+    if(res==CLOSE_MOV){
         _StatusBack |= _RunOver;
     }
     return E_OK;
@@ -539,7 +539,7 @@ void stop(){
     _StatusBack &= ~_RunningFlag;
     _DP_IDATA2 &= ~BIT0;
     _DP_IDATA2 &= ~BIT1;
-    _ByteRunningFlag = 0;
+    _ByteRunningFlag = false;
     rush_relay_concl();
     rush_relay_conop();
     rush_relay_conrun();
@@ -576,7 +576,7 @@ Uint8 judge_opdir_protect(){
     Uint16 res;
     
     eedata_read(_OPDir_Protect,res);
-    if(res==utrue){
+    if(res!=ufalse){
         if(_strAlarmFlag & _OSFlag){
             return true;
         }
@@ -607,7 +607,7 @@ Uint8 judge_cldir_protect(){
     Uint16 res;
     
     eedata_read(_CLDir_Protect,res);
-    if(res==utrue){
+    if(res!=ufalse){
         if(_strAlarmFlag & _CSFlag){
             return true;
         }
@@ -651,13 +651,13 @@ Uint8 judge_open_dir(){
         _DP_DIAGR0 |= BIT0;
         lcd_dis_clr_alarm();
         lcd_dis_alarm_direrror();
-        delayms(1000);
+        delays(1);
         return E_ERR;
     }else{
         _strAlarmFlag |= _VPStopFlag;
         lcd_dis_clr_alarm();
         lcd_dis_alarm_vpstop();
-        delayms(1000);
+        delays(1);
         return E_ERR; 
     }
     
@@ -681,13 +681,13 @@ Uint8 judge_close_dir(){
         _DP_DIAGR0 |= BIT0;
         lcd_dis_clr_alarm();
         lcd_dis_alarm_direrror();
-        delayms(1000);
+        delays(1);
         return E_ERR;
     }else{
         _strAlarmFlag |= _VPStopFlag;
         lcd_dis_clr_alarm();
         lcd_dis_alarm_vpstop();
-        delayms(1000);
+        delays(1);
         return E_ERR; 
     }
     

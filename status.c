@@ -5,6 +5,7 @@ void cal_status(){
     Uint16 res;
     register int store;
     
+    //eedata_read(_L_OP_Limit,res);
     store = PSVPAG;
     PSVPAG = __builtin_psvpage(&_L_CL_Limit);
     _PSV = 1;
@@ -37,15 +38,15 @@ void cal_status(){
         _Limit_Flag = 0x69;
         _VPDA = 0;
     }else{
-        _VPPercent = (_L_CodeVP - _L_CL_Limit)*100/_Limit_Length;
-        _DP_RAWPOS = (_L_CodeVP - _L_CL_Limit)*255/_Limit_Length;
+        _VPPercent = (Uint32)(_L_CodeVP - _L_CL_Limit)*100/_Limit_Length;
+        _DP_RAWPOS = (Uint32)(_L_CodeVP - _L_CL_Limit)*255/_Limit_Length;
         if(_POSMIN>=_POSMAX){
             if(_L_CodeVP>=_POSMIN_Code){
                 _DP_MODPOS = 0;
             }else if(_L_CodeVP<=_POSMAX_Code){
                 _DP_MODPOS = 0xff;
             }else{
-                _DP_MODPOS = (_POSMIN_Code - _L_CodeVP)*255/(_POSMIN_Code - _POSMAX_Code);
+                _DP_MODPOS = (Uint32)(_POSMIN_Code - _L_CodeVP)*255/(_POSMIN_Code - _POSMAX_Code);
             }
         }else{
             if(_L_CodeVP<=_POSMIN_Code){
@@ -53,10 +54,10 @@ void cal_status(){
             }else if(_L_CodeVP>=_POSMAX_Code){
                 _DP_MODPOS = 0xff;
             }else{
-                _DP_MODPOS = (_L_CodeVP - _POSMIN_Code)*255/(_POSMAX_Code - _POSMIN_Code);
+                _DP_MODPOS = (Uint32)(_L_CodeVP - _POSMIN_Code)*255/(_POSMAX_Code - _POSMIN_Code);
             }
         }
-        _VPDA = (_L_CodeVP - _L_CL_Limit)*(_Pos_BackH - _Pos_BackL)/_Limit_Length;
+        _VPDA = (Uint32)(_L_CodeVP - _L_CL_Limit)*(_Pos_BackH - _Pos_BackL)/_Limit_Length;
         _strAlarmFlag &= ~_OSFlag;
         _DP_IDATA1 &= ~BIT2;
         _strAlarmFlag &= ~_CSFlag;
@@ -75,9 +76,9 @@ void cal_status(){
         }else{
             res = _CLNJ[10];
         }
-        _NJPercent = res*100/_NJADLength;
-        _DP_NJ = res*255/_NJADLength;
-        _NJDA = res*(_Tor_BackH - _Tor_BackL)/_NJADLength;
+        _NJPercent = (Uint32)res*100/_NJADLength;
+        _DP_NJ = (Uint32)res*255/_NJADLength;
+        _NJDA = (Uint32)res*(_Tor_BackH - _Tor_BackL)/_NJADLength;
         if(_Tor_BackLogic==ufalse){
             _NJDA += _Tor_BackL;  
         }else{
@@ -148,7 +149,7 @@ void rush_status(){
             led_g_r_set(1,1);
             goto rs_90;
         }else if(_Menu==33){
-            if(_ByteRunningFlag==0x55){
+            if(_ByteRunningFlag==true){
                 _NJPercent_Temp = _NJPercent;
                 lcd_dis_menu_43_content();
             }

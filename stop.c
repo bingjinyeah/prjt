@@ -20,7 +20,7 @@ Uint8 button_stop_process(){
     _ucharCloseKey = 0;
     
     eedata_read(_ESD_ExceedSp,res);
-    if(res){
+    if(res!=ufalse){
         if(com_esd()){
             esd_thread();
         }

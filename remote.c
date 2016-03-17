@@ -156,7 +156,7 @@ void remote_aux_open(){
     }
     eedata_read(_Remote_Lock,res_rl);
     
-    if(res_rl!=0x69){
+    if(res_rl!=ufalse){
         if(!r_op_hold_read()){
             _StopTimer = 50;
             dis_open_lock();
@@ -193,7 +193,7 @@ void remote_aux_open(){
                 }
             }else if(judge_aux_close()){
                 eedata_read(_TwoLinesCtrl,res_tc);
-                if(res_tc!=0x69){
+                if(res_tc!=TWOLINE_OPEN){
                     goto stop_end;
                 }
             }
@@ -207,7 +207,7 @@ void remote_aux_open(){
                 }
             }
         }
-        if(res_rl!=0x69){
+        if(res_rl!=ufalse){
             if(!r_op_hold_read()){
                 _StopTimer = 25;
                 dis_open_lock();
@@ -246,7 +246,7 @@ void remote_aux_close(){
     }
     eedata_read(_Remote_Lock,res_rl);
     
-    if(res_rl!=0x69){
+    if(res_rl!=ufalse){
         if(!r_cl_hold_read()){
             _StopTimer = 50;
             dis_close_lock();
@@ -283,7 +283,7 @@ void remote_aux_close(){
                 }
             }else if(judge_aux_open()){
                 eedata_read(_TwoLinesCtrl,res_tc);
-                if(res_tc!=0x96){
+                if(res_tc!=TWOLINE_CLOSE){
                     goto stop_end;
                 }
             }
@@ -297,7 +297,7 @@ void remote_aux_close(){
                 }
             }
         }
-        if(res_rl!=0x69){
+        if(res_rl!=ufalse){
             if(!r_cl_hold_read()){
                 _StopTimer = 25;
                 dis_close_lock();
@@ -332,7 +332,7 @@ void remote_auto(){
     }
     
     alu_ic_code();
-    if(_Back_Flag==0x55){
+    if(_Back_Flag==true){
         goto auto_end;
     }
     dbd = alu_dbd();
@@ -361,7 +361,7 @@ void remote_auto(){
         }
     }
     if(act_flag==1){
-        if(rml!=0x69){
+        if(rml!=ufalse){
             if(!r_op_hold_read()){
                 _StopTimer = 50;
                 dis_open_lock();
@@ -391,7 +391,7 @@ void remote_auto(){
             if(!r_cv_read()){
                 goto stop_end;
             }
-            if(rml!=0x69){
+            if(rml!=ufalse){
                 if(!r_op_hold_read()){
                     _StopTimer = 25;
                     dis_open_lock();
@@ -404,13 +404,8 @@ void remote_auto(){
                 goto stop_end;
             }
             alu_ic_code();
-            /*
-            if(set_logic()==0x69){
-                alu_nnx();
-            }else{
-                alu_nx();
-            }*/
-            if(_Back_Flag==0x55){
+         
+            if(_Back_Flag==true){
                 goto stop_end;
             }
             if(_IC_Code<opl){
@@ -424,7 +419,7 @@ void remote_auto(){
             }
         }
     }else if(act_flag==2){
-        if(rml!=0x69){
+        if(rml!=ufalse){
             if(!r_cl_hold_read()){
                 _StopTimer = 50;
                 dis_close_lock();
@@ -454,7 +449,7 @@ void remote_auto(){
             if(!r_cv_read()){
                 goto stop_end;
             }
-            if(rml!=0x69){
+            if(rml!=ufalse){
                 if(!r_cl_hold_read()){
                     _StopTimer = 25;
                     dis_close_lock();
@@ -467,7 +462,7 @@ void remote_auto(){
                 goto stop_end;
             }
             alu_ic_code();
-            if(_Back_Flag==0x55){
+            if(_Back_Flag==true){
                 goto stop_end;
             }
             if(_IC_Code>cll){
@@ -548,13 +543,13 @@ void remote_man(){
     }
     //open and close signal exist the same time    
     eedata_read(_TwoLinesCtrl,res);
-    if(res==0x69){
+    if(res==TWOLINE_OPEN){
         _strAlarmFlag &= ~_RmFlickFlag;
         _DP_IDATA2 &= ~BIT6;
         remote_aux_open();
         return;
     }
-    if(res==0x96){
+    if(res==TWOLINE_CLOSE){
         _strAlarmFlag &= ~_RmFlickFlag;
         _DP_IDATA2 &= ~BIT6;
         remote_aux_close();
@@ -568,7 +563,7 @@ void remote_man(){
     monitor_release_dummy();
     lcd_dis_clr_alarm();
     lcd_dis_alarm_rmflick();
-    delayms(1000);
+    delays(1);
     remote_exit();
 }
 

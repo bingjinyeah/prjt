@@ -33,6 +33,12 @@
 extern Uint8 button_stop_process();
 extern Uint8 button_local_process();
 
+void delays(Uint16 num){
+    num*=5;
+    while(num--){
+        delayms(200);
+    }
+}
 
 void delayms(Uint16 num){
     Uint16 c=500;
@@ -40,7 +46,6 @@ void delayms(Uint16 num){
     while(num--){
         while(c--){}
         c=500;
-        
     }
 }
 
@@ -64,29 +69,29 @@ void main_rush(){
     enable_wdt();
     SET_CPU_IPL(3);	
     _StatusBack &= 0xff;
-    _Length_Check_Flag = 0;
+    _Length_Check_Flag = false;
     //_WriteEEPROMFlag = 0;
     battery_manage();
     /*low power cost mode*/
     adc12_close();
     set_t1(200);
-    T1Int_Flag = 0;
+    T1Int_Flag = false;
     clr_wdt();
 }
 
 void main_idle(){
        
     while(1){
-        PowerInt_Flag = 0;
+        PowerInt_Flag = false;
         disable_wdt();
         Idle();
         enable_wdt();
-        if(T1Int_Flag==0x69){
+        if(T1Int_Flag==true){
             time_compensate();
             break;
         }else if(_ucharMenuKey==true){
             break;
-        }else if(PowerInt_Flag!=0x69){
+        }else if(PowerInt_Flag!=true){
             break;
         }
     }
@@ -94,7 +99,7 @@ void main_idle(){
     set_t1(_conT1Time);
 }
 
-Uint16 temp;
+//Uint16 temp;
 int main(void) { 
     cpu_init();
     port_init();
@@ -104,36 +109,22 @@ int main(void) {
     while(1){
         main_rush();
         main_idle();
-        XN_STOP_Tris = 1;
-        Nop();
-        if(XN_STOP_Read!=0){  
-            delayus(100);
-            if(XN_STOP_Read!=0){
-                button_stop_process();
-                continue;
-            }
+        if(in_stop()){
+            button_stop_process();
+            continue;
         }
         _uintMenuCount = 0;
         _Count_Ident_Key = 0;
         _uintIdentCount = 0;
-        Remote_Tris = 1;
-        Nop();
-        if(Remote_Read==0){
-            delayus(100);
-            if(Remote_Read==0){
-                button_remote_process();
-                continue;
-            }
+        if(in_remote()){
+            button_remote_process();
+            continue;
         }
-        Local_Tris = 1;
-        Nop();
-        if(Local_Read==0){  
-            delayus(100);
-            if(Local_Read==0){
-                button_local_process();
-                continue;
-            }
+        if(in_local()){
+            button_local_process();
+            continue;
         }
+        
         //a button error exist as not in the three state 
         _strAlarmFlag |= _ButtonFlag;
         if(_Rush_PlaceCount>=40){

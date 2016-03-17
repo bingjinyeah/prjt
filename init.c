@@ -40,8 +40,8 @@ void para_init(){
     Uint16 i;
     
     _System_Back = false;
-    _SetCLLimitFlag	= 0;		
-    _SetOPLimitFlag	= 0;		
+    _SetCLLimitFlag	= false;		
+    _SetOPLimitFlag	= false;		
     _uintMenuCount	= 0;			
     _uintIdentCount	= 0;
     _Count_Ident_Key	= 0;
@@ -73,7 +73,7 @@ void public_init(){
     check_card();
     poweron_init();
     delayms(110);
-    if(_BytePowerDown==0x55){
+    if(_BytePowerDown==true){
         process_power_down();
     }
     t1_init(_conT1Time);
@@ -95,10 +95,11 @@ void system_init(){
     lcd_init();
     lcd_dis_clr_all();
     
-    if(_PowerIsOn!=0xaa55){
+    if(_PowerIsOn!=true){
         _SelfCheckFlag = 0x55aa;
         rush_feedback();
         lcd_dis_softver();
+        delays(1);
         SYS_ENTER_CRI;
         self_check();
         SYS_EXIT_CRI;
@@ -107,8 +108,9 @@ void system_init(){
         TQ_CL_Write = 1;
         TQ_OP_Write = 1;
         lcd_dis_company();
+        delays(1);
         battery_manage_init();
-        _PowerIsOn = 0xaa55;
+        _PowerIsOn = true;
     }
     public_init();
 }

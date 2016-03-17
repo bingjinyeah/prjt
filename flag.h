@@ -45,8 +45,6 @@
 /*****************************************************************/
 #define	_utrue            	0x96
 #define	_ufalse            0x69
-#define	_true            	0xa596
-#define	_false            	0xa569
 /*****************************************************************/
 //--------------strAlarmFlag????----------------------------------
 /*****************************************************************/
@@ -77,18 +75,21 @@
 #define	_OP_LockFlag         0x0020	
 #define	_CL_LockFlag         0x0040	
 #define	_FbTimeFlag          0x0080
+/*******************************************************************/
+#define MOVE_DIR_CLOCK      0x6996
+#define MOVE_DIR_ANTIC      0x9669
 
-#ifdef	__cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#define TWOLINE_OPEN         0x69
+#define TWOLINE_CLOSE        0x96
+#define TWOLINE_NO          0xff
 
-    // TODO If C++ is being used             regular C code needs function names to have C 
-    // linkage so the functions can be used by the c code. 
-    
+#define ESD_OPENL           0x69
+#define ESD_CLOSEL          0x96
+#define ESD_HOLD            0xff
 
-#ifdef	__cplusplus
-}
-#endif /* __cplusplus */
+#define OPEN_MOV            0x69
+#define CLOSE_MOV           0x96
+#define NO_MOV              0xff
 
 #endif	
 

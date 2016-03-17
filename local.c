@@ -54,7 +54,7 @@ void local_open(Uint8 ctrl){
         }
     }
     eedata_read(_Local_Lock,res_ll);
-    if(res_ll!=0x69){
+    if(res_ll!=ufalse){
         if(!r_op_hold_read()){
             _StopTimer = 50;
             dis_open_lock();
@@ -81,12 +81,12 @@ void local_open(Uint8 ctrl){
         if(ctrl!=IR_CONTROL){
             if(!l_op_read()){
                 eedata_read(_LocalCtrl,res_lc);
-                if(res_lc!=0x69){
+                if(res_lc!=ufalse){
                     goto stop_end;
                 }
             }
         }
-        if(res_ll!=0x69){
+        if(res_ll!=ufalse){
             if(!r_op_hold_read()){
                 _StopTimer = 25;
                 dis_open_lock();
@@ -129,7 +129,7 @@ void local_close (Uint8 ctrl){
         }
     }
     eedata_read(_Local_Lock,res_ll);
-    if(res_ll!=0x69){
+    if(res_ll!=ufalse){
         if(!r_cl_hold_read()){
             _StopTimer = 50;
             dis_close_lock();
@@ -156,13 +156,13 @@ void local_close (Uint8 ctrl){
         if(ctrl!=IR_CONTROL){
             if(!l_op_read()){
                 eedata_read(_LocalCtrl,res_lc);
-                if(res_lc!=0x69){
+                if(res_lc!=ufalse){
                     goto stop_end;
                 }
             }
             
         }
-        if(res_ll!=0x69){
+        if(res_ll!=ufalse){
             if(!r_cl_hold_read()){
                 _StopTimer = 25;
                 dis_close_lock();

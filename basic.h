@@ -119,7 +119,7 @@ typedef unsigned char	Bool8;
   #undef offsetof
   #define offsetof(t,m)   (USIGN16)((USIGN32)&((t*)0)->m)
 #endif /* defined (offsetof) */
-
+extern void delays(Uint16 num);
 extern void delayms(Uint16 num);
 extern void delayus(Uint16 num);
 

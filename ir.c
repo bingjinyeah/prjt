@@ -132,6 +132,11 @@ void process_ir_ident(){
                     _ucharKey = true;
                     _ucharMenuKey = true;
                     break;
+                case _conBackCode:
+                    _ucharBackKey = true;
+                    _ucharKey = true;
+                    _ucharMenuKey = true;
+                    break;
                 case _conReadIdentCode:
                     _ucharReadIdentKey = true; 
                     break;
@@ -171,18 +176,14 @@ void ir_interrupt(){
         }else if(_uintIrRxdBuf==0xaa){
             _uintIrFlow = true;
             _uintIrFlag = true;
-        }else{
-            return;
         }
-    }
-    if(_uintIrFlow==true){
+    }else if(_uintIrFlow==true){
         process_ir_flow();
     }else{
         process_ir_ident();
     }
 }
 
-#ifndef TEST
 void __attribute__((interrupt,no_auto_psv)) _T3Interrupt(void){
     _T3IF = 0;
     if(_uintIrSampleCount>2){
@@ -217,4 +218,3 @@ void __attribute__((interrupt,no_auto_psv)) _T3Interrupt(void){
     }
     
 }
-#endif

@@ -5,11 +5,11 @@ void spi2_init(){
     Uint16 res;
     
     _SPI2IE = 0;
-    _SPISIDL = 0;
-    _SPIROV = 0;
+    SPI2STATbits.SPISIDL = 0;
+    SPI2STATbits.SPIROV = 0;
     res = SPI2BUF;
     SPI2CON = 0x420;
-    _SPIEN = 1;
+    SPI2STATbits.SPIEN = 1;
     DA_CS_Tris = 0;
     DA_LD_Tris = 0;
     BMQ_LD_Tris = 0;
@@ -27,10 +27,10 @@ void spi2_init(){
 void spi2_init_dummy(){
     
     _SPI2IE = 0;
-    _SPISIDL = 0;
-    _SPIROV = 0;
+    SPI2STATbits.SPISIDL = 0;
+    SPI2STATbits.SPIROV = 0;
     SPI2CON = 0x420;
-    _SPIEN = 1;
+    SPI2STATbits.SPIEN = 1;
     DA_CS_Tris = 0;
     DA_LD_Tris = 0;
 }

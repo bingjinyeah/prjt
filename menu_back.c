@@ -58,9 +58,9 @@ void menu_back_12(){
     eedata_read(_IC_Low_VP,res);
     eedata_read(_IC_High_VP,res1);
     if(res>=res1){
-        res = 0x69;
+        res = ufalse;
     }else{
-        res = 0xff;
+        res = utrue;
     }
     eedata_write(_IC_Logic,res);
     lcd_dis_menu_3();
